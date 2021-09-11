@@ -7,8 +7,24 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      fontFamily: {
+        robotoMedium: ["RobotoMedium", "sans-serif"],
+        roboto: ["RobotoRegular", "sans-serif"],
+        robotoBold: ["RobotoSemiBold", "sans-serif"],
+        montserratMedium: ["MontserratMedium", "sans-serif"],
+        montserrat: ["MontserratRegular", "sans-serif"],
+        montserratBold: ["MontserratBold", "sans-serif"],
+      },
       colors: {
         "background-dark": "#363740",
+        background: "#F4F7FA",
+        grey: "#A4A6B3",
+        "grey-active": "#9FA2B4",
+        "grey-light": "#DDE2FF",
+        error: "#FF0707",
+        success: "#5DB075",
+        warning: "#FDA027",
+        primary: "#3A49F9",
       },
     },
   },

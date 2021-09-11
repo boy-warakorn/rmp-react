@@ -1,18 +1,19 @@
 import React from "react";
-import SiderButton from "@components/navigation/SiderButton";
-import { HeadingText3 } from "@components/typography/Typography";
+import SiderButton from "@components/global/navigation/SiderButton";
+import { HeadingText3 } from "@components/global/typography/Typography";
 import {
   HomeOutlined,
   ContactsOutlined,
   SettingFilled,
   LogoutOutlined,
 } from "@ant-design/icons";
-import Logo from "../../assets/images/rmp_logo.png";
+import Logo from "../../../assets/images/rmp_logo.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 import { Redirect, Route, Switch } from "react-router";
 import HomePage from "@pages/HomePage";
-import HeaderBar from "@components/navigation/HeaderBar";
+import HeaderBar from "@components/global/navigation/HeaderBar";
+import RoomPage from "@pages/rooms/RoomPage";
 
 const mockupRoutes = [
   {
@@ -101,11 +102,12 @@ const Layout = () => {
         className="py-9 px-14 bg-background flex-1 min-h-screen"
         style={{ marginLeft: "275px" }}
       >
-        <div className="grid grid-cols-12 gap-2">
+        <div className="grid grid-cols-12 gap-x-6">
           <HeaderBar />
           <Switch>
             <Redirect from="/" to="/home" exact />
             <Route path="/home" component={HomePage} exact />
+            <Route path="/rooms" component={RoomPage} exact />
           </Switch>
         </div>
       </div>

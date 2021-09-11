@@ -1,5 +1,5 @@
 import CustomBadge from "@components/global/Badge";
-import { HeadingText4 } from "@components/typography/Typography";
+import { HeadingText4 } from "@components/global/typography/Typography";
 
 import React from "react";
 import { Link } from "react-router-dom";

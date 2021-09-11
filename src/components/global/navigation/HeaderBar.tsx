@@ -1,7 +1,7 @@
 import {
   HeadingText2,
   SubHeadingText1,
-} from "@components/typography/Typography";
+} from "@components/global/typography/Typography";
 import { Avatar } from "antd";
 import React from "react";
 import AvatarImage from "@assets/images/avatar.png";

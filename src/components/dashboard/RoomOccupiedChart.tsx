@@ -9,6 +9,11 @@ const RoomOccupiedChart = () => {
       height={350}
       options={{
         labels: ["Room Occupied"],
+        chart: {
+          animations: {
+            enabled: false,
+          },
+        },
         grid: {
           show: true,
         },

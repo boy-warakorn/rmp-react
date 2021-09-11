@@ -53,6 +53,7 @@ const LoginScreen = () => {
                 height: "100%",
               }}
               color="primary"
+              onClick={() => (window.location.pathname = "/home")}
             >
               <HeadingText2 className="uppercase font-montserratMedium">
                 sign in

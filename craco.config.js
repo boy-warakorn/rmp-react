@@ -18,6 +18,10 @@ module.exports = {
         tsConfigPath: "tsconfig.paths.json",
       },
     },
+    {
+      plugin: require("craco-antd"),
+      options: {},
+    },
   ],
   style: {
     postcss: {

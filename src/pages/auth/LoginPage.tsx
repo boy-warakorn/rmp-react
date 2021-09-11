@@ -15,7 +15,7 @@ const LoginScreen = () => {
     <div className="grid grid-cols-8">
       <div className="col-start-1 col-end-4">
         <div className="flex flex-col items-center justify-center min-h-full">
-          <img src={Logo} width={128} />
+          <img src={Logo} width={128} alt="logo" />
           <HeadingText1 className="mt-9">RmpSYS</HeadingText1>
           <HeadingText2 className="mt-2">
             Resident Management System

@@ -24,7 +24,7 @@ export interface InputProps {
 }
 
 const LoginInput = styled(Input)<InputProps>`
-  width: 55%;
+  width: 30%;
   & .ant-input-lg {
     font-weight: 400;
     font-size: 14px;

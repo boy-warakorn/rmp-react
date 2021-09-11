@@ -46,3 +46,18 @@ body {
 .w-sider {
   width: 275px;
 }
+
+.hover-underline {
+  @apply transform hover:-translate-y-0.5 border-b-2 border-primary border-opacity-0 hover:border-opacity-50 transition-all;
+}
+
+.icon-spin:hover {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

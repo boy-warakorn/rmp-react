@@ -14,6 +14,8 @@ import RoomOccupiedChart from "@components/dashboard/RoomOccupiedChart";
 import Card from "@components/global/Card";
 import Button from "@components/global/Button";
 import DashboardPackageCard from "@components/dashboard/DashboardPackageCard";
+import TextButton from "@components/global/TextButton";
+import DashboardReportCard from "@components/dashboard/DashboardReportCard";
 
 const { Option } = Select;
 
@@ -60,7 +62,10 @@ const HomePage = () => {
         <Card className="p-4 ">
           <div className="flex justify-between">
             <HeadingText4>Room occupied</HeadingText4>
-            <SettingFilled style={{ fontSize: "32px", cursor: "pointer" }} />
+            <SettingFilled
+              style={{ fontSize: "32px", cursor: "pointer" }}
+              className="icon-spin"
+            />
           </div>
           <div className="flex items-center">
             <SlidersFilled style={{ fontSize: "18px" }} />
@@ -71,6 +76,18 @@ const HomePage = () => {
       </div>
       <div className="col-span-12 mt-9">
         <HeadingText4>Latest reports</HeadingText4>
+      </div>
+      <div className="col-span-12 mt-6">
+        <DashboardReportCard />
+        <div className="mt-4"></div>
+        <DashboardReportCard />
+        <div className="flex items-center justify-center">
+          <Button color="primary" className="px-9 mt-4 center rounded">
+            <SubHeadingText1 className="font-roboto">
+              More Detail
+            </SubHeadingText1>
+          </Button>
+        </div>
       </div>
     </Fragment>
   );

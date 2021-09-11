@@ -1,4 +1,5 @@
 import {
+  HeadingText3,
   HeadingText4,
   NumberHeadingText1,
 } from "@components/global/typography/Typography";
@@ -18,7 +19,7 @@ const Card = styled.div`
 const DashboardCard = ({ text, count }: DashboardCardProps) => {
   return (
     <Card>
-      <HeadingText4>{text}</HeadingText4>
+      <HeadingText3>{text}</HeadingText3>
       <NumberHeadingText1 className="mt-4">{count}</NumberHeadingText1>
     </Card>
   );

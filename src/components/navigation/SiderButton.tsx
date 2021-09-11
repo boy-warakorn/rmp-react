@@ -1,5 +1,5 @@
 import CustomBadge from "@components/global/Badge";
-import { HeadingText3 } from "@components/typography/Typography";
+import { HeadingText4 } from "@components/typography/Typography";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -41,13 +41,13 @@ const SiderButton = ({
           {icon}
         </div>
         <div className="flex items-center justify-between flex-1">
-          <HeadingText3
+          <HeadingText4
             className={`${
               active ? "text-grey-light" : "text-grey"
             } ml-6 font-montserrat leading-6`}
           >
             {title}
-          </HeadingText3>
+          </HeadingText4>
           {notiCounts && <CustomBadge count={notiCounts} />}
         </div>
       </div>

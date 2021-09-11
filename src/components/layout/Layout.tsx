@@ -1,6 +1,6 @@
 import React from "react";
 import SiderButton from "@components/navigation/SiderButton";
-import { HeadingText2 } from "@components/typography/Typography";
+import { HeadingText3 } from "@components/typography/Typography";
 import {
   HomeOutlined,
   ContactsOutlined,
@@ -12,6 +12,7 @@ import styled from "@emotion/styled";
 import tw from "twin.macro";
 import { Redirect, Route, Switch } from "react-router";
 import HomePage from "@pages/HomePage";
+import HeaderBar from "@components/navigation/HeaderBar";
 
 const mockupRoutes = [
   {
@@ -61,7 +62,7 @@ const settingMockupRoutes = [
 ];
 
 const Sider = styled.div`
-  ${tw`bg-background-dark max-h-screen min-h-screen`}
+  ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
 `;
 
 const Layout = () => {
@@ -70,7 +71,7 @@ const Layout = () => {
       <Sider className="w-sider">
         <div className="flex py-9 px-8 items-center">
           <img src={Logo} width="32px" alt="logo" />
-          <HeadingText2 className="text-grey ml-3 text">RMPSystem</HeadingText2>
+          <HeadingText3 className="text-grey ml-3 text">RMPSystem</HeadingText3>
         </div>
         {mockupRoutes.map(({ title, path, icon, notiCounts }, index) => (
           <SiderButton
@@ -96,8 +97,12 @@ const Layout = () => {
           />
         ))}
       </Sider>
-      <div className="py-9 px-14 bg-background flex-1">
+      <div
+        className="py-9 px-14 bg-background flex-1 min-h-screen"
+        style={{ marginLeft: "275px" }}
+      >
         <div className="grid grid-cols-12 gap-2">
+          <HeaderBar />
           <Switch>
             <Redirect from="/" to="/home" exact />
             <Route path="/home" component={HomePage} exact />

@@ -1,3 +1,4 @@
+import CustomBadge from "@components/global/Badge";
 import { HeadingText3 } from "@components/typography/Typography";
 
 import React from "react";
@@ -7,13 +8,22 @@ interface SiderButtonProps {
   onClick(): void;
   active: boolean;
   icon: any;
+  notiCounts?: number;
 }
 
-const SiderButton = ({ title, onClick, active, icon }: SiderButtonProps) => {
-  let siderStyle = "flex py-5 pl-8 cursor-pointer items-center";
+const SiderButton = ({
+  title,
+  onClick,
+  active,
+  icon,
+  notiCounts,
+}: SiderButtonProps) => {
+  let siderStyle = "flex py-5 px-8 cursor-pointer items-center";
+
+  console.log("notiCounts :>> ", notiCounts);
 
   if (active) {
-    siderStyle = siderStyle.replace("pl-8", "pl-6");
+    siderStyle = siderStyle.replace("px-8", "px-6");
     siderStyle = siderStyle.concat(
       " border-0 border-l-8 border-grey-light bg-grey-active"
     );
@@ -30,13 +40,16 @@ const SiderButton = ({ title, onClick, active, icon }: SiderButtonProps) => {
       >
         {icon}
       </div>
-      <HeadingText3
-        className={`${
-          active ? "text-grey-light" : "text-grey"
-        } ml-6 font-montserrat leading-6`}
-      >
-        {title}
-      </HeadingText3>
+      <div className="flex items-center justify-between flex-1">
+        <HeadingText3
+          className={`${
+            active ? "text-grey-light" : "text-grey"
+          } ml-6 font-montserrat leading-6`}
+        >
+          {title}
+        </HeadingText3>
+        {notiCounts && <CustomBadge count={notiCounts} />}
+      </div>
     </div>
   );
 };

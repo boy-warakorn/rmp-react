@@ -29,9 +29,10 @@ const mockupRoutes = [
     icon: <HomeOutlined />,
   },
   {
-    title: "Reports/Complaints",
+    title: "Reports",
     path: "/reports",
     icon: <HomeOutlined />,
+    notiCounts: 7,
   },
   {
     title: "Contact List",
@@ -70,12 +71,13 @@ const Layout = () => {
           <img src={Logo} width="32px" />
           <HeadingText2 className="text-grey ml-3 text">RMPSystem</HeadingText2>
         </div>
-        {mockupRoutes.map(({ title, path, icon }) => (
+        {mockupRoutes.map(({ title, path, icon, notiCounts }) => (
           <SiderButton
             title={title}
             onClick={() => (window.location.pathname = path)}
             icon={icon}
             active={window.location.pathname === path}
+            notiCounts={notiCounts}
           />
         ))}
         <div

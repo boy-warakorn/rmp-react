@@ -1,6 +1,5 @@
 import {
   HeadingText3,
-  HeadingText4,
   NumberHeadingText1,
 } from "@components/global/typography/Typography";
 import styled from "@emotion/styled";

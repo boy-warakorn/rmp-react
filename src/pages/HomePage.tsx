@@ -1,9 +1,7 @@
 import {
   BodyText1,
-  HeadingText3,
   HeadingText4,
   SubHeadingText1,
-  SubtitleText2,
 } from "@components/global/typography/Typography";
 import CustomSelect from "@components/global/form/Select";
 import { Select } from "antd";
@@ -14,7 +12,6 @@ import RoomOccupiedChart from "@components/dashboard/RoomOccupiedChart";
 import Card from "@components/global/Card";
 import Button from "@components/global/Button";
 import DashboardPackageCard from "@components/dashboard/DashboardPackageCard";
-import TextButton from "@components/global/TextButton";
 import DashboardReportCard from "@components/dashboard/DashboardReportCard";
 
 const { Option } = Select;

@@ -1,13 +1,19 @@
 import {
   BodyText1,
+  HeadingText3,
   HeadingText4,
+  SubHeadingText1,
+  SubtitleText2,
 } from "@components/global/typography/Typography";
 import CustomSelect from "@components/global/form/Select";
 import { Select } from "antd";
 import React, { Fragment } from "react";
 import { SettingFilled, SlidersFilled } from "@ant-design/icons";
 import DashboardCard from "@components/dashboard/DashboardCard";
-import Chart from "react-apexcharts";
+import RoomOccupiedChart from "@components/dashboard/RoomOccupiedChart";
+import Card from "@components/global/Card";
+import Button from "@components/global/Button";
+import DashboardPackageCard from "@components/dashboard/DashboardPackageCard";
 
 const { Option } = Select;
 
@@ -33,12 +39,25 @@ const HomePage = () => {
       <div className="col-span-3">
         <DashboardCard text="Complaints" count={64} />
       </div>
-      <div className="col-span-12 mt-6">
+      <div className="col-span-12 mt-6 mb-6">
         <HeadingText4>Recent incoming packages</HeadingText4>
       </div>
-      <div className="col-span-6"></div>
       <div className="col-span-6">
-        <div className="p-4 bg-white rounded-lg shadow-md">
+        <DashboardPackageCard />
+        <div className="mb-4"></div>
+        <DashboardPackageCard />
+        <div className="mb-4"></div>
+        <DashboardPackageCard />
+        <div className="flex items-center justify-center">
+          <Button color="primary" className="px-9 mt-4 center rounded">
+            <SubHeadingText1 className="font-roboto">
+              More Detail
+            </SubHeadingText1>
+          </Button>
+        </div>
+      </div>
+      <div className="col-span-6">
+        <Card className="p-4 ">
           <div className="flex justify-between">
             <HeadingText4>Room occupied</HeadingText4>
             <SettingFilled style={{ fontSize: "32px", cursor: "pointer" }} />
@@ -47,37 +66,11 @@ const HomePage = () => {
             <SlidersFilled style={{ fontSize: "18px" }} />
             <BodyText1 className="ml-3">Rooms occupied: 25/100</BodyText1>
           </div>
-          <Chart
-            type="radialBar"
-            series={[25]}
-            height={400}
-            options={{
-              labels: ["Room Occupied"],
-              grid: {
-                show: true,
-              },
-              plotOptions: {
-                radialBar: {
-                  hollow: {
-                    size: "50px",
-                  },
-                  dataLabels: {
-                    name: {
-                      fontSize: "16px",
-                      fontFamily: "MontserratMedium",
-                      offsetY: 30,
-                    },
-                    value: {
-                      offsetY: -17.5,
-                      fontSize: "36px",
-                      fontFamily: "MontserratBold",
-                    },
-                  },
-                },
-              },
-            }}
-          />
-        </div>
+          <RoomOccupiedChart />
+        </Card>
+      </div>
+      <div className="col-span-12 mt-9">
+        <HeadingText4>Latest reports</HeadingText4>
       </div>
     </Fragment>
   );

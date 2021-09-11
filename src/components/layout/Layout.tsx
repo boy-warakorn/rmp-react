@@ -8,7 +8,6 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import Logo from "../../assets/images/rmp_logo.png";
-import { Divider } from "antd";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 
@@ -68,7 +67,7 @@ const Layout = () => {
     <div className="min-h-screen flex">
       <Sider className="w-sider">
         <div className="flex py-9 px-8 items-center">
-          <img src={Logo} width="32px" />
+          <img src={Logo} width="32px" alt="logo" />
           <HeadingText2 className="text-grey ml-3 text">RMPSystem</HeadingText2>
         </div>
         {mockupRoutes.map(({ title, path, icon, notiCounts }) => (

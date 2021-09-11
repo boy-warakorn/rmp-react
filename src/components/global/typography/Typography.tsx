@@ -36,3 +36,8 @@ export const SubtitleText1 = styled.div`
 export const NumberHeadingText1 = styled.div`
   ${tw`text-5xl`}
 `;
+
+// font-size: 14px
+export const BodyText1 = styled.div`
+  ${tw`text-sm font-normal font-roboto`}
+`;

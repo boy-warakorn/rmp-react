@@ -1,4 +1,4 @@
-import Layout from "@components/layout/Layout";
+import Layout from "@components/global/layout/Layout";
 import React from "react";
 import { Route, Switch } from "react-router";
 import LoginPage from "./auth/LoginPage";

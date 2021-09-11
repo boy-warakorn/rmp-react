@@ -1,5 +1,5 @@
-import { HeadingText4 } from "@components/typography/Typography";
-import CustomSelect from "@components/form/Select";
+import { HeadingText4 } from "@components/global/typography/Typography";
+import CustomSelect from "@components/global/form/Select";
 import { Select } from "antd";
 import React, { Fragment } from "react";
 import DashboardCard from "@components/dashboard/DashboardCard";

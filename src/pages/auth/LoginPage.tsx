@@ -6,7 +6,7 @@ import {
   HeadingText1,
   HeadingText3,
   SubtitleText1,
-} from "@components/typography/Typography";
+} from "@components/global/typography/Typography";
 import TextInput from "@components/global/TextInput";
 import Button from "@components/global/Button";
 

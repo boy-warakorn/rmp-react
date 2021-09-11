@@ -101,7 +101,7 @@ const Layout = () => {
         className="py-9 px-14 bg-background flex-1 min-h-screen"
         style={{ marginLeft: "275px" }}
       >
-        <div className="grid grid-cols-12 gap-2">
+        <div className="grid grid-cols-12 gap-x-6">
           <HeaderBar />
           <Switch>
             <Redirect from="/" to="/home" exact />

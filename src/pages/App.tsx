@@ -1,5 +1,5 @@
 import Layout from "@components/layout/Layout";
-import React, { useState } from "react";
+import React from "react";
 import { Route, Switch } from "react-router";
 import LoginPage from "./auth/LoginPage";
 

@@ -10,6 +10,8 @@ import {
 import Logo from "../../assets/images/rmp_logo.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { Redirect, Route, Switch } from "react-router";
+import HomePage from "@pages/HomePage";
 
 const mockupRoutes = [
   {
@@ -70,30 +72,37 @@ const Layout = () => {
           <img src={Logo} width="32px" alt="logo" />
           <HeadingText2 className="text-grey ml-3 text">RMPSystem</HeadingText2>
         </div>
-        {mockupRoutes.map(({ title, path, icon, notiCounts }) => (
+        {mockupRoutes.map(({ title, path, icon, notiCounts }, index) => (
           <SiderButton
             title={title}
-            onClick={() => (window.location.pathname = path)}
+            path={path}
             icon={icon}
             active={window.location.pathname === path}
             notiCounts={notiCounts}
+            key={`routes${index}`}
           />
         ))}
         <div
           style={{ height: "0.25px", background: "#4B4C54" }}
           className="mb-3"
         ></div>
-        {settingMockupRoutes.map(({ title, path, icon }) => (
+        {settingMockupRoutes.map(({ title, path, icon }, index) => (
           <SiderButton
             title={title}
-            onClick={() => (window.location.pathname = path)}
             icon={icon}
+            path={path}
             active={window.location.pathname === path}
+            key={`settings${index}`}
           />
         ))}
       </Sider>
       <div className="py-9 px-14 bg-background flex-1">
-        <div className="grid grid-cols-12 gap-2">Reserved for UI</div>
+        <div className="grid grid-cols-12 gap-2">
+          <Switch>
+            <Redirect from="/" to="/home" exact />
+            <Route path="/home" component={HomePage} exact />
+          </Switch>
+        </div>
       </div>
     </div>
   );

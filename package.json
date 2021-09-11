@@ -7,6 +7,7 @@
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@tailwindcss/postcss7-compat": "^2.2.14",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -30,8 +31,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "npm run build:style && craco start",
+    "build:style": "rimraf build && tailwind build -i src/styles/index.css -o src/styles/tailwind.css",
+    "build": "GENERATE_SOURCEMAP=false yarn build:style && craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
@@ -54,8 +56,17 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
+    "autoprefixer": "^10.3.4",
+    "postcss": "^8.3.6",
+    "tailwindcss": "^2.2.15"
+  },
+  "babelMacros": {
+    "twin": {
+      "config": "tailwind.config.js",
+      "preset": "emotion"
+    }
+  },
+  "resolutions": {
+    "babel-loader": "8.1.0"
   }
 }

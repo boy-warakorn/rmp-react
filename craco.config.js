@@ -20,12 +20,6 @@ module.exports = {
     },
     {
       plugin: require("craco-antd"),
-      options: {},
     },
   ],
-  style: {
-    postcss: {
-      plugins: [require("tailwindcss"), require("autoprefixer")],
-    },
-  },
 };

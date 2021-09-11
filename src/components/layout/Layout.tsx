@@ -9,6 +9,8 @@ import {
 } from "@ant-design/icons";
 import Logo from "../../assets/images/rmp_logo.png";
 import { Divider } from "antd";
+import styled from "@emotion/styled";
+import tw from "twin.macro";
 
 const mockupRoutes = [
   {
@@ -56,10 +58,14 @@ const settingMockupRoutes = [
   },
 ];
 
+const Sider = styled.div`
+  ${tw`bg-background-dark max-h-screen min-h-screen`}
+`;
+
 const Layout = () => {
   return (
     <div className="min-h-screen flex">
-      <div className="w-sider bg-background-dark max-h-screen min-h-screen">
+      <Sider className="w-sider">
         <div className="flex py-9 px-8 items-center">
           <img src={Logo} width="32px" />
           <HeadingText2 className="text-grey ml-3 text">RMPSystem</HeadingText2>
@@ -84,7 +90,7 @@ const Layout = () => {
             active={window.location.pathname === path}
           />
         ))}
-      </div>
+      </Sider>
       <div className="py-9 px-14 bg-background flex-1">
         <div className="grid grid-cols-12 gap-2">Reserved for UI</div>
       </div>

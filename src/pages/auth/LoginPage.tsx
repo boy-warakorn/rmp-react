@@ -7,7 +7,7 @@ import {
   HeadingText3,
   SubtitleText1,
 } from "@components/global/typography/Typography";
-import TextInput from "@components/global/TextInput";
+import TextInput from "@components/global/form/LoginInput";
 import Button from "@components/global/Button";
 
 const LoginScreen = () => {

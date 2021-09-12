@@ -46,3 +46,8 @@ export const NumberHeadingText1 = styled.div`
 export const BodyText1 = styled.div`
   ${tw`text-sm font-normal font-roboto`}
 `;
+
+// font-size: 12px
+export const BodyText2 = styled.div`
+  ${tw`text-xs font-normal font-montserrat`}
+`;

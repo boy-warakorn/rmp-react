@@ -11,6 +11,8 @@ import RoomDetailSection from "@components/feature/room/RoomDetailSection";
 import TextButton from "@components/global/TextButton";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import { Tabs } from "antd";
+import HeaderTable from "@components/global/table/HeaderTable";
+import PackageCard from "@components/feature/postal/PackageCard";
 
 const { TabPane } = Tabs;
 
@@ -40,7 +42,14 @@ const RoomDetail = () => {
       </Card>
       <CustomTabs className="col-span-12 mt-6">
         <TabPane tab="packages" key="1">
-          <TabCard></TabCard>
+          <TabCard>
+            <HeaderTable title="All Packages" buttonTitle="New package" />
+            <div className="mt-6 grid grid-cols-6 gap-6">
+              <PackageCard />
+              <PackageCard />
+              <PackageCard isDelivered />
+            </div>
+          </TabCard>
         </TabPane>
         <TabPane tab="payments" key="2">
           <TabCard></TabCard>

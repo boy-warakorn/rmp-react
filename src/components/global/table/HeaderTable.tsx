@@ -5,13 +5,14 @@ import { HeadingText4, BodyText1 } from "../typography/Typography";
 interface HeaderTableProps {
   title: string;
   buttonTitle: string;
+  onClick(): void;
 }
 
-const HeaderTable = ({ title, buttonTitle }: HeaderTableProps) => {
+const HeaderTable = ({ title, buttonTitle, onClick }: HeaderTableProps) => {
   return (
     <div className="flex justify-between">
       <HeadingText4>{title}</HeadingText4>
-      <Button color="primary" className="px-6">
+      <Button color="primary" className="px-6" onClick={onClick}>
         <BodyText1>{buttonTitle}</BodyText1>
       </Button>
     </div>

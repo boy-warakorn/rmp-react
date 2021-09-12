@@ -31,8 +31,8 @@ const LoginInput = styled(Input)<InputProps>`
   }
 `;
 
-const TextInput = (props: InputProps) => {
+const CustomLoginInput = (props: InputProps) => {
   return <LoginInput {...props} />;
 };
 
-export default TextInput;
+export default CustomLoginInput;

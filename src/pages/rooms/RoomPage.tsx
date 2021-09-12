@@ -66,8 +66,18 @@ const RoomPage = () => {
           <OutlineButton onClick={() => history.push(`/rooms/${record.id}`)}>
             View detail
           </OutlineButton>
-          <Button className="ml-3" color="primary">
-            Edit owner
+          <Button
+            className="ml-3"
+            color="primary"
+            onClick={() =>
+              history.push(
+                `/rooms/${record.id}/owner/${
+                  record.contractType !== "unoccupied" ? "edit" : "add"
+                }`
+              )
+            }
+          >
+            {record.contractType !== "unoccupied" ? "Edit owner" : "Add owner"}
           </Button>
         </div>
       ),
@@ -79,7 +89,11 @@ const RoomPage = () => {
       <CustomTabs>
         <TabPane tab="All" key="1">
           <TabCard>
-            <HeaderTable title="All Room" buttonTitle="Add Room" />
+            <HeaderTable
+              title="All Room"
+              buttonTitle="Add Room"
+              onClick={() => history.push("/rooms/add")}
+            />
             <CustomTable
               className="mt-6"
               columns={columns}
@@ -100,13 +114,21 @@ const RoomPage = () => {
         </TabPane>
         <TabPane tab="Occupied" key="2">
           <TabCard>
-            <HeaderTable title="Occupied Room" buttonTitle="Add Room" />
+            <HeaderTable
+              title="Occupied Room"
+              buttonTitle="Add Room"
+              onClick={() => history.push("/rooms/add")}
+            />
             <CustomTable className="mt-6" columns={columns} dataSource={data} />
           </TabCard>
         </TabPane>
         <TabPane tab="Unoccupied" key="3">
           <TabCard>
-            <HeaderTable title="Unoccupied Room" buttonTitle="Add Room" />
+            <HeaderTable
+              title="Unoccupied Room"
+              buttonTitle="Add Room"
+              onClick={() => history.push("/rooms/add")}
+            />
             <CustomTable
               className="mt-6"
               columns={columns}

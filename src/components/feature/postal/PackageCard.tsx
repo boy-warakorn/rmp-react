@@ -7,9 +7,7 @@ import {
   EditOutlined,
   RightOutlined,
 } from "@ant-design/icons";
-import {
-  SubtitleText2,
-} from "@components/global/typography/Typography";
+import { SubtitleText2 } from "@components/global/typography/Typography";
 import Button from "@components/global/Button";
 
 interface PackageCardProps {

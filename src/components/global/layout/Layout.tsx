@@ -9,7 +9,9 @@ import HomePage from "@pages/HomePage";
 import HeaderBar from "@components/global/navigation/HeaderBar";
 import RoomPage from "@pages/rooms/RoomPage";
 import { generalRoutes, settingsRoutes } from "@configs/routes";
-import RoomDetail from "@pages/rooms/RoomDetail";
+import RoomDetailPage from "@pages/rooms/RoomDetailPage";
+import AddRoomPage from "@pages/rooms/crud/AddRoomPage";
+import AddOwnerPage from "@pages/rooms/crud/AddOwnerPage";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -57,7 +59,15 @@ const Layout = () => {
             <Redirect from="/" to="/home" exact />
             <Route path="/home" component={HomePage} exact />
             <Route path="/rooms" component={RoomPage} exact />
-            <Route path="/rooms/:id" component={RoomDetail} />
+            <Route path="/rooms/add" component={AddRoomPage} exact />
+            <Route path="/rooms/:id/edit" component={AddRoomPage} exact />
+            <Route path="/rooms/:id/owner/add" component={AddOwnerPage} exact />
+            <Route
+              path="/rooms/:id/owner/edit"
+              component={AddOwnerPage}
+              exact
+            />
+            <Route path="/rooms/:id" component={RoomDetailPage} />
           </Switch>
         </div>
       </div>

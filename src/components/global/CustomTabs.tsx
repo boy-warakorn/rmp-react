@@ -22,17 +22,17 @@ const StyledTabs = styled(Tabs)`
     margin: 0px;
   }
   & .ant-tabs-tab-btn {
-    font-size: 18px;
+    font-size: 16px;
     font-family: "MontserratRegular";
   }
   & .ant-tabs-tab-active .ant-tabs-tab-btn {
     color: #3a49f9;
     font-family: "MontserratMedium";
   }
-  & .ant-tabs-tab:first-child {
+  & .ant-tabs-tab:first-of-type {
     border-radius: 8px 0px 0px 0px !important;
   }
-  & .ant-tabs-tab:nth-child(3) {
+  & .ant-tabs-tab:nth-of-type(3) {
     border-radius: 0px 8px 0px 0px !important;
   }
 `;

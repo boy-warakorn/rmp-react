@@ -1,10 +1,11 @@
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import HeaderTable from "@components/global/table/HeaderTable";
 import Button from "@components/global/Button";
-import { Table, Tabs } from "antd";
+import { Tabs } from "antd";
 
 import React from "react";
 import OutlineButton from "@components/global/OutlineButton";
+import CustomTable from "@components/global/table/Table";
 
 const { TabPane } = Tabs;
 
@@ -16,6 +17,12 @@ const columns = [
   {
     title: "Contract type",
     dataIndex: "contractType",
+    render: (value: string) =>
+      value === "unoccupied" ? (
+        <div className="text-base italic text-grey">{value}</div>
+      ) : (
+        value
+      ),
   },
   {
     title: "Packages",
@@ -57,14 +64,6 @@ const data = [
     paymentStatus: "All Paid",
     index: 1,
   },
-  {
-    key: "3",
-    roomNo: 32,
-    contractType: "purchase",
-    packages: 2,
-    paymentStatus: "All Paid",
-    index: 2,
-  },
 ];
 
 const RoomPage = () => {
@@ -74,14 +73,47 @@ const RoomPage = () => {
         <TabPane tab="All" key="1">
           <TabCard>
             <HeaderTable title="All Room" buttonTitle="Add Room" />
-            <Table className="mt-6" columns={columns} dataSource={data} />
+            <CustomTable
+              className="mt-6"
+              columns={columns}
+              dataSource={[
+                ...data,
+                {
+                  key: "3",
+                  roomNo: 32,
+                  contractType: "unoccupied",
+                  packages: 2,
+                  paymentStatus: "All Paid",
+                  index: 2,
+                },
+              ]}
+            />
           </TabCard>
         </TabPane>
         <TabPane tab="Occupied" key="2">
-          <TabCard>2</TabCard>
+          <TabCard>
+            <HeaderTable title="Occupied Room" buttonTitle="Add Room" />
+            <CustomTable className="mt-6" columns={columns} dataSource={data} />
+          </TabCard>
         </TabPane>
         <TabPane tab="Unoccupied" key="3">
-          <TabCard>3</TabCard>
+          <TabCard>
+            <HeaderTable title="Unoccupied Room" buttonTitle="Add Room" />
+            <CustomTable
+              className="mt-6"
+              columns={columns}
+              dataSource={[
+                {
+                  key: "3",
+                  roomNo: 32,
+                  contractType: "unoccupied",
+                  packages: 2,
+                  paymentStatus: "All Paid",
+                  index: 2,
+                },
+              ]}
+            />
+          </TabCard>
         </TabPane>
       </CustomTabs>
     </div>

@@ -76,7 +76,7 @@ const RoomPage = () => {
 
   return (
     <div className="col-span-12 mt-3">
-      <CustomTabs type="card" size="large">
+      <CustomTabs>
         <TabPane tab="All" key="1">
           <TabCard>
             <HeaderTable title="All Room" buttonTitle="Add Room" />

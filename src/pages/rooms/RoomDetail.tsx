@@ -9,6 +9,10 @@ import React, { Fragment } from "react";
 import { useParams } from "react-router";
 import RoomDetailSection from "@components/feature/room/RoomDetailSection";
 import TextButton from "@components/global/TextButton";
+import CustomTabs, { TabCard } from "@components/global/CustomTabs";
+import { Tabs } from "antd";
+
+const { TabPane } = Tabs;
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,6 +38,14 @@ const RoomDetail = () => {
           <TextButton className="text-primary" title="Edit Detail" />
         </div>
       </Card>
+      <CustomTabs className="col-span-12 mt-6">
+        <TabPane tab="packages" key="1">
+          <TabCard></TabCard>
+        </TabPane>
+        <TabPane tab="payments" key="2">
+          <TabCard></TabCard>
+        </TabPane>
+      </CustomTabs>
     </Fragment>
   );
 };

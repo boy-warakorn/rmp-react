@@ -6,6 +6,7 @@ import {
   CodeSandboxOutlined,
   PayCircleOutlined,
   ApartmentOutlined,
+  KeyOutlined,
   BellOutlined,
 } from "@ant-design/icons";
 
@@ -40,6 +41,11 @@ export const generalRoutes = [
     title: "Bills/Payments",
     path: "/payments",
     icon: <PayCircleOutlined />,
+  },
+  {
+    title: "Manage Accounts",
+    path: "/manage-accounts",
+    icon: <KeyOutlined />,
   },
 ];
 

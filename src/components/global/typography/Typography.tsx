@@ -29,7 +29,7 @@ export const SubHeadingText1 = styled.div`
 // font-size: 22px
 export const SubtitleText1 = styled.div`
   font-size: 1.38 rem;
-  ${tw`text-grey`}
+  ${tw`text-grey font-montserratBold`}
 `;
 
 // font-size: 12px

@@ -93,7 +93,11 @@ const RoomDetail = () => {
       <Card className="col-span-4 p-6 flex flex-col justify-between">
         <RoomDetailSection />
         <div className="self-end" style={{ width: "max-content" }}>
-          <TextButton className="text-primary" title="Edit Detail" />
+          <TextButton
+            className="text-primary"
+            title="Edit Detail"
+            onClick={() => history.push(`/rooms/${id}/edit`)}
+          />
         </div>
       </Card>
       <CustomTabs className="col-span-12 mt-6">

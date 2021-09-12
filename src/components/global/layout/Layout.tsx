@@ -60,6 +60,7 @@ const Layout = () => {
             <Route path="/home" component={HomePage} exact />
             <Route path="/rooms" component={RoomPage} exact />
             <Route path="/rooms/add" component={AddRoomPage} exact />
+            <Route path="/rooms/:id/edit" component={AddRoomPage} exact />
             <Route path="/rooms/:id/owner/add" component={AddOwnerPage} exact />
             <Route
               path="/rooms/:id/owner/edit"

@@ -6,16 +6,28 @@ import {
 import Card, { FormCard } from "@components/global/Card";
 import Button from "@components/global/Button";
 import { Select } from "antd";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import TextInput from "@components/global/form/TextInput";
+import { useHistory, useParams } from "react-router";
 
 const { Option } = Select;
 
 const AddRoomPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const [isEdit, setIsEdit] = useState(false);
+
+  const path = window.location.pathname.split("/")[2];
+
+  useEffect(() => {
+    if (path !== "add") setIsEdit(true);
+  }, []);
+
   return (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
-        <HeadingText3>Add Room</HeadingText3>
+        <HeadingText3>
+          {isEdit ? "Edit" : "Add"} Room {isEdit && id}
+        </HeadingText3>
       </div>
       <div className="col-span-12">
         <Card className="p-9">

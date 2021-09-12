@@ -11,6 +11,7 @@ import RoomPage from "@pages/rooms/RoomPage";
 import { generalRoutes, settingsRoutes } from "@configs/routes";
 import RoomDetailPage from "@pages/rooms/RoomDetailPage";
 import AddRoomPage from "@pages/rooms/crud/AddRoomPage";
+import AddOwnerPage from "@pages/rooms/crud/AddOwnerPage";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -59,6 +60,12 @@ const Layout = () => {
             <Route path="/home" component={HomePage} exact />
             <Route path="/rooms" component={RoomPage} exact />
             <Route path="/rooms/add" component={AddRoomPage} exact />
+            <Route path="/rooms/:id/owner/add" component={AddOwnerPage} exact />
+            <Route
+              path="/rooms/:id/owner/edit"
+              component={AddOwnerPage}
+              exact
+            />
             <Route path="/rooms/:id" component={RoomDetailPage} />
           </Switch>
         </div>

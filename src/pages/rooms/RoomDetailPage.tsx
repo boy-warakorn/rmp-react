@@ -8,7 +8,7 @@ import {
 import { DeleteOutlined } from "@ant-design/icons";
 import Button from "@components/global/Button";
 import React, { Fragment } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import RoomDetailSection from "@components/feature/room/RoomDetailSection";
 import TextButton from "@components/global/TextButton";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
@@ -22,6 +22,7 @@ const { TabPane } = Tabs;
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
 
   const columns = [
     {
@@ -71,11 +72,21 @@ const RoomDetail = () => {
         <div className="flex mt-2 justify-end">
           {id !== "1333" ? (
             <Fragment>
-              <Button className="mr-2">Edit Owner</Button>
+              <Button
+                className="mr-2"
+                onClick={() => history.push(`/rooms/${id}/owner/edit`)}
+              >
+                Edit Owner
+              </Button>
               <Button color="danger">Move out</Button>
             </Fragment>
           ) : (
-            <Button color="primary">Add Owner</Button>
+            <Button
+              color="primary"
+              onClick={() => history.push(`/rooms/${id}/owner/add`)}
+            >
+              Add Owner
+            </Button>
           )}
         </div>
       </Card>

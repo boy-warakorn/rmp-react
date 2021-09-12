@@ -88,7 +88,11 @@ const RoomDetail = () => {
       <CustomTabs className="col-span-12 mt-6">
         <TabPane tab="packages" key="1">
           <TabCard>
-            <HeaderTable title="All Packages" buttonTitle="New package" />
+            <HeaderTable
+              title="All Packages"
+              buttonTitle="New package"
+              onClick={() => {}}
+            />
             <div className="mt-6 grid grid-cols-6 gap-6">
               <PackageCard />
               <PackageCard />
@@ -98,7 +102,11 @@ const RoomDetail = () => {
         </TabPane>
         <TabPane tab="payments" key="2">
           <TabCard>
-            <HeaderTable title="All Payments" buttonTitle="New invoice" />
+            <HeaderTable
+              title="All Payments"
+              buttonTitle="New invoice"
+              onClick={() => {}}
+            />
             <CustomTable
               className="mt-6"
               columns={columns}

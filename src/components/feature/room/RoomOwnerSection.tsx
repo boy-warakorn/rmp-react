@@ -5,9 +5,16 @@ import {
   RightCircleOutlined,
   CalendarOutlined,
 } from "@ant-design/icons";
-import { BodyText1 } from "@components/global/typography/Typography";
+import {
+  BodyText1,
+  HeadingText1,
+} from "@components/global/typography/Typography";
 
-const RoomOwnerSection = () => {
+interface RoomOwnerSectionProps {
+  isOccupied: boolean;
+}
+
+const RoomOwnerSection = ({ isOccupied }: RoomOwnerSectionProps) => {
   const renderDetailTile = (icon: ReactNode, title: string, detail: string) => (
     <Fragment>
       <div className="col-span-2 flex items-center">
@@ -18,7 +25,7 @@ const RoomOwnerSection = () => {
     </Fragment>
   );
 
-  return (
+  const renderOccupied = () => (
     <Fragment>
       <div className="grid grid-cols-6 mt-2" style={{ width: "70%" }}>
         {renderDetailTile(<UserOutlined />, "Name", "Master Anawat")}
@@ -44,6 +51,18 @@ const RoomOwnerSection = () => {
         )}
       </div>
     </Fragment>
+  );
+
+  const renderUnOccupied = () => (
+    <div style={{ minHeight: "150px" }} className="flex  items-center">
+      <HeadingText1 className="font-montserrat italic text-grey">
+        Unoccupied
+      </HeadingText1>
+    </div>
+  );
+
+  return (
+    <Fragment>{isOccupied ? renderOccupied() : renderUnOccupied()}</Fragment>
   );
 };
 

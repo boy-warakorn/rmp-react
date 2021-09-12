@@ -17,7 +17,7 @@ const DashboardReportCard = () => {
           <SubtitleText2>10 March 2020, 05:00</SubtitleText2>
         </div>
       </div>
-      <TextButton className="text-primary" />
+      <TextButton className="text-primary" title="Open Report" />
     </Card>
   );
 };

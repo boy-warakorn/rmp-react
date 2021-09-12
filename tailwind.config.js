@@ -21,6 +21,7 @@ module.exports = {
         grey: "#A4A6B3",
         "grey-active": "#404149",
         "grey-light": "#DDE2FF",
+        "card-bg": "#F8F8F8",
         error: "#FF0707",
         success: "#5DB075",
         warning: "#FDA027",

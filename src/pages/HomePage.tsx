@@ -7,12 +7,12 @@ import CustomSelect from "@components/global/form/Select";
 import { Select } from "antd";
 import React, { Fragment } from "react";
 import { SettingFilled, SlidersFilled } from "@ant-design/icons";
-import DashboardCard from "@components/dashboard/DashboardCard";
-import RoomOccupiedChart from "@components/dashboard/RoomOccupiedChart";
+import DashboardCard from "@components/feature/dashboard/DashboardCard";
+import RoomOccupiedChart from "@components/feature/dashboard/RoomOccupiedChart";
 import Card from "@components/global/Card";
 import Button from "@components/global/Button";
-import DashboardPackageCard from "@components/dashboard/DashboardPackageCard";
-import DashboardReportCard from "@components/dashboard/DashboardReportCard";
+import DashboardPackageCard from "@components/feature/dashboard/DashboardPackageCard";
+import DashboardReportCard from "@components/feature/dashboard/DashboardReportCard";
 
 const { Option } = Select;
 

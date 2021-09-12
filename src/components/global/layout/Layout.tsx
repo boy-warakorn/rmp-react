@@ -9,6 +9,7 @@ import HomePage from "@pages/HomePage";
 import HeaderBar from "@components/global/navigation/HeaderBar";
 import RoomPage from "@pages/rooms/RoomPage";
 import { generalRoutes, settingsRoutes } from "@configs/routes";
+import RoomDetail from "@pages/rooms/RoomDetail";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -27,7 +28,7 @@ const Layout = () => {
             title={title}
             path={path}
             icon={icon}
-            active={window.location.pathname === path}
+            active={window.location.pathname.includes(path)}
             notiCounts={notiCounts}
             key={`routes${index}`}
           />
@@ -41,7 +42,7 @@ const Layout = () => {
             title={title}
             icon={icon}
             path={path}
-            active={window.location.pathname === path}
+            active={window.location.pathname.includes(path)}
             key={`settings${index}`}
           />
         ))}
@@ -56,6 +57,7 @@ const Layout = () => {
             <Redirect from="/" to="/home" exact />
             <Route path="/home" component={HomePage} exact />
             <Route path="/rooms" component={RoomPage} exact />
+            <Route path="/rooms/:id" component={RoomDetail} />
           </Switch>
         </div>
       </div>

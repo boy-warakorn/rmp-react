@@ -7,7 +7,6 @@ import {
   HeadingText4,
 } from "@components/global/typography/Typography";
 import { DatePicker } from "antd";
-import Select from "rc-select";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -21,6 +20,7 @@ const AddOwnerPage = () => {
 
   useEffect(() => {
     if (path === "edit") setIsEdit(true);
+    // eslint-disable-next-line
   }, []);
 
   return (

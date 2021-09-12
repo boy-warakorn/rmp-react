@@ -8,7 +8,7 @@ import Button from "@components/global/Button";
 import { Select } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import TextInput from "@components/global/form/TextInput";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 
 const { Option } = Select;
 
@@ -20,6 +20,7 @@ const AddRoomPage = () => {
 
   useEffect(() => {
     if (path !== "add") setIsEdit(true);
+    // eslint-disable-next-line
   }, []);
 
   return (

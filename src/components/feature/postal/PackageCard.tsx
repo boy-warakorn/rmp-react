@@ -8,7 +8,6 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import {
-  BodyText2,
   SubtitleText2,
 } from "@components/global/typography/Typography";
 import Button from "@components/global/Button";

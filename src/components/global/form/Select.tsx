@@ -31,6 +31,7 @@ export interface SelectProps {
 }
 
 const CustomSelect = styled(Select)<SelectProps>`
+  font-family: "MontserratBold";
   & .ant-select-selector {
     border: 1px solid #291818 !important;
     border-radius: 16px;

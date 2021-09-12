@@ -32,7 +32,7 @@ const StyledTabs = styled(Tabs)`
   & .ant-tabs-tab:first-of-type {
     border-radius: 8px 0px 0px 0px !important;
   }
-  & .ant-tabs-tab:nth-last-child(2) {
+  & .ant-tabs-tab:nth-last-of-type(2) {
     border-radius: 0px 8px 0px 0px !important;
   }
 `;

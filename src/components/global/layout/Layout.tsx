@@ -27,7 +27,7 @@ const Layout = () => {
             title={title}
             path={path}
             icon={icon}
-            active={window.location.pathname === path}
+            active={window.location.pathname.includes(path)}
             notiCounts={notiCounts}
             key={`routes${index}`}
           />
@@ -41,7 +41,7 @@ const Layout = () => {
             title={title}
             icon={icon}
             path={path}
-            active={window.location.pathname === path}
+            active={window.location.pathname.includes(path)}
             key={`settings${index}`}
           />
         ))}

@@ -6,50 +6,14 @@ import { Tabs } from "antd";
 import React from "react";
 import OutlineButton from "@components/global/OutlineButton";
 import CustomTable from "@components/global/table/Table";
+import { useHistory } from "react-router";
 
 const { TabPane } = Tabs;
-
-const columns = [
-  {
-    title: "Room No.",
-    dataIndex: "roomNo",
-  },
-  {
-    title: "Contract type",
-    dataIndex: "contractType",
-    render: (value: string) =>
-      value === "unoccupied" ? (
-        <div className="text-base italic text-grey">{value}</div>
-      ) : (
-        value
-      ),
-  },
-  {
-    title: "Packages",
-    dataIndex: "packages",
-  },
-  {
-    title: "Payments status",
-    dataIndex: "paymentStatus",
-  },
-  {
-    title: "Manage",
-    dataIndex: "manage",
-    width: 50,
-    render: () => (
-      <div className="flex">
-        <OutlineButton>View detail</OutlineButton>
-        <Button className="ml-3" color="primary">
-          Edit owner
-        </Button>
-      </div>
-    ),
-  },
-];
 
 const data = [
   {
     key: "1",
+    id: "1234",
     roomNo: 32,
     contractType: "purchase",
     packages: 2,
@@ -58,6 +22,7 @@ const data = [
   },
   {
     key: "2",
+    id: "5434",
     roomNo: 32,
     contractType: "purchase",
     packages: 2,
@@ -67,6 +32,48 @@ const data = [
 ];
 
 const RoomPage = () => {
+  const history = useHistory();
+
+  const columns = [
+    {
+      title: "Room No.",
+      dataIndex: "roomNo",
+    },
+    {
+      title: "Contract type",
+      dataIndex: "contractType",
+      render: (value: string) =>
+        value === "unoccupied" ? (
+          <div className="text-base italic text-grey">{value}</div>
+        ) : (
+          value
+        ),
+    },
+    {
+      title: "Packages",
+      dataIndex: "packages",
+    },
+    {
+      title: "Payments status",
+      dataIndex: "paymentStatus",
+    },
+    {
+      title: "Manage",
+      dataIndex: "manage",
+      width: 50,
+      render: (_: any, record: any) => (
+        <div className="flex">
+          <OutlineButton onClick={() => history.push(`/rooms/${record.id}`)}>
+            View detail
+          </OutlineButton>
+          <Button className="ml-3" color="primary">
+            Edit owner
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div className="col-span-12 mt-3">
       <CustomTabs type="card" size="large">
@@ -80,6 +87,7 @@ const RoomPage = () => {
                 ...data,
                 {
                   key: "3",
+                  id: "1333",
                   roomNo: 32,
                   contractType: "unoccupied",
                   packages: 2,
@@ -105,6 +113,7 @@ const RoomPage = () => {
               dataSource={[
                 {
                   key: "3",
+                  id: "1333",
                   roomNo: 32,
                   contractType: "unoccupied",
                   packages: 2,

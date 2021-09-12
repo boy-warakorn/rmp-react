@@ -1,12 +1,6 @@
 import React from "react";
 import SiderButton from "@components/global/navigation/SiderButton";
 import { HeadingText3 } from "@components/global/typography/Typography";
-import {
-  HomeOutlined,
-  ContactsOutlined,
-  SettingFilled,
-  LogoutOutlined,
-} from "@ant-design/icons";
 import Logo from "../../../assets/images/rmp_logo.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
@@ -14,53 +8,7 @@ import { Redirect, Route, Switch } from "react-router";
 import HomePage from "@pages/HomePage";
 import HeaderBar from "@components/global/navigation/HeaderBar";
 import RoomPage from "@pages/rooms/RoomPage";
-
-const mockupRoutes = [
-  {
-    title: "Home",
-    path: "/home",
-    icon: <HomeOutlined />,
-  },
-  {
-    title: "Room Management",
-    path: "/rooms",
-    icon: <HomeOutlined />,
-  },
-  {
-    title: "Resident’s packages",
-    path: "/packages",
-    icon: <HomeOutlined />,
-  },
-  {
-    title: "Reports",
-    path: "/reports",
-    icon: <HomeOutlined />,
-    notiCounts: 7,
-  },
-  {
-    title: "Contact List",
-    path: "/contacts",
-    icon: <ContactsOutlined />,
-  },
-  {
-    title: "Bills/Payments",
-    path: "/payments",
-    icon: <HomeOutlined />,
-  },
-];
-
-const settingMockupRoutes = [
-  {
-    title: "Settings",
-    path: "/settings",
-    icon: <SettingFilled />,
-  },
-  {
-    title: "Logout",
-    path: "/logout",
-    icon: <LogoutOutlined />,
-  },
-];
+import { generalRoutes, settingsRoutes } from "@configs/routes";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -74,7 +22,7 @@ const Layout = () => {
           <img src={Logo} width="32px" alt="logo" />
           <HeadingText3 className="text-grey ml-3 text">RMPSystem</HeadingText3>
         </div>
-        {mockupRoutes.map(({ title, path, icon, notiCounts }, index) => (
+        {generalRoutes.map(({ title, path, icon, notiCounts }, index) => (
           <SiderButton
             title={title}
             path={path}
@@ -88,7 +36,7 @@ const Layout = () => {
           style={{ height: "0.25px", background: "#4B4C54" }}
           className="mb-3"
         ></div>
-        {settingMockupRoutes.map(({ title, path, icon }, index) => (
+        {settingsRoutes.map(({ title, path, icon }, index) => (
           <SiderButton
             title={title}
             icon={icon}

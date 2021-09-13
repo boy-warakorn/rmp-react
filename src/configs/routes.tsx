@@ -46,6 +46,7 @@ export const generalRoutes = [
     title: "Manage Accounts",
     path: "/manage-accounts",
     icon: <KeyOutlined />,
+    disabled: true,
   },
 ];
 
@@ -54,6 +55,7 @@ export const settingsRoutes = [
     title: "Settings",
     path: "/settings",
     icon: <SettingFilled />,
+    disabled: true,
   },
   {
     title: "Logout",

@@ -9,12 +9,15 @@ import {
 } from "@ant-design/icons";
 import { SubtitleText2 } from "@components/global/typography/Typography";
 import Button from "@components/global/Button";
+import { useHistory } from "react-router";
 
 interface PackageCardProps {
   isDelivered?: boolean;
 }
 
 const PackageCard = ({ isDelivered }: PackageCardProps) => {
+  const history = useHistory();
+
   const renderCardHeader = (
     icon: ReactNode,
     title: string,
@@ -54,6 +57,7 @@ const PackageCard = ({ isDelivered }: PackageCardProps) => {
           <EditOutlined
             style={{ fontSize: "18px" }}
             className="cursor-pointer"
+            onClick={() => history.push("/packages/123/edit")}
           />
           <DeleteOutlined
             style={{ fontSize: "18px", color: "#FF0707" }}
@@ -64,7 +68,7 @@ const PackageCard = ({ isDelivered }: PackageCardProps) => {
 
       <div
         className={`py-6 px-4 mt-9  rounded-b-lg ${
-          isDelivered ? "bg-success" : "bg-grey-card"
+          isDelivered ? "bg-success py-8" : "bg-grey-card"
         } flex items-center justify-between`}
       >
         <SubtitleText2 className="font-montserratBold text-black">
@@ -78,7 +82,9 @@ const PackageCard = ({ isDelivered }: PackageCardProps) => {
             <span className="font-roboto">20 December 2020 - 08:00 PM</span>
           </SubtitleText2>
         ) : (
-          <Button color="primary">Confirm Delivery</Button>
+          <Button color="primary" className="font-roboto text-sm">
+            Confirm Delivery
+          </Button>
         )}
       </div>
     </Card>

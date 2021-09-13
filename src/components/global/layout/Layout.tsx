@@ -18,6 +18,9 @@ import PackagePage from "@pages/packages/PackagePage";
 import AddPackagePage from "@pages/packages/crud/AddPackagePage";
 import ReportPage from "@pages/reports/ReportPage";
 import ReportDetailPage from "@pages/reports/ReportDetailPage";
+import ContactPage from "@pages/contacts/ContactPage";
+import ContactDetailPage from "@pages/contacts/ContactDetailPage";
+import AddContactPage from "@pages/contacts/crud/AddContactPage";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -31,27 +34,31 @@ const Layout = () => {
           <img src={Logo} width="32px" alt="logo" />
           <HeadingText3 className="text-grey ml-3 text">RMPSystem</HeadingText3>
         </div>
-        {generalRoutes.map(({ title, path, icon, notiCounts }, index) => (
-          <SiderButton
-            title={title}
-            path={path}
-            icon={icon}
-            active={window.location.pathname.includes(path)}
-            notiCounts={notiCounts}
-            key={`routes${index}`}
-          />
-        ))}
+        {generalRoutes.map(
+          ({ title, path, icon, notiCounts, disabled }, index) => (
+            <SiderButton
+              title={title}
+              path={path}
+              icon={icon}
+              active={window.location.pathname.includes(path)}
+              notiCounts={notiCounts}
+              key={`routes${index}`}
+              disabled={disabled}
+            />
+          )
+        )}
         <div
           style={{ height: "0.25px", background: "#4B4C54" }}
           className="mb-3"
         ></div>
-        {settingsRoutes.map(({ title, path, icon }, index) => (
+        {settingsRoutes.map(({ title, path, icon, disabled }, index) => (
           <SiderButton
             title={title}
             icon={icon}
             path={path}
             active={window.location.pathname.includes(path)}
             key={`settings${index}`}
+            disabled={disabled}
           />
         ))}
       </Sider>
@@ -78,8 +85,13 @@ const Layout = () => {
             <Route path="/payments/add" component={AddPaymentPage} exact />
             <Route path="/packages" component={PackagePage} exact />
             <Route path="/packages/add" component={AddPackagePage} exact />
+            <Route path="/packages/:id/edit" component={AddPackagePage} exact />
             <Route path="/reports" component={ReportPage} exact />
             <Route path="/reports/:id" component={ReportDetailPage} exact />
+            <Route path="/contacts" component={ContactPage} exact />
+            <Route path="/contacts/add" component={AddContactPage} exact />
+            <Route path="/contacts/:id" component={ContactDetailPage} exact />
+            <Route path="/contacts/:id/edit" component={AddContactPage} exact />
           </Switch>
         </div>
       </div>

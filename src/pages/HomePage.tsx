@@ -13,10 +13,13 @@ import Card from "@components/global/Card";
 import Button from "@components/global/Button";
 import DashboardPackageCard from "@components/feature/dashboard/DashboardPackageCard";
 import DashboardReportCard from "@components/feature/dashboard/DashboardReportCard";
+import { useHistory } from "react-router";
 
 const { Option } = Select;
 
 const HomePage = () => {
+  const history = useHistory();
+
   return (
     <Fragment>
       <div className="col-span-12 flex justify-between items-center mb-6">
@@ -48,7 +51,11 @@ const HomePage = () => {
         <div className="mb-4"></div>
         <DashboardPackageCard />
         <div className="flex items-center justify-center">
-          <Button color="primary" className="px-9 mt-4 center rounded">
+          <Button
+            color="primary"
+            className="px-9 mt-4 center rounded"
+            onClick={() => history.push("/packages")}
+          >
             <SubHeadingText1 className="font-roboto">
               More Detail
             </SubHeadingText1>
@@ -79,7 +86,11 @@ const HomePage = () => {
         <div className="mt-4"></div>
         <DashboardReportCard />
         <div className="flex items-center justify-center">
-          <Button color="primary" className="px-9 mt-4 center rounded">
+          <Button
+            color="primary"
+            className="px-9 mt-4 center rounded"
+            onClick={() => history.push("/reports")}
+          >
             <SubHeadingText1 className="font-roboto">
               More Detail
             </SubHeadingText1>

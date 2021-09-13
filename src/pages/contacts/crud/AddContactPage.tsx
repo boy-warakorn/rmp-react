@@ -1,15 +1,17 @@
+import Button from "@components/global/Button";
 import Card, { FormCard } from "@components/global/Card";
+import { Select } from "antd";
 import TextInput from "@components/global/form/TextInput";
 import {
-  BodyText1,
   HeadingText3,
   HeadingText4,
+  BodyText1,
 } from "@components/global/typography/Typography";
-import Button from "@components/global/Button";
-import { DatePicker } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 
-const AddPackagePage = () => {
+const { Option } = Select;
+
+const AddContactPage = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   const path = window.location.pathname.split("/")[3];
@@ -18,34 +20,35 @@ const AddPackagePage = () => {
     if (path === "edit") setIsEdit(true);
     // eslint-disable-next-line
   }, []);
+
   return (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
-        <HeadingText3>{isEdit ? "Edit" : "Add"} Package</HeadingText3>
+        <HeadingText3>{isEdit ? `Edit Contact` : `New Contact`}</HeadingText3>
       </div>
       <Card className="col-span-12 p-9">
-        <HeadingText4>Recipient’s detail</HeadingText4>
-        <FormCard className="grid grid-cols-8 gap-x-4 mt-4">
-          <div className="col-span-1">
-            <TextInput title="Room Number" />
-          </div>
-
+        <HeadingText4>Details</HeadingText4>
+        <FormCard className="grid grid-cols-6 gap-x-4 mt-4">
           <div className="col-span-2">
             <TextInput title="Name" />
           </div>
-        </FormCard>
-        <HeadingText4 className="mt-9">Package’s detail</HeadingText4>
-        <FormCard className="grid grid-cols-8 gap-x-4 mt-4">
-          <div className="col-span-2 flex flex-col">
-            <BodyText1 className="font-bold mb-2">Arrival time</BodyText1>
-            <DatePicker />
+          <div className="col-span-1">
+            <div className="flex flex-col">
+              <BodyText1 className="font-bold mb-2">Role</BodyText1>
+              <Select value="1">
+                <Option value="1">Developer</Option>
+              </Select>
+            </div>
           </div>
-          <div className="col-span-2">
-            <TextInput title="Delivery service" />
-          </div>
-          <div className="col-span-4"></div>
+          <div className="col-span-3"></div>
           <div className="col-span-2 mt-6">
-            <TextInput title="Additional notes" />
+            <TextInput title="Address" rows={3} />
+          </div>
+          <div className="col-span-1 mt-6">
+            <TextInput title="Email" />
+          </div>
+          <div className="col-span-1 mt-6">
+            <TextInput title="Phone number" />
           </div>
         </FormCard>
         <div className="flex justify-end mt-9">
@@ -58,4 +61,4 @@ const AddPackagePage = () => {
   );
 };
 
-export default AddPackagePage;
+export default AddContactPage;

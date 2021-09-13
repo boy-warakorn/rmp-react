@@ -1,5 +1,4 @@
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
-import Button from "@components/global/Button";
 import HeaderTable from "@components/global/table/HeaderTable";
 import CustomTable from "@components/global/table/Table";
 import { Badge, Tabs } from "antd";

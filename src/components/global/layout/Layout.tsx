@@ -18,6 +18,9 @@ import PackagePage from "@pages/packages/PackagePage";
 import AddPackagePage from "@pages/packages/crud/AddPackagePage";
 import ReportPage from "@pages/reports/ReportPage";
 import ReportDetailPage from "@pages/reports/ReportDetailPage";
+import ContactPage from "@pages/contacts/ContactPage";
+import ContactDetailPage from "@pages/contacts/ContactDetailPage";
+import AddContactPage from "@pages/contacts/crud/AddContactPage";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -84,6 +87,10 @@ const Layout = () => {
             <Route path="/packages/add" component={AddPackagePage} exact />
             <Route path="/reports" component={ReportPage} exact />
             <Route path="/reports/:id" component={ReportDetailPage} exact />
+            <Route path="/contacts" component={ContactPage} exact />
+            <Route path="/contacts/add" component={AddContactPage} exact />
+            <Route path="/contacts/:id" component={ContactDetailPage} exact />
+            <Route path="/contacts/:id/edit" component={AddContactPage} exact />
           </Switch>
         </div>
       </div>

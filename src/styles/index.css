@@ -42,7 +42,11 @@ body {
 }
 
 .w-sider {
-  width: 275px;
+  width: 75px;
+}
+
+#content {
+  margin-left: 75px;
 }
 
 .hover-underline {
@@ -57,5 +61,15 @@ body {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .w-sider {
+    width: 275px;
+  }
+
+  #content {
+    margin-left: 275px;
   }
 }

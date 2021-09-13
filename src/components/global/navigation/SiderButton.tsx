@@ -21,14 +21,15 @@ const SiderButton = ({
   path,
   disabled,
 }: SiderButtonProps) => {
-  let siderStyle = "flex py-5 px-8 cursor-pointer items-center transition-all";
+  let siderStyle =
+    "flex py-5 px-7 lg:py-5 lg:px-8 cursor-pointer items-center transition-all";
 
   const onLogout = () => {
     window.location.pathname = "/login";
   };
 
   if (active) {
-    siderStyle = siderStyle.replace("px-8", "pl-6 pr-8");
+    siderStyle = siderStyle.replace("lg:px-8", "pl-6 pr-8");
     siderStyle = siderStyle.concat(
       " border-0 border-l-8 border-grey-light bg-grey-active"
     );
@@ -36,7 +37,7 @@ const SiderButton = ({
 
   const linkChildren = (
     <div
-      className={`${siderStyle} ${
+      className={`${siderStyle} sider-btn ${
         disabled ? "cursor-not-allowed bg-black" : ""
       }`}
     >
@@ -50,7 +51,7 @@ const SiderButton = ({
       >
         {icon}
       </div>
-      <div className="flex items-center justify-between flex-1 ">
+      <div className="items-center hidden justify-between flex-1 lg:flex">
         <HeadingText4
           className={`${
             disabled

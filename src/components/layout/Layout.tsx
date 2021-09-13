@@ -1,7 +1,7 @@
 import React from "react";
 import SiderButton from "@components/global/navigation/SiderButton";
 import { HeadingText3 } from "@components/global/typography/Typography";
-import Logo from "../../../assets/images/rmp_logo.png";
+import Logo from "../../assets/images/rmp_logo.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 import { Redirect, Route, Switch } from "react-router";
@@ -30,9 +30,11 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex">
       <Sider className="w-sider">
-        <div className="flex py-9 px-8 items-center">
+        <div className="flex p-5 lg:py-9 lg:px-8 items-center">
           <img src={Logo} width="32px" alt="logo" />
-          <HeadingText3 className="text-grey ml-3 text">RMPSystem</HeadingText3>
+          <HeadingText3 className="text-grey ml-3 text hidden lg:inline-block ">
+            RMPSystem
+          </HeadingText3>
         </div>
         {generalRoutes.map(
           ({ title, path, icon, notiCounts, disabled }, index) => (
@@ -64,7 +66,7 @@ const Layout = () => {
       </Sider>
       <div
         className="py-9 px-14 bg-background flex-1 min-h-screen"
-        style={{ marginLeft: "275px" }}
+        id="content"
       >
         <div className="grid grid-cols-12 gap-x-6">
           <HeaderBar />

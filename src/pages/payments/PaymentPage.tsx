@@ -17,23 +17,28 @@ const PaymentPage = () => {
     {
       title: "Room No.",
       dataIndex: "roomNo",
+      width: 50,
     },
     {
       title: "Issue time",
       dataIndex: "issueTime",
+      width: 50,
     },
     {
       title: "Amount (THB)",
       dataIndex: "amount",
+      width: 50,
     },
     {
       title: "type",
       dataIndex: "type",
+      width: 50,
     },
     {
       title: "Manage",
       dataIndex: "manage",
       width: 50,
+      fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
           {record.isConfirm ? (
@@ -50,7 +55,7 @@ const PaymentPage = () => {
         </div>
       ),
     },
-  ];
+  ] as any;
 
   return (
     <div className="col-span-12 mt-3">

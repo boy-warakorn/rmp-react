@@ -28,19 +28,23 @@ const RoomDetail = () => {
     {
       title: "Issue time",
       dataIndex: "issueTime",
+      width: 50,
     },
     {
       title: "Amount (THB)",
       dataIndex: "amount",
+      width: 50,
     },
     {
       title: "Type ",
       dataIndex: "type",
+      width: 50,
     },
     {
       title: "Manage",
       dataIndex: "manage",
       width: 50,
+      fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
           {record.isConfirm ? (
@@ -57,7 +61,7 @@ const RoomDetail = () => {
         </div>
       ),
     },
-  ];
+  ] as any;
 
   return (
     <Fragment>

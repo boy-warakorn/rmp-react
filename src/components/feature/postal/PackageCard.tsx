@@ -64,7 +64,7 @@ const PackageCard = ({ isDelivered }: PackageCardProps) => {
 
       <div
         className={`py-6 px-4 mt-9  rounded-b-lg ${
-          isDelivered ? "bg-success" : "bg-grey-card"
+          isDelivered ? "bg-success py-8" : "bg-grey-card"
         } flex items-center justify-between`}
       >
         <SubtitleText2 className="font-montserratBold text-black">

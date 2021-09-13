@@ -1,17 +1,18 @@
-import React, { useEffect } from "react";
+import Layout from "@components/layout/Layout";
+import React from "react";
 import { Route, Switch } from "react-router";
 import LoginPage from "./auth/LoginPage";
 
-function App() {
-  useEffect(() => {
-    if (window.location.pathname !== "/login")
-      window.location.pathname = "/login";
-  }, []);
+// @Note
+// - refactor column to store
+// - some layout can refactor into components
 
+function App() {
   return (
     <div>
       <Switch>
         <Route path="/login" component={LoginPage} exact />
+        <Route path="/" component={Layout} />
       </Switch>
     </div>
   );

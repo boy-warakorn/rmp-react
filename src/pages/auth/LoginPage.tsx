@@ -4,10 +4,10 @@ import Logo from "../../assets/images/rmp_logo.png";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import {
   HeadingText1,
-  HeadingText2,
+  HeadingText3,
   SubtitleText1,
-} from "@components/typography/Typography";
-import TextInput from "@components/global/TextInput";
+} from "@components/global/typography/Typography";
+import TextInput from "@components/global/form/LoginInput";
 import Button from "@components/global/Button";
 
 const LoginScreen = () => {
@@ -15,11 +15,11 @@ const LoginScreen = () => {
     <div className="grid grid-cols-8">
       <div className="col-start-1 col-end-4">
         <div className="flex flex-col items-center justify-center min-h-full">
-          <img src={Logo} width={128} />
+          <img src={Logo} width={128} alt="logo" />
           <HeadingText1 className="mt-9">RmpSYS</HeadingText1>
-          <HeadingText2 className="mt-2">
+          <HeadingText3 className="mt-2">
             Resident Management System
-          </HeadingText2>
+          </HeadingText3>
         </div>
       </div>
       <div className="col-start-4 col-end-9 min-h-screen bg-background-dark text-white flex flex-col justify-center">
@@ -28,14 +28,14 @@ const LoginScreen = () => {
           <SubtitleText1 className="mt-2">
             Enter your login details below.
           </SubtitleText1>
-          <HeadingText2 className="mt-6 uppercase">username</HeadingText2>
+          <HeadingText3 className="mt-6 uppercase">username</HeadingText3>
           <TextInput
             size="large"
             className="mt-3"
             placeholder="Enter your username.."
             prefix={<UserOutlined />}
           />
-          <HeadingText2 className="uppercase mt-6">password</HeadingText2>
+          <HeadingText3 className="uppercase mt-6">password</HeadingText3>
           <TextInput
             size="large"
             className="mt-3"
@@ -53,10 +53,11 @@ const LoginScreen = () => {
                 height: "100%",
               }}
               color="primary"
+              onClick={() => (window.location.pathname = "/")}
             >
-              <HeadingText2 className="uppercase font-montserratMedium">
+              <HeadingText3 className="uppercase font-montserratMedium">
                 sign in
-              </HeadingText2>
+              </HeadingText3>
             </Button>
           </div>
         </div>

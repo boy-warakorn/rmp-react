@@ -9,8 +9,6 @@ import Button from "@components/global/Button";
 import { DatePicker } from "antd";
 import React, { Fragment } from "react";
 
-const { RangePicker } = DatePicker;
-
 const AddPackagePage = () => {
   return (
     <Fragment>

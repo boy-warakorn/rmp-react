@@ -12,8 +12,8 @@ import { generalRoutes, settingsRoutes } from "@configs/routes";
 import RoomDetailPage from "@pages/rooms/RoomDetailPage";
 import AddRoomPage from "@pages/rooms/crud/AddRoomPage";
 import AddOwnerPage from "@pages/rooms/crud/AddOwnerPage";
-import PaymentPage from "@pages/payment/PaymentPage";
-import AddPaymentPage from "@pages/payment/crud/AddPaymentPage";
+import PaymentPage from "@pages/payments/PaymentPage";
+import AddPaymentPage from "@pages/payments/crud/AddPaymentPage";
 import PackagePage from "@pages/packages/PackagePage";
 import AddPackagePage from "@pages/packages/crud/AddPackagePage";
 

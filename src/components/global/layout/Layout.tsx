@@ -12,6 +12,8 @@ import { generalRoutes, settingsRoutes } from "@configs/routes";
 import RoomDetailPage from "@pages/rooms/RoomDetailPage";
 import AddRoomPage from "@pages/rooms/crud/AddRoomPage";
 import AddOwnerPage from "@pages/rooms/crud/AddOwnerPage";
+import PaymentPage from "@pages/payment/PaymentPage";
+import AddPaymentPage from "@pages/payment/crud/AddPaymentPage";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -67,7 +69,9 @@ const Layout = () => {
               component={AddOwnerPage}
               exact
             />
-            <Route path="/rooms/:id" component={RoomDetailPage} />
+            <Route path="/rooms/:id" component={RoomDetailPage} exact />
+            <Route path="/payments" component={PaymentPage} exact />
+            <Route path="/payments/add" component={AddPaymentPage} exact />
           </Switch>
         </div>
       </div>

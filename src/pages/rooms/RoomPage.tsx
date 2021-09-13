@@ -38,10 +38,12 @@ const RoomPage = () => {
     {
       title: "Room No.",
       dataIndex: "roomNo",
+      width: 50,
     },
     {
       title: "Contract type",
       dataIndex: "contractType",
+      width: 50,
       render: (value: string) =>
         value === "unoccupied" ? (
           <div className="text-base italic text-grey">{value}</div>
@@ -52,15 +54,18 @@ const RoomPage = () => {
     {
       title: "Packages",
       dataIndex: "packages",
+      width: 50,
     },
     {
       title: "Payments status",
       dataIndex: "paymentStatus",
+      width: 50,
     },
     {
       title: "Manage",
       dataIndex: "manage",
       width: 50,
+      fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
           <OutlineButton onClick={() => history.push(`/rooms/${record.id}`)}>
@@ -82,7 +87,7 @@ const RoomPage = () => {
         </div>
       ),
     },
-  ];
+  ] as any;
 
   return (
     <div className="col-span-12 mt-3">

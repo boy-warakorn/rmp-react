@@ -29,16 +29,16 @@ const HomePage = () => {
           <Option value="This year">This year</Option>
         </CustomSelect>
       </div>
-      <div className="col-span-3">
+      <div className="col-span-6 md:col-span-3">
         <DashboardCard text="Payment Dues" count={60} />
       </div>
-      <div className="col-span-3">
+      <div className="col-span-6 md:col-span-3">
         <DashboardCard text="Packages held" count={16} />
       </div>
-      <div className="col-span-3">
+      <div className="col-span-6 md:col-span-3">
         <DashboardCard text="Reports" count={43} />
       </div>
-      <div className="col-span-3">
+      <div className="col-span-6 md:col-span-3">
         <DashboardCard text="Complaints" count={64} />
       </div>
       <div className="col-span-12 mt-6 mb-6">

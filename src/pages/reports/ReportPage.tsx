@@ -14,29 +14,35 @@ const ReportPage = () => {
   const columns = [
     {
       title: "Room No.",
+      width: 50,
       dataIndex: "roomNo",
     },
     {
       title: "Received time",
+      width: 50,
       dataIndex: "receivedTime",
     },
     {
       title: "Resolve time",
+      width: 50,
       dataIndex: "resolveTime",
     },
     {
       title: "Topic",
+      width: 50,
       dataIndex: "topic",
     },
     {
       title: "Status",
+      width: 50,
       dataIndex: "status",
       render: (value: any) => <Badge status={value} text={value} />,
     },
     {
-      title: "",
+      title: "Manage",
       dataIndex: "manage",
       width: 50,
+      fixed: "right",
       render: (_: any, record: any) => (
         <OutlineButton
           className="ml-3 px-10"
@@ -47,7 +53,7 @@ const ReportPage = () => {
         </OutlineButton>
       ),
     },
-  ];
+  ] as any;
   return (
     <div className="col-span-12 mt-3">
       <CustomTabs>

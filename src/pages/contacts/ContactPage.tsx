@@ -12,20 +12,24 @@ const ContactPage = () => {
     {
       title: "Name",
       dataIndex: "name",
+      width: 50,
     },
     {
       title: "Role",
       dataIndex: "role",
+      width: 50,
     },
     {
       title: "Phone",
       dataIndex: "phoneNumber",
+      width: 50,
     },
 
     {
       title: "Manage",
       dataIndex: "manage",
       width: 50,
+      fixed: "right",
       render: (_: any, record: any) => (
         <TextButton
           className="text-primary"
@@ -35,7 +39,7 @@ const ContactPage = () => {
         />
       ),
     },
-  ];
+  ] as any;
 
   return (
     <Card className="col-span-12 mt-3 p-9">

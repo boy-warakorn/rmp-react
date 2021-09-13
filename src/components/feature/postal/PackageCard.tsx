@@ -78,7 +78,9 @@ const PackageCard = ({ isDelivered }: PackageCardProps) => {
             <span className="font-roboto">20 December 2020 - 08:00 PM</span>
           </SubtitleText2>
         ) : (
-          <Button color="primary">Confirm Delivery</Button>
+          <Button color="primary" className="font-roboto text-sm">
+            Confirm Delivery
+          </Button>
         )}
       </div>
     </Card>

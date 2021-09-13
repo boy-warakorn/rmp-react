@@ -54,7 +54,7 @@ const AddOwnerPage = () => {
           </div>
         </FormCard>
         <div className="flex justify-end mt-9">
-          <Button color="primary" className="px-12 ">
+          <Button color="primary" className="px-12 font-roboto text-sm">
             Save
           </Button>
         </div>

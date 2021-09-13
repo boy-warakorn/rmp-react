@@ -65,7 +65,7 @@ const Layout = () => {
         ))}
       </Sider>
       <div
-        className="py-9 px-14 bg-background flex-1 min-h-screen"
+        className="py-4 px-6 lg:py-9 lg:px-14 bg-background flex-1 min-h-screen"
         id="content"
       >
         <div className="grid grid-cols-12 gap-x-6">

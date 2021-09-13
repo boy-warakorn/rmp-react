@@ -22,31 +22,31 @@ const ContactDetailPage = () => {
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Name</HeadingText4>
           </div>
-          <div className="col-span-7">
+          <div className="col-span-7 font-roboto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Address</HeadingText4>
           </div>
-          <div className="col-span-7">
+          <div className="col-span-7 font-roboto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Title</HeadingText4>
           </div>
-          <div className="col-span-7">
+          <div className="col-span-7 font-roboto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Email</HeadingText4>
           </div>
-          <div className="col-span-7">
+          <div className="col-span-7 font-roboto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Phone Number</HeadingText4>
           </div>
-          <div className="col-span-7">
+          <div className="col-span-7 font-roboto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </div>
         </div>

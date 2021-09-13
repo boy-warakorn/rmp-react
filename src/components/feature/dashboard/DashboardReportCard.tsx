@@ -6,8 +6,11 @@ import {
   SubtitleText2,
 } from "@components/global/typography/Typography";
 import React from "react";
+import { useHistory } from "react-router";
 
 const DashboardReportCard = () => {
+  const history = useHistory();
+
   return (
     <Card className="px-4 py-3 flex justify-between items-center">
       <div className="flex items-center">
@@ -17,7 +20,11 @@ const DashboardReportCard = () => {
           <SubtitleText2>10 March 2020, 05:00</SubtitleText2>
         </div>
       </div>
-      <TextButton className="text-primary" title="Open Report" />
+      <TextButton
+        className="text-primary"
+        title="Open Report"
+        onClick={() => history.push("/reports/123")}
+      />
     </Card>
   );
 };

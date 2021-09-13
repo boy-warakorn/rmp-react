@@ -9,12 +9,15 @@ import {
 } from "@ant-design/icons";
 import { SubtitleText2 } from "@components/global/typography/Typography";
 import Button from "@components/global/Button";
+import { useHistory } from "react-router";
 
 interface PackageCardProps {
   isDelivered?: boolean;
 }
 
 const PackageCard = ({ isDelivered }: PackageCardProps) => {
+  const history = useHistory();
+
   const renderCardHeader = (
     icon: ReactNode,
     title: string,
@@ -54,6 +57,7 @@ const PackageCard = ({ isDelivered }: PackageCardProps) => {
           <EditOutlined
             style={{ fontSize: "18px" }}
             className="cursor-pointer"
+            onClick={() => history.push("/packages/123/edit")}
           />
           <DeleteOutlined
             style={{ fontSize: "18px", color: "#FF0707" }}

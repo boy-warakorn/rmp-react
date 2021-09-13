@@ -85,6 +85,7 @@ const Layout = () => {
             <Route path="/payments/add" component={AddPaymentPage} exact />
             <Route path="/packages" component={PackagePage} exact />
             <Route path="/packages/add" component={AddPackagePage} exact />
+            <Route path="/packages/:id/edit" component={AddPackagePage} exact />
             <Route path="/reports" component={ReportPage} exact />
             <Route path="/reports/:id" component={ReportDetailPage} exact />
             <Route path="/contacts" component={ContactPage} exact />

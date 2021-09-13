@@ -106,7 +106,7 @@ const RoomDetail = () => {
             <HeaderTable
               title="All Packages"
               buttonTitle="New package"
-              onClick={() => {}}
+              onClick={() => history.push("/packages/add")}
             />
             <div className="mt-6 grid grid-cols-6 gap-6">
               <PackageCard />
@@ -120,7 +120,7 @@ const RoomDetail = () => {
             <HeaderTable
               title="All Payments"
               buttonTitle="New invoice"
-              onClick={() => {}}
+              onClick={() => history.push("/payments/add")}
             />
             <CustomTable
               className="mt-6"

@@ -7,13 +7,21 @@ import {
 } from "@components/global/typography/Typography";
 import Button from "@components/global/Button";
 import { DatePicker } from "antd";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 const AddPackagePage = () => {
+  const [isEdit, setIsEdit] = useState(false);
+
+  const path = window.location.pathname.split("/")[3];
+
+  useEffect(() => {
+    if (path === "edit") setIsEdit(true);
+    // eslint-disable-next-line
+  }, []);
   return (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
-        <HeadingText3>Add Package</HeadingText3>
+        <HeadingText3>{isEdit ? "Edit" : "Add"} Package</HeadingText3>
       </div>
       <Card className="col-span-12 p-9">
         <HeadingText4>Recipient’s detail</HeadingText4>

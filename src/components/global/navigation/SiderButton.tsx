@@ -10,6 +10,7 @@ interface SiderButtonProps {
   icon: any;
   notiCounts?: number;
   path: string;
+  disabled?: boolean;
 }
 
 const SiderButton = ({
@@ -18,6 +19,7 @@ const SiderButton = ({
   icon,
   notiCounts,
   path,
+  disabled,
 }: SiderButtonProps) => {
   let siderStyle = "flex py-5 px-8 cursor-pointer items-center transition-all";
 
@@ -33,7 +35,11 @@ const SiderButton = ({
   }
 
   const linkChildren = (
-    <div className={siderStyle}>
+    <div
+      className={`${siderStyle} ${
+        disabled ? "cursor-not-allowed bg-black" : ""
+      }`}
+    >
       <div
         style={{
           color: active ? "#DDE2FF" : "#A4A6B3",
@@ -44,10 +50,14 @@ const SiderButton = ({
       >
         {icon}
       </div>
-      <div className="flex items-center justify-between flex-1">
+      <div className="flex items-center justify-between flex-1 ">
         <HeadingText4
           className={`${
-            active ? "text-grey-light" : "text-grey"
+            disabled
+              ? "text-gray-500"
+              : active
+              ? "text-grey-light"
+              : "text-grey"
           } ml-6 font-montserrat leading-6`}
         >
           {title}
@@ -61,7 +71,7 @@ const SiderButton = ({
     return <div onClick={onLogout}>{linkChildren}</div>;
   }
 
-  return <Link to={path}>{linkChildren}</Link>;
+  return disabled ? linkChildren : <Link to={path}>{linkChildren}</Link>;
 };
 
 export default SiderButton;

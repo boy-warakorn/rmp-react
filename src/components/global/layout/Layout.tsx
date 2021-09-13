@@ -31,27 +31,31 @@ const Layout = () => {
           <img src={Logo} width="32px" alt="logo" />
           <HeadingText3 className="text-grey ml-3 text">RMPSystem</HeadingText3>
         </div>
-        {generalRoutes.map(({ title, path, icon, notiCounts }, index) => (
-          <SiderButton
-            title={title}
-            path={path}
-            icon={icon}
-            active={window.location.pathname.includes(path)}
-            notiCounts={notiCounts}
-            key={`routes${index}`}
-          />
-        ))}
+        {generalRoutes.map(
+          ({ title, path, icon, notiCounts, disabled }, index) => (
+            <SiderButton
+              title={title}
+              path={path}
+              icon={icon}
+              active={window.location.pathname.includes(path)}
+              notiCounts={notiCounts}
+              key={`routes${index}`}
+              disabled={disabled}
+            />
+          )
+        )}
         <div
           style={{ height: "0.25px", background: "#4B4C54" }}
           className="mb-3"
         ></div>
-        {settingsRoutes.map(({ title, path, icon }, index) => (
+        {settingsRoutes.map(({ title, path, icon, disabled }, index) => (
           <SiderButton
             title={title}
             icon={icon}
             path={path}
             active={window.location.pathname.includes(path)}
             key={`settings${index}`}
+            disabled={disabled}
           />
         ))}
       </Sider>

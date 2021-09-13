@@ -14,6 +14,8 @@ import AddRoomPage from "@pages/rooms/crud/AddRoomPage";
 import AddOwnerPage from "@pages/rooms/crud/AddOwnerPage";
 import PaymentPage from "@pages/payment/PaymentPage";
 import AddPaymentPage from "@pages/payment/crud/AddPaymentPage";
+import PackagePage from "@pages/packages/PackagePage";
+import AddPackagePage from "@pages/packages/crud/AddPackagePage";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -72,6 +74,8 @@ const Layout = () => {
             <Route path="/rooms/:id" component={RoomDetailPage} exact />
             <Route path="/payments" component={PaymentPage} exact />
             <Route path="/payments/add" component={AddPaymentPage} exact />
+            <Route path="/packages" component={PackagePage} exact />
+            <Route path="/packages/add" component={AddPackagePage} exact />
           </Switch>
         </div>
       </div>

@@ -23,9 +23,19 @@ export interface InputProps {
   ref?: any;
   className?: string;
   title: string;
+  rows?: number;
 }
 
+const { TextArea } = Input;
+
 const CustomInput = styled(Input)<InputProps>`
+  & .ant-input-lg {
+    font-weight: 400;
+    font-size: 14px;
+  }
+`;
+
+const CustomTextArea = styled(TextArea)`
   & .ant-input-lg {
     font-weight: 400;
     font-size: 14px;
@@ -36,7 +46,14 @@ const TextInput = (props: InputProps) => {
   return (
     <div className="flex flex-col">
       <BodyText1 className="font-bold mb-2">{props.title}</BodyText1>
-      <CustomInput placeholder={`Enter ${props.title}`} {...props} />
+      {props.rows ? (
+        <CustomTextArea
+          placeholder={`Enter ${props.title}`}
+          {...(props as any)}
+        />
+      ) : (
+        <CustomInput placeholder={`Enter ${props.title}`} {...props} />
+      )}
     </div>
   );
 };

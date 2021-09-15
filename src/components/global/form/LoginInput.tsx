@@ -21,6 +21,7 @@ export interface InputProps {
   onPressEnter?: any;
   ref?: any;
   className?: string;
+  name?: string;
 }
 
 const LoginInput = styled(Input)<InputProps>`

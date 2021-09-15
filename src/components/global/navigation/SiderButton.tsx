@@ -11,6 +11,7 @@ interface SiderButtonProps {
   notiCounts?: number;
   path: string;
   disabled?: boolean;
+  onClick?: () => Promise<void>;
 }
 
 const SiderButton = ({
@@ -20,6 +21,7 @@ const SiderButton = ({
   notiCounts,
   path,
   disabled,
+  onClick,
 }: SiderButtonProps) => {
   let siderStyle =
     "flex py-5 px-7 lg:py-5 lg:px-8 cursor-pointer items-center transition-all";
@@ -37,6 +39,7 @@ const SiderButton = ({
 
   const linkChildren = (
     <div
+      onClick={onClick}
       className={`${siderStyle} sider-btn ${
         disabled ? "cursor-not-allowed bg-black" : ""
       }`}

@@ -86,7 +86,7 @@ export const routes = [
   { path: "/rooms/:id/owner/add", component: AddOwnerPage },
   { path: "/rooms/:id/owner/edit", component: AddOwnerPage },
   { path: "/rooms/:id", component: RoomDetailPage },
-  { path: "/payments", component: RoomPage },
+  { path: "/payments", component: PaymentPage },
   { path: "/payments/add", component: AddPaymentPage },
   { path: "/packages", component: PackagePage },
   { path: "/packages/add", component: AddPackagePage },

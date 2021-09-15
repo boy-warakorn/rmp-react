@@ -23,8 +23,10 @@ const Layout = () => {
   const usersRepository = RepositoryFactory.get("user") as UserRepository;
   const dispatch = useDispatch();
   const history = useHistory();
+
   useEffect(() => {
     fetchUser();
+    // eslint-disable-next-line
   }, []);
 
   const fetchUser = async () => {

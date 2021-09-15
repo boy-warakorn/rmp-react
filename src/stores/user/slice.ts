@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserState } from "@stores/stores";
 
-const initialState = {
+const initialState: UserState = {
   name: "",
   businessName: "",
 };

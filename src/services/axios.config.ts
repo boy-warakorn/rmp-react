@@ -9,7 +9,6 @@ AxiosService.interceptors.request.use(
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.authorization = `Bearer ${token}`;
-      config.headers["Accept-Language"] = localStorage.getItem("i18nextLng");
     }
     return config;
   },

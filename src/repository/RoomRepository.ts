@@ -1,9 +1,23 @@
-import { getRoomsUrl, getRoomUrl } from "@configs/api";
+import {
+  addRoomOwnerUrl,
+  editRoomOwnerUrl,
+  getRoomsUrl,
+  getRoomUrl,
+} from "@configs/api";
 import { AxiosService } from "@services/axios.config";
 
 export interface RoomRepository {
   getRooms(tab: string): Promise<RoomResponse[]> | undefined;
   getRoom(roomNumber: string): Promise<GetRoomResponse> | undefined;
+  editRoomOwner(
+    editRoomOwnerDto: EditRoomOwnerDto,
+    roomNumber: string
+  ): Promise<void>;
+  addRoomOwner(
+    addRoomOwnerDto: AddRoomOwnerDto,
+    roomNumber: string
+  ): Promise<void>;
+  deleteRoomOwner(roomNumber: string): Promise<void>;
 }
 
 export interface RoomResponse {
@@ -20,6 +34,15 @@ export interface GetRoomsResponse {
   rooms: RoomResponse[];
 }
 
+export interface EditRoomOwnerDto {
+  name: string;
+  phoneNumber: string;
+  citizenNumber: string;
+}
+
+export interface AddRoomOwnerDto extends EditRoomOwnerDto {
+  email: string;
+}
 export interface GetRoomResponse {
   resident: {
     name: string;
@@ -66,6 +89,21 @@ export const roomRepository = {
         await AxiosService.get<GetRoomResponse>(getRoomUrl(roomNumber))
       ).data;
       return room;
+    } catch (error) {}
+  },
+  async editRoomOwner(editRoomOwnerDto: EditRoomOwnerDto, roomNumber: string) {
+    try {
+      await AxiosService.patch(editRoomOwnerUrl(roomNumber), editRoomOwnerDto);
+    } catch (error) {}
+  },
+  async addRoomOwner(addRoomOwnerDto: AddRoomOwnerDto, roomNumber: string) {
+    try {
+      await AxiosService.post(addRoomOwnerUrl(roomNumber), addRoomOwnerDto);
+    } catch (error) {}
+  },
+  async deleteRoomOwner(roomNumber: string) {
+    try {
+      await AxiosService.delete(addRoomOwnerUrl(roomNumber));
     } catch (error) {}
   },
 };

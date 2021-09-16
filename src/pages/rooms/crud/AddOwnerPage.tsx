@@ -9,9 +9,11 @@ import {
 } from "@components/global/typography/Typography";
 import { DatePicker } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { roomSelector } from "@stores/rooms/selector";
 import { useSelector } from "react-redux";
+import RepositoriesFactory from "@repository/RepositoryFactory";
+import { EditRoomOwnerDto, RoomRepository } from "@repository/RoomRepository";
 
 const { RangePicker } = DatePicker;
 
@@ -20,6 +22,8 @@ const AddOwnerPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [form] = Form.useForm();
   const room = useSelector(roomSelector);
+  const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
+  const history = useHistory();
 
   const path = window.location.pathname.split("/")[4];
 
@@ -32,8 +36,22 @@ const AddOwnerPage = () => {
     // eslint-disable-next-line
   }, []);
 
-  const onFinish = () => {
-    console.log("form.getFieldValues :>> ", form.getFieldsValue());
+  const onFinish = async () => {
+    const formValue = form.getFieldsValue();
+    let ownerDto: any = {
+      name: formValue.name,
+      phoneNumber: formValue.phoneNumber,
+      citizenNumber: formValue.citizenNumber,
+    };
+    try {
+      if (isEdit) {
+        await roomRepository.editRoomOwner(ownerDto, id);
+      } else {
+        ownerDto.email = formValue.email;
+        await roomRepository.addRoomOwner(ownerDto, id);
+      }
+      history.goBack();
+    } catch (error) {}
   };
 
   const initForm = () => {
@@ -72,7 +90,21 @@ const AddOwnerPage = () => {
             >
               <TextInput title="Phone" />
             </Form.Item>
+
             <div className="col-span-3"></div>
+
+            {!isEdit && (
+              <Fragment>
+                <Form.Item
+                  name={["email"]}
+                  rules={[{ type: "email" }]}
+                  className="col-span-2 mt-6"
+                >
+                  <TextInput title="Email" />
+                </Form.Item>
+                <div className="col-span-4"></div>
+              </Fragment>
+            )}
             <Form.Item
               name={["citizenNumber"]}
               rules={[{ pattern: RegExp("^[0-9]{13}$") }]}

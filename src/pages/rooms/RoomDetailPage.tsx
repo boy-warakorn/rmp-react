@@ -52,6 +52,12 @@ const RoomDetail = () => {
     }
   };
 
+  const onDelete = async () => {
+    setIsLoading(true);
+    await roomRepository.deleteRoomOwner(id);
+    fetchCurrentRoom();
+  };
+
   const columns = [
     {
       title: "Issue time",
@@ -114,7 +120,9 @@ const RoomDetail = () => {
               >
                 Edit Owner
               </Button>
-              <Button color="danger">Move out</Button>
+              <Button color="danger" onClick={onDelete}>
+                Move out
+              </Button>
             </Fragment>
           ) : (
             <Button

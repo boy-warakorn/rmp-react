@@ -11,7 +11,7 @@ import TextInput from "@components/global/form/TextInput";
 import { useHistory, useParams } from "react-router";
 import { Form } from "antd";
 import RepositoriesFactory from "@repository/RepositoryFactory";
-import { AddRoomDto, RoomRepository } from "@repository/RoomRepository";
+import { RoomRepository } from "@repository/RoomRepository";
 
 const { Option } = Select;
 
@@ -24,6 +24,33 @@ const AddRoomPage = () => {
   const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
 
   const path = window.location.pathname.split("/")[2];
+
+  useEffect(() => {
+    if (path !== "add") {
+      setIsEdit(true);
+      fetchRoomDetail();
+    }
+
+    form[0].setFieldsValue({
+      type: "2 bed, 1 bath",
+      unit: "sqrms.",
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  const fetchRoomDetail = async () => {
+    const result = await roomRepository.getRoom(id);
+    if (result) {
+      const { room } = result;
+      form[0].setFieldsValue({
+        roomNumber: id,
+        type: room.type,
+        purchasePrice: room.purchasePrice,
+        pricePerMonth: room.pricePerMonth,
+        size: room.size,
+      });
+    }
+  };
 
   const onFinish = async () => {
     form[0].getFieldsError();
@@ -38,22 +65,13 @@ const AddRoomPage = () => {
     };
     try {
       if (isEdit) {
+        await roomRepository.editRoom(roomDto, id);
       } else {
         await roomRepository.addRoom(roomDto);
       }
       history.goBack();
     } catch (error) {}
   };
-
-  useEffect(() => {
-    if (path !== "add") setIsEdit(true);
-
-    form[0].setFieldsValue({
-      type: "2 bed, 1 bath",
-      unit: "sqrms.",
-    });
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <Fragment>
@@ -71,7 +89,7 @@ const AddRoomPage = () => {
               name={["roomNumber"]}
               rules={[{ required: true }]}
             >
-              <TextInput title="Room Number" />
+              <TextInput title="Room Number" disabled={isEdit} />
             </Form.Item>
             <div className="col-span-2">
               <Form.Item

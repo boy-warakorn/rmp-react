@@ -145,7 +145,7 @@ const RoomDetail = () => {
         </div>
       </Card>
       <CustomTabs className="col-span-12 mt-6">
-        <TabPane tab="packages" key="1">
+        <TabPane tab="Packages" key="1">
           <TabCard>
             <HeaderTable
               title="All Packages"
@@ -159,7 +159,7 @@ const RoomDetail = () => {
             </div>
           </TabCard>
         </TabPane>
-        <TabPane tab="payments" key="2">
+        <TabPane tab="Payments" key="2">
           <TabCard>
             <HeaderTable
               title="All Payments"

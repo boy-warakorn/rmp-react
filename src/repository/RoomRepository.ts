@@ -1,3 +1,4 @@
+import { getRoomsUrl } from "@configs/api";
 import { AxiosService } from "@services/axios.config";
 
 export interface RoomRepository {
@@ -17,7 +18,7 @@ export const roomRepository = {
   async getRooms(tab: string) {
     try {
       const rooms = (
-        await AxiosService.get("/rooms", {
+        await AxiosService.get(getRoomsUrl, {
           params: {
             filter_tab: tab === "-" ? "" : tab,
           },

@@ -1,3 +1,4 @@
+import { getCurrentUserUrl } from "@configs/api";
 import { AxiosService } from "@services/axios.config";
 
 export interface UserRepository {
@@ -12,8 +13,9 @@ interface GetCurrentUserResponse {
 export const userRepository = {
   async getCurrentUser() {
     try {
-      const user = (await AxiosService.get<GetCurrentUserResponse>("/users"))
-        .data;
+      const user = (
+        await AxiosService.get<GetCurrentUserResponse>(getCurrentUserUrl)
+      ).data;
       return user;
     } catch (error) {
       localStorage.setItem("token", "");

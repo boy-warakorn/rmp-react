@@ -7,7 +7,7 @@ import {
 } from "@components/global/typography/Typography";
 import { DeleteOutlined } from "@ant-design/icons";
 import Button from "@components/global/Button";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import RoomDetailSection from "@components/feature/room/RoomDetailSection";
 import TextButton from "@components/global/TextButton";
@@ -17,12 +17,40 @@ import HeaderTable from "@components/global/table/HeaderTable";
 import PackageCard from "@components/feature/postal/PackageCard";
 import CustomTable from "@components/global/table/Table";
 import OutlineButton from "@components/global/OutlineButton";
+import RepositoriesFactory from "@repository/RepositoryFactory";
+import { RoomRepository } from "@repository/RoomRepository";
+import Loading from "@components/global/Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { roomSelector } from "@stores/rooms/selector";
+import { setCurrentRoom } from "@stores/rooms/slice";
 
 const { TabPane } = Tabs;
 
 const RoomDetail = () => {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
+  const room = useSelector(roomSelector);
+  const dispatch = useDispatch();
+
+  const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
+
+  useEffect(() => {
+    fetchCurrentRoom();
+  }, []);
+
+  const fetchCurrentRoom = async () => {
+    try {
+      setIsLoading(true);
+      const result = await roomRepository.getRoom(id);
+      if (result) {
+        dispatch(setCurrentRoom(result));
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const columns = [
     {
@@ -63,7 +91,9 @@ const RoomDetail = () => {
     },
   ] as any;
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
         <HeadingText3>Room: {id}</HeadingText3>
@@ -71,10 +101,12 @@ const RoomDetail = () => {
       <Card className="col-span-8 p-6 ">
         <div>
           <HeadingText4>Owner Detail</HeadingText4>
-          <RoomOwnerSection isOccupied={id !== "1333"} />
+          <RoomOwnerSection
+            isOccupied={room.currentRoom.status === "occupied"}
+          />
         </div>
         <div className="flex mt-2 justify-end">
-          {id !== "1333" ? (
+          {room.currentRoom.status === "occupied" ? (
             <Fragment>
               <Button
                 className="mr-2"

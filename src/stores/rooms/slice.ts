@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RoomResponse } from "@repository/RoomRepository";
+import { GetRoomResponse, RoomResponse } from "@repository/RoomRepository";
 import { RoomState } from "@stores/stores";
 
 const initialState: RoomState = {
   rooms: [] as Room[],
+  currentRoom: {} as RoomDetail,
 };
 
 export interface Room {
@@ -17,6 +18,8 @@ export interface Room {
   size: number;
   unit: string;
 }
+
+export interface RoomDetail extends GetRoomResponse {}
 
 const slice = createSlice({
   name: "room",
@@ -35,8 +38,11 @@ const slice = createSlice({
         unit: room.unit,
       }));
     },
+    setCurrentRoom(state, action: PayloadAction<RoomDetail>) {
+      state.currentRoom = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
-export const { setRooms } = slice.actions;
+export const { setRooms, setCurrentRoom } = slice.actions;

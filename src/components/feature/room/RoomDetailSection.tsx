@@ -21,9 +21,9 @@ const RoomDetailSection = () => {
 
   return (
     <div className="grid grid-cols-4 gap-y-4">
-      {renderDetailTile("Type", roomDetail.type)}
-      {renderDetailTile("Size", `${roomDetail.size} ${roomDetail.unit}`)}
-      {renderDetailTile("Rent", `${roomDetail.pricePerMonth} THB / month`)}
+      {renderDetailTile("Type", roomDetail?.type)}
+      {renderDetailTile("Size", `${roomDetail?.size} ${roomDetail?.unit}`)}
+      {renderDetailTile("Rent", `${roomDetail?.pricePerMonth} THB / month`)}
     </div>
   );
 };

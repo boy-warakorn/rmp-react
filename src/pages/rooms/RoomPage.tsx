@@ -95,7 +95,7 @@ const RoomPage = () => {
     {
       title: "Manage",
       dataIndex: "manage",
-      width: 100,
+      width: 65,
       fixed: "right",
       render: (_: any, record: Room) => (
         <div className="flex">
@@ -104,7 +104,7 @@ const RoomPage = () => {
           >
             View detail
           </OutlineButton>
-          <Button
+          {/* <Button
             className="ml-3"
             color="primary"
             onClick={() =>
@@ -116,7 +116,7 @@ const RoomPage = () => {
             }
           >
             {record.contractType !== "unoccupied" ? "Edit owner" : "Add owner"}
-          </Button>
+          </Button> */}
         </div>
       ),
     },

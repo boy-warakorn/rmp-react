@@ -10,6 +10,8 @@ import {
 import { DatePicker } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { roomSelector } from "@stores/rooms/selector";
+import { useSelector } from "react-redux";
 
 const { RangePicker } = DatePicker;
 
@@ -17,16 +19,32 @@ const AddOwnerPage = () => {
   const { id } = useParams<{ id: string }>();
   const [isEdit, setIsEdit] = useState(false);
   const [form] = Form.useForm();
+  const room = useSelector(roomSelector);
 
   const path = window.location.pathname.split("/")[4];
 
   useEffect(() => {
-    if (path === "edit") setIsEdit(true);
+    if (path === "edit") {
+      setIsEdit(true);
+      initForm();
+    }
+
     // eslint-disable-next-line
   }, []);
 
   const onFinish = () => {
     console.log("form.getFieldValues :>> ", form.getFieldsValue());
+  };
+
+  const initForm = () => {
+    const {
+      currentRoom: { resident },
+    } = room;
+    form.setFieldsValue({
+      name: resident.name,
+      phoneNumber: resident.phoneNumber,
+      citizenNumber: resident.citizenNumber,
+    });
   };
 
   return (

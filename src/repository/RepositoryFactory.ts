@@ -14,8 +14,8 @@ const repositories = {
   room: roomRepository,
 };
 
-const repositoriesFactory = {
+const RepositoriesFactory = {
   get: (name: keyof Repositories) => repositories[name],
 };
 
-export default repositoriesFactory;
+export default RepositoriesFactory;

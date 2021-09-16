@@ -13,7 +13,7 @@ import { useHistory, useParams } from "react-router";
 import { roomSelector } from "@stores/rooms/selector";
 import { useSelector } from "react-redux";
 import RepositoriesFactory from "@repository/RepositoryFactory";
-import { EditRoomOwnerDto, RoomRepository } from "@repository/RoomRepository";
+import { RoomRepository } from "@repository/RoomRepository";
 
 const { RangePicker } = DatePicker;
 

@@ -12,6 +12,9 @@ const baseRoomUrl = "/rooms";
 export const getRoomsUrl = baseRoomUrl;
 export const getRoomUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}`;
+export const addRoomUrl = baseRoomUrl;
+
+// room owner
 export const addRoomOwnerUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}/owner`;
 export const editRoomOwnerUrl = addRoomOwnerUrl;

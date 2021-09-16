@@ -1,5 +1,6 @@
 import {
   addRoomOwnerUrl,
+  addRoomUrl,
   editRoomOwnerUrl,
   getRoomsUrl,
   getRoomUrl,
@@ -18,6 +19,7 @@ export interface RoomRepository {
     roomNumber: string
   ): Promise<void>;
   deleteRoomOwner(roomNumber: string): Promise<void>;
+  addRoom(addRoomDto: AddRoomDto): Promise<void>;
 }
 
 export interface RoomResponse {
@@ -42,6 +44,15 @@ export interface EditRoomOwnerDto {
 
 export interface AddRoomOwnerDto extends EditRoomOwnerDto {
   email: string;
+}
+
+export interface AddRoomDto {
+  roomNumber: string;
+  size: string;
+  unit: string;
+  pricePerMonth: number;
+  type: string;
+  purchasePrice: number;
 }
 export interface GetRoomResponse {
   resident: {
@@ -104,6 +115,11 @@ export const roomRepository = {
   async deleteRoomOwner(roomNumber: string) {
     try {
       await AxiosService.delete(addRoomOwnerUrl(roomNumber));
+    } catch (error) {}
+  },
+  async addRoom(addRoomDto: AddRoomDto) {
+    try {
+      await AxiosService.post(addRoomUrl, addRoomDto);
     } catch (error) {}
   },
 };

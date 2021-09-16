@@ -1,8 +1,7 @@
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import HeaderTable from "@components/global/table/HeaderTable";
-import Button from "@components/global/Button";
+// import Button from "@components/global/Button";
 import { Tabs } from "antd";
-
 import React, { useEffect, useState } from "react";
 import OutlineButton from "@components/global/OutlineButton";
 import CustomTable from "@components/global/table/Table";

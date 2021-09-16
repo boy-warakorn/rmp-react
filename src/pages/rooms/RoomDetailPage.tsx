@@ -37,6 +37,7 @@ const RoomDetail = () => {
 
   useEffect(() => {
     fetchCurrentRoom();
+    // eslint-disable-next-line
   }, []);
 
   const fetchCurrentRoom = async () => {

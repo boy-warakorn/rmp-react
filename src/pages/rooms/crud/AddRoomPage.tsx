@@ -8,20 +8,70 @@ import Button from "@components/global/Button";
 import { Select } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import TextInput from "@components/global/form/TextInput";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
+import { Form } from "antd";
+import RepositoriesFactory from "@repository/RepositoryFactory";
+import { RoomRepository } from "@repository/RoomRepository";
 
 const { Option } = Select;
 
 const AddRoomPage = () => {
   const { id } = useParams<{ id: string }>();
   const [isEdit, setIsEdit] = useState(false);
+  const form = Form.useForm();
+  const history = useHistory();
+
+  const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
 
   const path = window.location.pathname.split("/")[2];
 
   useEffect(() => {
-    if (path !== "add") setIsEdit(true);
+    if (path !== "add") {
+      setIsEdit(true);
+      fetchRoomDetail();
+    }
+
+    form[0].setFieldsValue({
+      type: "2 bed, 1 bath",
+      unit: "sqrms.",
+    });
     // eslint-disable-next-line
   }, []);
+
+  const fetchRoomDetail = async () => {
+    const result = await roomRepository.getRoom(id);
+    if (result) {
+      const { room } = result;
+      form[0].setFieldsValue({
+        roomNumber: id,
+        type: room.type,
+        purchasePrice: room.purchasePrice,
+        pricePerMonth: room.pricePerMonth,
+        size: room.size,
+      });
+    }
+  };
+
+  const onFinish = async () => {
+    form[0].getFieldsError();
+    const formValue = form[0].getFieldsValue();
+    let roomDto: any = {
+      roomNumber: formValue.roomNumber,
+      type: formValue.type,
+      size: formValue.size,
+      purchasePrice: formValue.purchasePrice,
+      pricePerMonth: formValue.pricePerMonth,
+      unit: formValue.unit,
+    };
+    try {
+      if (isEdit) {
+        await roomRepository.editRoom(roomDto, id);
+      } else {
+        await roomRepository.addRoom(roomDto);
+      }
+      history.goBack();
+    } catch (error) {}
+  };
 
   return (
     <Fragment>
@@ -32,41 +82,74 @@ const AddRoomPage = () => {
       </div>
       <Card className="p-9 col-span-12">
         <HeadingText4>Room detail</HeadingText4>
-        <FormCard className="grid grid-cols-6 gap-x-4 mt-4">
-          <div className="col-span-1">
-            <TextInput title="Room Number" />
-          </div>
-          <div className="col-span-2">
-            <div className="flex flex-col">
-              <BodyText1 className="font-bold mb-2">Type</BodyText1>
-              <Select value="1">
-                <Option value="1">2 bed, 1 bath</Option>
-              </Select>
+        <Form form={form[0]}>
+          <FormCard className="grid grid-cols-6 gap-x-4 mt-4">
+            <Form.Item
+              className="col-span-1"
+              name={["roomNumber"]}
+              rules={[{ required: true }]}
+            >
+              <TextInput title="Room Number" disabled={isEdit} />
+            </Form.Item>
+            <div className="col-span-2">
+              <Form.Item
+                className="flex flex-col"
+                name={["type"]}
+                rules={[{ required: true }]}
+              >
+                <BodyText1 className="font-bold mb-2">Type</BodyText1>
+                <Select value="2 bed, 1 bath">
+                  <Option value="2 bed, 1 bath">2 bed, 1 bath</Option>
+                </Select>
+              </Form.Item>
             </div>
-          </div>
-          <div className="col-span-1">
-            <TextInput title="Size" />
-          </div>
-          <div className="col-span-1 self-end">
-            <Select value="sqrm">
-              <Option value="sqrm">Square Meters</Option>
-            </Select>
-          </div>
-        </FormCard>
+            <Form.Item
+              className="col-span-1"
+              name={["size"]}
+              rules={[{ required: true }]}
+            >
+              <TextInput title="Size" />
+            </Form.Item>
+            <Form.Item
+              className="col-span-1"
+              name={["unit"]}
+              rules={[{ required: true }]}
+            >
+              <BodyText1 className="font-bold mb-2 opacity-0">1</BodyText1>
+              <Select placeholder="Select unit" value="sqrms.">
+                <Option value="sqrms.">Square Meters</Option>
+              </Select>
+            </Form.Item>
+          </FormCard>
+        </Form>
         <HeadingText4 className="mt-9">Rent and Pricing</HeadingText4>
-        <FormCard className="grid grid-cols-6 gap-x-4 mt-4">
-          <div className="col-span-1 ">
-            <TextInput title="Rent per month" suffix="THB" />
+        <Form form={form[0]} onFinish={onFinish}>
+          <FormCard className="grid grid-cols-6 gap-x-4 mt-4">
+            <Form.Item
+              className="col-span-1 "
+              name={["pricePerMonth"]}
+              rules={[{ required: true }]}
+            >
+              <TextInput title="Rent per month" suffix="THB" />
+            </Form.Item>
+            <Form.Item
+              className="col-span-1"
+              name={["purchasePrice"]}
+              rules={[{ required: true }]}
+            >
+              <TextInput title="Purchase price" suffix="THB" />
+            </Form.Item>
+          </FormCard>
+          <div className="flex justify-end mt-9">
+            <Button
+              color="primary"
+              className="px-12 font-roboto text-sm"
+              htmlType="submit"
+            >
+              Submit
+            </Button>
           </div>
-          <div className="col-span-1">
-            <TextInput title="Purchase price" suffix="THB" />
-          </div>
-        </FormCard>
-        <div className="flex justify-end mt-9">
-          <Button color="primary" className="px-12 font-roboto text-sm">
-            Submit
-          </Button>
-        </div>
+        </Form>
       </Card>
     </Fragment>
   );

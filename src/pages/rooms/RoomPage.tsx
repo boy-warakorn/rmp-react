@@ -1,49 +1,66 @@
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import HeaderTable from "@components/global/table/HeaderTable";
-import Button from "@components/global/Button";
+// import Button from "@components/global/Button";
 import { Tabs } from "antd";
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import OutlineButton from "@components/global/OutlineButton";
 import CustomTable from "@components/global/table/Table";
 import { useHistory } from "react-router";
+import RepositoryFactory from "@repository/RepositoryFactory";
+import { RoomRepository } from "@repository/RoomRepository";
+import { useDispatch, useSelector } from "react-redux";
+import { Room, setRooms } from "@stores/rooms/slice";
+import { roomSelector } from "@stores/rooms/selector";
 
 const { TabPane } = Tabs;
 
-const data = [
-  {
-    key: "1",
-    id: "1234",
-    roomNo: 32,
-    contractType: "purchase",
-    packages: 2,
-    paymentStatus: "All Paid",
-    index: 0,
-  },
-  {
-    key: "2",
-    id: "5434",
-    roomNo: 32,
-    contractType: "purchase",
-    packages: 2,
-    paymentStatus: "All Paid",
-    index: 1,
-  },
+const tabList = [
+  { key: "-", title: "All" },
+  { key: "occupied", title: "Occupied" },
+  { key: "unoccupied", title: "Unoccupied" },
 ];
 
 const RoomPage = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const roomsSelector = useSelector(roomSelector);
+  const roomRepository = RepositoryFactory.get("room") as RoomRepository;
+
+  const [currentTabKey, setCurrentTabKey] = useState("-");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onChangeTab = (value: string) => {
+    setCurrentTabKey(value);
+  };
+
+  useEffect(() => {
+    fetchRoom();
+    // eslint-disable-next-line
+  }, [currentTabKey]);
+
+  const fetchRoom = async () => {
+    try {
+      setIsLoading(true);
+      const rooms = await roomRepository.getRooms(currentTabKey);
+      if (rooms) {
+        dispatch(setRooms(rooms));
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const columns = [
     {
       title: "Room No.",
-      dataIndex: "roomNo",
+      dataIndex: "roomNumber",
       width: 50,
     },
     {
       title: "Contract type",
       dataIndex: "contractType",
-      width: 50,
+      width: 70,
       render: (value: string) =>
         value === "unoccupied" ? (
           <div className="text-base italic text-grey">{value}</div>
@@ -59,31 +76,46 @@ const RoomPage = () => {
     {
       title: "Payments status",
       dataIndex: "paymentStatus",
-      width: 50,
+      width: 70,
+    },
+    {
+      title: "Last move at",
+      dataIndex: "lastMoveAt",
+      width: 100,
+    },
+    {
+      title: "Size",
+      dataIndex: "size",
+      width: 70,
+      render: (_: any, record: Room) => (
+        <div>{`${record.size} ${record.unit}`}</div>
+      ),
     },
     {
       title: "Manage",
       dataIndex: "manage",
-      width: 50,
+      width: 65,
       fixed: "right",
-      render: (_: any, record: any) => (
+      render: (_: any, record: Room) => (
         <div className="flex">
-          <OutlineButton onClick={() => history.push(`/rooms/${record.id}`)}>
+          <OutlineButton
+            onClick={() => history.push(`/rooms/${record.roomNumber}`)}
+          >
             View detail
           </OutlineButton>
-          <Button
+          {/* <Button
             className="ml-3"
             color="primary"
             onClick={() =>
               history.push(
-                `/rooms/${record.id}/owner/${
+                `/rooms/${record.roomNumber}/owner/${
                   record.contractType !== "unoccupied" ? "edit" : "add"
                 }`
               )
             }
           >
             {record.contractType !== "unoccupied" ? "Edit owner" : "Add owner"}
-          </Button>
+          </Button> */}
         </div>
       ),
     },
@@ -91,66 +123,24 @@ const RoomPage = () => {
 
   return (
     <div className="col-span-12 mt-3">
-      <CustomTabs>
-        <TabPane tab="All" key="1">
-          <TabCard>
-            <HeaderTable
-              title="All Room"
-              buttonTitle="Add Room"
-              onClick={() => history.push("/rooms/add")}
-            />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                ...data,
-                {
-                  key: "3",
-                  id: "1333",
-                  roomNo: 32,
-                  contractType: "unoccupied",
-                  packages: 2,
-                  paymentStatus: "All Paid",
-                  index: 2,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
-        <TabPane tab="Occupied" key="2">
-          <TabCard>
-            <HeaderTable
-              title="Occupied Room"
-              buttonTitle="Add Room"
-              onClick={() => history.push("/rooms/add")}
-            />
-            <CustomTable className="mt-6" columns={columns} dataSource={data} />
-          </TabCard>
-        </TabPane>
-        <TabPane tab="Unoccupied" key="3">
-          <TabCard>
-            <HeaderTable
-              title="Unoccupied Room"
-              buttonTitle="Add Room"
-              onClick={() => history.push("/rooms/add")}
-            />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                {
-                  key: "3",
-                  id: "1333",
-                  roomNo: 32,
-                  contractType: "unoccupied",
-                  packages: 2,
-                  paymentStatus: "All Paid",
-                  index: 2,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
+      <CustomTabs onChange={onChangeTab}>
+        {tabList.map((tab) => (
+          <TabPane tab={tab.title} key={tab.key}>
+            <TabCard>
+              <HeaderTable
+                title="All Room"
+                buttonTitle="Add Room"
+                onClick={() => history.push("/rooms/add")}
+              />
+              <CustomTable
+                loading={isLoading}
+                className="mt-6"
+                columns={columns}
+                dataSource={roomsSelector.rooms}
+              />
+            </TabCard>
+          </TabPane>
+        ))}
       </CustomTabs>
     </div>
   );

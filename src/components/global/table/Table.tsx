@@ -31,7 +31,13 @@ const StyledTable = styled(Table)`
 `;
 
 const CustomTable = (props: CustomTableProps) => {
-  return <StyledTable scroll={{ x: 1000 }} {...(props as any)} />;
+  return (
+    <StyledTable
+      scroll={{ x: 1000 }}
+      pagination={{ defaultPageSize: 5 }}
+      {...(props as any)}
+    />
+  );
 };
 
 export default CustomTable;

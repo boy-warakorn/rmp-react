@@ -1,7 +1,15 @@
 import { BodyText1 } from "@components/global/typography/Typography";
+import { roomSelector } from "@stores/rooms/selector";
 import React, { Fragment } from "react";
+import { useSelector } from "react-redux";
 
 const RoomDetailSection = () => {
+  const room = useSelector(roomSelector);
+
+  const {
+    currentRoom: { room: roomDetail },
+  } = room;
+
   const renderDetailTile = (title: string, detail: string) => (
     <Fragment>
       <div className="col-span-1">
@@ -13,9 +21,9 @@ const RoomDetailSection = () => {
 
   return (
     <div className="grid grid-cols-4 gap-y-4">
-      {renderDetailTile("Type", "Suite A")}
-      {renderDetailTile("Size", "35 Square meters")}
-      {renderDetailTile("Rent", "1,000 THB / month")}
+      {renderDetailTile("Type", roomDetail?.type)}
+      {renderDetailTile("Size", `${roomDetail?.size} ${roomDetail?.unit}`)}
+      {renderDetailTile("Rent", `${roomDetail?.pricePerMonth} THB / month`)}
     </div>
   );
 };

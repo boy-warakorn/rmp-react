@@ -1,3 +1,4 @@
+import PrivateRoute from "@components/global/PrivateRoute";
 import Layout from "@components/layout/Layout";
 import React from "react";
 import { Route, Switch } from "react-router";
@@ -12,7 +13,7 @@ function App() {
     <div>
       <Switch>
         <Route path="/login" component={LoginPage} exact />
-        <Route path="/" component={Layout} />
+        <PrivateRoute path="/" component={Layout} />
       </Switch>
     </div>
   );

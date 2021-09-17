@@ -33,7 +33,6 @@ const ContactPage = () => {
       render: (_: any, record: any) => (
         <TextButton
           className="text-primary"
-          style={{ width: "max-content" }}
           title="View Detail"
           onClick={() => history.push(`/contacts/${record.id}`)}
         />

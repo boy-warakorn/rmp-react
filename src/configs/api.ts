@@ -1,4 +1,4 @@
-export const baseApiUrl = "http://localhost:1234/api";
+export const baseApiUrl = "http://35.240.160.184/api";
 
 // auth
 export const loginUrl = "/auth";

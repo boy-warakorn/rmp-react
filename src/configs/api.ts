@@ -1,4 +1,4 @@
-export const baseApiUrl = "http://35.240.160.184/api";
+export const baseApiUrl = "https://rmp.ryuhub.dev/api";
 
 // auth
 export const loginUrl = "/auth";

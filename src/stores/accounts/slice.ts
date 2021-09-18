@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AccountResponse } from "@repository/AccountRepository";
+import {
+  AccountResponse,
+  GetAccountResponse,
+} from "@repository/AccountRepository";
 import { AccountState } from "@stores/stores";
 
 const initialState: AccountState = {
   accounts: [] as Account[],
+  currentAccount: {} as AccountDetail,
 };
 
 export interface Account {
@@ -14,6 +18,8 @@ export interface Account {
   key: string;
   index: number;
 }
+
+export interface AccountDetail extends GetAccountResponse {}
 
 const slice = createSlice({
   name: "account",
@@ -29,8 +35,11 @@ const slice = createSlice({
         name: room.name,
       }));
     },
+    setAccount(state, action: PayloadAction<AccountDetail>) {
+      state.currentAccount = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
-export const { setAccounts } = slice.actions;
+export const { setAccounts, setAccount } = slice.actions;

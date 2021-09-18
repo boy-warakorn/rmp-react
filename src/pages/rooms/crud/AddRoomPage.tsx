@@ -12,10 +12,12 @@ import { useHistory, useParams } from "react-router";
 import { Form } from "antd";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { RoomRepository } from "@repository/RoomRepository";
+import Loading from "@components/global/Loading";
 
 const { Option } = Select;
 
 const AddRoomPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams<{ id: string }>();
   const [isEdit, setIsEdit] = useState(false);
   const form = Form.useForm();
@@ -64,16 +66,21 @@ const AddRoomPage = () => {
       unit: formValue.unit,
     };
     try {
+      setIsLoading(true);
       if (isEdit) {
         await roomRepository.editRoom(roomDto, id);
       } else {
         await roomRepository.addRoom(roomDto);
       }
       history.goBack();
-    } catch (error) {}
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
         <HeadingText3>

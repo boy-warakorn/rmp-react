@@ -1,4 +1,4 @@
-import { Account } from "./accounts/slice";
+import { Account, AccountDetail } from "./accounts/slice";
 import { Room, RoomDetail } from "./rooms/slice";
 
 export type UserState = {
@@ -13,6 +13,7 @@ export type RoomState = {
 
 export type AccountState = {
   accounts: Account[];
+  currentAccount: AccountDetail;
 };
 
 export type RootState = {

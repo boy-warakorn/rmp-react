@@ -1,3 +1,4 @@
+import RoleTag from "@components/feature/account/RoleTag";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import OutlineButton from "@components/global/OutlineButton";
 import HeaderTable from "@components/global/table/HeaderTable";
@@ -6,7 +7,7 @@ import { AccountRepository } from "@repository/AccountRepository";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { accountSelector } from "@stores/accounts/selector";
 import { setAccounts } from "@stores/accounts/slice";
-import { Tabs, Tag } from "antd";
+import { Tabs } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -36,11 +37,11 @@ const AccountPage = () => {
   };
 
   useEffect(() => {
-    fetchAccount();
+    fetchAccounts();
     // eslint-disable-next-line
   }, [currentTabKey]);
 
-  const fetchAccount = async () => {
+  const fetchAccounts = async () => {
     try {
       setIsLoading(true);
       const rooms = await accountRepository.getAccounts(currentTabKey);
@@ -58,19 +59,7 @@ const AccountPage = () => {
       title: "Role",
       width: 20,
       dataIndex: "role",
-      render: (value: string) => (
-        <Tag
-          color={
-            value === "admin"
-              ? "magenta"
-              : value === "resident"
-              ? "cyan"
-              : "green"
-          }
-        >
-          {value}
-        </Tag>
-      ),
+      render: (value: string) => <RoleTag role={value as any} />,
     },
     {
       title: "Name",

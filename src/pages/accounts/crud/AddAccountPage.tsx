@@ -6,60 +6,181 @@ import {
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
-import { Select } from "antd";
+import { Select, Form } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import RepositoriesFactory from "@repository/RepositoryFactory";
+import { AccountRepository } from "@repository/AccountRepository";
+import { accountSelector } from "@stores/accounts/selector";
+import { setAccount } from "@stores/accounts/slice";
+import Loading from "@components/global/Loading";
 
 const { Option } = Select;
 
 const AddAccountPage = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const { id } = useParams<{ id: string }>();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("admin");
+  const accountsRepository = RepositoriesFactory.get(
+    "account"
+  ) as AccountRepository;
+  const accountsSelector = useSelector(accountSelector);
+  const form = Form.useForm();
 
   const path = window.location.pathname.split("/")[3];
 
   useEffect(() => {
-    if (path === "edit") setIsEdit(true);
+    if (path === "edit") {
+      setIsEdit(true);
+      fetchAccount();
+    }
     // eslint-disable-next-line
   }, []);
 
-  return (
+  const fetchAccount = async () => {
+    try {
+      setIsLoading(true);
+      const account = await accountsRepository.getAccount(id);
+      if (account) {
+        dispatch(setAccount(account));
+        const {
+          currentAccount: {
+            profile: {
+              name,
+              citizenNumber,
+              email,
+              username,
+              role,
+              phoneNumber,
+            },
+          },
+        } = accountsSelector;
+        form[0].setFieldsValue({
+          name: name,
+          citizenNumber: citizenNumber,
+          email: email,
+          username: username,
+          phoneNumber: phoneNumber,
+        });
+        setSelectedRole(role);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onFinish = async () => {
+    const formValue = form[0].getFieldsValue();
+    let roomDto: any = {
+      name: formValue.name,
+      citizenNumber: formValue.citizenNumber,
+      phoneNumber: formValue.phoneNumber,
+      role: selectedRole,
+    };
+    try {
+      setIsLoading(true);
+      if (isEdit) {
+        await accountsRepository.editAccount(roomDto, id);
+      } else {
+        roomDto.email = formValue.email;
+        roomDto.username = formValue.username;
+        await accountsRepository.addAccount(roomDto);
+      }
+      history.goBack();
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
-        <HeadingText3>{isEdit ? `Edit Contact` : `New Contact`}</HeadingText3>
+        <HeadingText3>{isEdit ? `Edit Account` : `New Account`}</HeadingText3>
       </div>
-      <Card className="col-span-12 p-9">
-        <HeadingText4>Details</HeadingText4>
-        <FormCard className="grid grid-cols-8 gap-x-4 mt-4">
-          <div className="col-span-2">
-            <TextInput title="Email" />
-          </div>
-          <div className="col-span-2">
-            <TextInput title="Name" />
-          </div>
-          <div className="col-span-2">
-            <TextInput title="Username" />
-          </div>
-          <div className="col-span-2">
-            <div className="flex flex-col">
-              <BodyText1 className="font-bold mb-2">Role</BodyText1>
-              <Select value="admin">
-                <Option value="admin">Admin</Option>
-                <Option value="personnel">Condo's Personnel</Option>
-              </Select>
+      <Form form={form[0]} onFinish={onFinish} className="col-span-12">
+        <Card className="p-9">
+          <HeadingText4>Personal Info</HeadingText4>
+
+          <FormCard className="grid grid-cols-8 gap-x-4 mt-4">
+            <Form.Item
+              className="col-span-2"
+              name={["email"]}
+              rules={[{ required: true }]}
+            >
+              <TextInput title="Email" disabled={isEdit} />
+            </Form.Item>
+            <Form.Item
+              className="col-span-2"
+              name={["name"]}
+              rules={[{ required: true }]}
+            >
+              <TextInput title="Name" />
+            </Form.Item>
+            <Form.Item
+              className="col-span-2"
+              name={["username"]}
+              rules={[
+                {
+                  required:
+                    accountsSelector.currentAccount.profile.role !== "resident",
+                },
+              ]}
+            >
+              <TextInput title="Username" disabled={isEdit} />
+            </Form.Item>
+            <div className="col-span-2">
+              <div className="flex flex-col">
+                <BodyText1 className="font-bold mb-2">Role</BodyText1>
+                <Select
+                  disabled={
+                    accountsSelector.currentAccount.profile.role === "resident"
+                  }
+                  value={selectedRole}
+                  onChange={(value: string) => setSelectedRole(value)}
+                >
+                  <Option value="admin">Admin</Option>
+                  <Option value="resident" disabled>
+                    Resident
+                  </Option>
+                  <Option value="personnel">Condo's Personnel</Option>
+                </Select>
+              </div>
             </div>
+            <Form.Item
+              className="col-span-2 mt-6"
+              name={["phoneNumber"]}
+              rules={[{ required: true }]}
+            >
+              <TextInput title="Phone number" />
+            </Form.Item>
+            <Form.Item
+              className="col-span-2 mt-6"
+              name={["citizenNumber"]}
+              rules={[{ required: true }]}
+            >
+              <TextInput title="Citizen number" />
+            </Form.Item>
+          </FormCard>
+
+          <div className="flex justify-end mt-9">
+            <Button
+              color="primary"
+              className="px-12 font-roboto text-sm"
+              htmlType="submit"
+            >
+              Submit
+            </Button>
           </div>
-          <div className="col-span-2 mt-6">
-            <TextInput title="Phone number" />
-          </div>
-          <div className="col-span-2 mt-6">
-            <TextInput title="Citizen number" />
-          </div>
-        </FormCard>
-        <div className="flex justify-end mt-9">
-          <Button color="primary" className="px-12 font-roboto text-sm">
-            Submit
-          </Button>
-        </div>
-      </Card>
+        </Card>
+      </Form>
     </Fragment>
   );
 };

@@ -14,10 +14,12 @@ import { roomSelector } from "@stores/rooms/selector";
 import { useSelector } from "react-redux";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { RoomRepository } from "@repository/RoomRepository";
+import Loading from "@components/global/Loading";
 
 const { RangePicker } = DatePicker;
 
 const AddOwnerPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams<{ id: string }>();
   const [isEdit, setIsEdit] = useState(false);
   const [form] = Form.useForm();
@@ -44,6 +46,7 @@ const AddOwnerPage = () => {
       citizenNumber: formValue.citizenNumber,
     };
     try {
+      setIsLoading(true);
       if (isEdit) {
         await roomRepository.editRoomOwner(ownerDto, id);
       } else {
@@ -51,7 +54,9 @@ const AddOwnerPage = () => {
         await roomRepository.addRoomOwner(ownerDto, id);
       }
       history.goBack();
-    } catch (error) {}
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   const initForm = () => {
@@ -65,7 +70,9 @@ const AddOwnerPage = () => {
     });
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
         <HeadingText3>

@@ -128,7 +128,7 @@ const RoomPage = () => {
           <TabPane tab={tab.title} key={tab.key}>
             <TabCard>
               <HeaderTable
-                title="All Room"
+                title={`${tab.title} Rooms`}
                 buttonTitle="Add Room"
                 onClick={() => history.push("/rooms/add")}
               />

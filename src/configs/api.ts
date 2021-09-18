@@ -1,4 +1,5 @@
 export const baseApiUrl = "https://rmp.ryuhub.dev/api";
+// export const baseApiUrl = "http://localhost:1234/api";
 
 // auth
 export const loginUrl = "/auth";

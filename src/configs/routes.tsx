@@ -23,6 +23,9 @@ import ReportDetailPage from "@pages/reports/ReportDetailPage";
 import ContactPage from "@pages/contacts/ContactPage";
 import ContactDetailPage from "@pages/contacts/ContactDetailPage";
 import AddContactPage from "@pages/contacts/crud/AddContactPage";
+import AccountPage from "@pages/accounts/AccountPage";
+import AddAccountPage from "@pages/accounts/crud/AddAccountPage";
+import AccountDetailPage from "@pages/accounts/AccountDetailPage";
 
 export const generalRoutes = [
   {
@@ -60,7 +63,7 @@ export const generalRoutes = [
     title: "Manage Accounts",
     path: "/manage-accounts",
     icon: <KeyOutlined />,
-    disabled: true,
+    disabled: false,
   },
 ];
 
@@ -97,4 +100,8 @@ export const routes = [
   { path: "/contacts/add", component: AddContactPage },
   { path: "/contacts/:id", component: ContactDetailPage },
   { path: "/contacts/:id/edit", component: AddContactPage },
+  { path: "/manage-accounts", component: AccountPage },
+  { path: "/manage-accounts/add", component: AddAccountPage },
+  { path: "/manage-accounts/:id", component: AccountDetailPage },
+  { path: "/manage-accounts/:id/edit", component: AddAccountPage },
 ];

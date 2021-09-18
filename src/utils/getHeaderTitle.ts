@@ -18,7 +18,7 @@ export const getHeaderTitle = () => {
       return "Bills and Payments";
     }
     case "/manage-accounts": {
-      return "Overall Users";
+      return "Manage Accounts";
     }
     case "/settings": {
       return "Room Management";

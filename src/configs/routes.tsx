@@ -25,6 +25,7 @@ import ContactDetailPage from "@pages/contacts/ContactDetailPage";
 import AddContactPage from "@pages/contacts/crud/AddContactPage";
 import AccountPage from "@pages/accounts/AccountPage";
 import AddAccountPage from "@pages/accounts/crud/AddAccountPage";
+import AccountDetailPage from "@pages/accounts/AccountDetailPage";
 
 export const generalRoutes = [
   {
@@ -101,5 +102,6 @@ export const routes = [
   { path: "/contacts/:id/edit", component: AddContactPage },
   { path: "/manage-accounts", component: AccountPage },
   { path: "/manage-accounts/add", component: AddAccountPage },
+  { path: "/manage-accounts/:id", component: AccountDetailPage },
   { path: "/manage-accounts/:id/edit", component: AddAccountPage },
 ];

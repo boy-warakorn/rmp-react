@@ -51,15 +51,15 @@ const ContactDetailPage = () => {
           </div>
         </div>
         <div className="flex justify-end mt-9">
+          <Button color="danger" className="px-12 mr-4">
+            Delete
+          </Button>
           <OutlineButton
-            className="px-12 mr-4"
+            className="px-12 "
             onClick={() => history.push(`/contacts/${id}/edit`)}
           >
             Edit
           </OutlineButton>
-          <Button color="danger" className="px-12">
-            Delete
-          </Button>
         </div>
       </Card>
     </Fragment>

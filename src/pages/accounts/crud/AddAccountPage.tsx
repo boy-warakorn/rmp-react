@@ -36,7 +36,7 @@ const AddAccountPage = () => {
             <TextInput title="Name" />
           </div>
           <div className="col-span-2">
-            <TextInput title="username" />
+            <TextInput title="Username" />
           </div>
           <div className="col-span-2">
             <div className="flex flex-col">
@@ -46,6 +46,12 @@ const AddAccountPage = () => {
                 <Option value="personnel">Condo's Personnel</Option>
               </Select>
             </div>
+          </div>
+          <div className="col-span-2 mt-6">
+            <TextInput title="Phone number" />
+          </div>
+          <div className="col-span-2 mt-6">
+            <TextInput title="Citizen number" />
           </div>
         </FormCard>
         <div className="flex justify-end mt-9">

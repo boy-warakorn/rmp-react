@@ -103,19 +103,6 @@ const RoomPage = () => {
           >
             View detail
           </OutlineButton>
-          {/* <Button
-            className="ml-3"
-            color="primary"
-            onClick={() =>
-              history.push(
-                `/rooms/${record.roomNumber}/owner/${
-                  record.contractType !== "unoccupied" ? "edit" : "add"
-                }`
-              )
-            }
-          >
-            {record.contractType !== "unoccupied" ? "Edit owner" : "Add owner"}
-          </Button> */}
         </div>
       ),
     },

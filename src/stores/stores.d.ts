@@ -4,6 +4,7 @@ import { Room, RoomDetail } from "./rooms/slice";
 export type UserState = {
   name: string;
   businessName: string;
+  role: string;
 };
 
 export type RoomState = {

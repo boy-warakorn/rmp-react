@@ -7,7 +7,7 @@ export interface UserRepository {
 
 interface GetCurrentUserResponse {
   businessName: string;
-  profile: { name: string };
+  profile: { name: string; role: string };
 }
 
 export const userRepository = {

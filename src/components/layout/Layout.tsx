@@ -11,9 +11,10 @@ import { generalRoutes, routes, settingsRoutes } from "@configs/routes";
 import PrivateRoute from "@components/global/PrivateRoute";
 import { useHistory } from "react-router-dom";
 import { clearUser, setUser } from "@stores/user/slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import RepositoryFactory from "@repository/RepositoryFactory";
 import { UserRepository } from "@repository/UserRepository";
+import { userSelector } from "@stores/user/selector";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -23,6 +24,7 @@ const Layout = () => {
   const usersRepository = RepositoryFactory.get("user") as UserRepository;
   const dispatch = useDispatch();
   const history = useHistory();
+  const usersSelector = useSelector(userSelector);
 
   useEffect(() => {
     fetchUser();
@@ -33,7 +35,11 @@ const Layout = () => {
     const user = await usersRepository.getCurrentUser();
     if (user) {
       dispatch(
-        setUser({ businessName: user?.businessName, name: user?.profile.name })
+        setUser({
+          businessName: user?.businessName,
+          name: user?.profile.name,
+          role: user?.profile.role,
+        })
       );
     }
   };
@@ -54,17 +60,18 @@ const Layout = () => {
           </HeadingText3>
         </div>
         {generalRoutes.map(
-          ({ title, path, icon, notiCounts, disabled }, index) => (
-            <SiderButton
-              title={title}
-              path={path}
-              icon={icon}
-              active={window.location.pathname.includes(path)}
-              notiCounts={notiCounts}
-              key={`routes${index}`}
-              disabled={disabled}
-            />
-          )
+          ({ title, path, icon, notiCounts, disabled, permissions }, index) =>
+            permissions.includes(usersSelector?.role) ? (
+              <SiderButton
+                title={title}
+                path={path}
+                icon={icon}
+                active={window.location.pathname.includes(path)}
+                notiCounts={notiCounts}
+                key={`routes${index}`}
+                disabled={disabled}
+              />
+            ) : null
         )}
         <div
           style={{ height: "0.25px", background: "#4B4C54" }}
@@ -89,14 +96,16 @@ const Layout = () => {
         <div className="grid grid-cols-12 gap-x-6">
           <HeaderBar />
           <Switch>
-            {routes.map((route, index) => (
-              <PrivateRoute
-                key={`routes${index}`}
-                path={route.path}
-                component={route.component}
-                exact
-              />
-            ))}
+            {routes.map((route, index) =>
+              route.permissions.includes(usersSelector?.role) ? (
+                <PrivateRoute
+                  key={`routes${index}`}
+                  path={route.path}
+                  component={route.component}
+                  exact
+                />
+              ) : null
+            )}
             <Redirect to="/home" />
           </Switch>
         </div>

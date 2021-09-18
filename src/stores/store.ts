@@ -8,6 +8,7 @@ import logger from "redux-logger";
 import { RootState } from "./stores";
 import user from "./user/slice";
 import room from "./rooms/slice";
+import account from "./accounts/slice";
 
 const middleware = [...getDefaultMiddleware(), logger];
 
@@ -17,6 +18,7 @@ export const store = configureStore({
   reducer: {
     user,
     room,
+    account,
   },
   middleware,
 });

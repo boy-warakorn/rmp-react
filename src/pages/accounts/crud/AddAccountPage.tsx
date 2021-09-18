@@ -33,10 +33,10 @@ const AddAccountPage = () => {
             <TextInput title="Email" />
           </div>
           <div className="col-span-2">
-            <TextInput title="First name" />
+            <TextInput title="Name" />
           </div>
           <div className="col-span-2">
-            <TextInput title="Last name" />
+            <TextInput title="username" />
           </div>
           <div className="col-span-2">
             <div className="flex flex-col">

@@ -129,8 +129,10 @@ const AddAccountPage = () => {
               name={["username"]}
               rules={[
                 {
-                  required:
-                    accountsSelector.currentAccount.profile.role !== "resident",
+                  required: isEdit
+                    ? accountsSelector.currentAccount.profile.role !==
+                      "resident"
+                    : true,
                 },
               ]}
             >

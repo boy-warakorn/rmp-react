@@ -141,7 +141,10 @@ const AddAccountPage = () => {
                 <BodyText1 className="font-bold mb-2">Role</BodyText1>
                 <Select
                   disabled={
-                    accountsSelector.currentAccount.profile.role === "resident"
+                    isEdit
+                      ? accountsSelector.currentAccount.profile.role ===
+                        "resident"
+                      : false
                   }
                   value={selectedRole}
                   onChange={(value: string) => setSelectedRole(value)}

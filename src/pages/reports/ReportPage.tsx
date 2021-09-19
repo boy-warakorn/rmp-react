@@ -2,9 +2,14 @@ import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import HeaderTable from "@components/global/table/HeaderTable";
 import CustomTable from "@components/global/table/Table";
 import { Badge, Tabs } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import OutlineButton from "@components/global/OutlineButton";
+import { useDispatch, useSelector } from "react-redux";
+import { reportSelector } from "@stores/reports/selector";
+import RepositoriesFactory from "@repository/RepositoryFactory";
+import { ReportRepository } from "@repository/ReportRepository";
+import { setReports } from "@stores/reports/slice";
 
 const { TabPane } = Tabs;
 
@@ -17,27 +22,62 @@ const tabList = [
 
 const ReportPage = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const reportsSelector = useSelector(reportSelector);
+  const reportRepository = RepositoriesFactory.get(
+    "report"
+  ) as ReportRepository;
+
+  const [currentTabKey, setCurrentTabKey] = useState("-");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onChangeTab = (value: string) => {
+    setCurrentTabKey(value);
+  };
+
+  useEffect(() => {
+    fetchReports();
+    // eslint-disable-next-line
+  }, [currentTabKey]);
+
+  const fetchReports = async () => {
+    try {
+      setIsLoading(true);
+      const rooms = await reportRepository.getReports(currentTabKey);
+      if (rooms) {
+        dispatch(setReports(rooms));
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const columns = [
     {
       title: "Room No.",
       width: 50,
-      dataIndex: "roomNo",
+      dataIndex: "roomNumber",
     },
     {
-      title: "Received time",
+      title: "Requested Date",
       width: 50,
-      dataIndex: "receivedTime",
+      dataIndex: "requestedDate",
     },
     {
-      title: "Resolve time",
+      title: "Resolved Date",
       width: 50,
-      dataIndex: "resolveTime",
+      dataIndex: "resolvedDate",
+      render: (value: string) => (
+        <div className={value === "Not Resolved" ? "text-error" : ""}>
+          {value}
+        </div>
+      ),
     },
     {
-      title: "Topic",
+      title: "Title",
       width: 50,
-      dataIndex: "topic",
+      dataIndex: "title",
     },
     {
       title: "Status",
@@ -74,7 +114,7 @@ const ReportPage = () => {
   ] as any;
   return (
     <div className="col-span-12 mt-3">
-      <CustomTabs>
+      <CustomTabs onChange={onChangeTab}>
         {tabList.map((tab) => (
           <TabPane tab={tab.title} key={tab.key}>
             <TabCard>
@@ -82,18 +122,8 @@ const ReportPage = () => {
               <CustomTable
                 className="mt-6"
                 columns={columns}
-                dataSource={[
-                  {
-                    key: "1",
-                    id: "1333",
-                    roomNo: 32,
-                    receivedTime: "20 July 2020 at 08:00 PM",
-                    resolveTime: "-",
-                    topic: "Lorem ipsum",
-                    status: "processing",
-                    index: 1,
-                  },
-                ]}
+                loading={isLoading}
+                dataSource={reportsSelector.reports}
               />
             </TabCard>
           </TabPane>

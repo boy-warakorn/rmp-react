@@ -9,6 +9,7 @@ import { RootState } from "./stores";
 import user from "./user/slice";
 import room from "./rooms/slice";
 import account from "./accounts/slice";
+import report from "./reports/slice";
 
 const middleware = [...getDefaultMiddleware(), logger];
 
@@ -19,6 +20,7 @@ export const store = configureStore({
     user,
     room,
     account,
+    report,
   },
   middleware,
 });

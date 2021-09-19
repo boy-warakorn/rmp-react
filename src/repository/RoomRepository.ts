@@ -9,8 +9,8 @@ import {
 import { AxiosService } from "@services/axios.config";
 
 export interface RoomRepository {
-  getRooms(tab: string): Promise<RoomResponse[]> | undefined;
-  getRoom(roomNumber: string): Promise<GetRoomResponse> | undefined;
+  getRooms(tab: string): Promise<RoomResponse[] | undefined>;
+  getRoom(roomNumber: string): Promise<GetRoomResponse | undefined>;
   editRoomOwner(
     editRoomOwnerDto: EditRoomOwnerDto,
     roomNumber: string
@@ -78,7 +78,7 @@ export interface GetRoomResponse {
   status: string;
 }
 
-export const roomRepository = {
+export const roomRepository: RoomRepository = {
   async getRooms(tab: string) {
     try {
       const rooms = (

@@ -2,7 +2,7 @@ import { loginUrl } from "@configs/api";
 import { AxiosService } from "@services/axios.config";
 
 export interface AuthRepository {
-  login(loginDto: LoginDto): Promise<void> | undefined;
+  login(loginDto: LoginDto): Promise<void | undefined>;
 }
 
 export interface LoginDto {
@@ -14,7 +14,7 @@ interface LoginResponse {
   token: string;
 }
 
-export const authRepository = {
+export const authRepository: AuthRepository = {
   async login(loginDto: LoginDto) {
     const result = await AxiosService.post<LoginResponse>(loginUrl, loginDto);
     localStorage.setItem("token", result.data.token);

@@ -42,7 +42,7 @@ export const generalRoutes = [
     title: "Room Management",
     path: "/rooms",
     icon: <ApartmentOutlined />,
-    permissions: ADMIN,
+    permissions: ALL,
   },
   {
     title: "Resident’s packages",
@@ -94,16 +94,16 @@ export const settingsRoutes = [
 
 export const routes = [
   { path: "/home", component: HomePage, permissions: ALL },
-  { path: "/rooms", component: RoomPage, permissions: ADMIN },
-  { path: "/rooms/add", component: AddRoomPage, permissions: ADMIN },
-  { path: "/rooms/:id/edit", component: AddRoomPage, permissions: ADMIN },
-  { path: "/rooms/:id/owner/add", component: AddOwnerPage, permissions: ADMIN },
+  { path: "/rooms", component: RoomPage, permissions: ALL },
+  { path: "/rooms/add", component: AddRoomPage, permissions: ALL },
+  { path: "/rooms/:id/edit", component: AddRoomPage, permissions: ALL },
+  { path: "/rooms/:id/owner/add", component: AddOwnerPage, permissions: ALL },
   {
     path: "/rooms/:id/owner/edit",
     component: AddOwnerPage,
-    permissions: ADMIN,
+    permissions: ALL,
   },
-  { path: "/rooms/:id", component: RoomDetailPage, permissions: ADMIN },
+  { path: "/rooms/:id", component: RoomDetailPage, permissions: ALL },
   { path: "/payments", component: PaymentPage, permissions: PERSONNEL },
   { path: "/payments/add", component: AddPaymentPage, permissions: PERSONNEL },
   { path: "/packages", component: PackagePage, permissions: PERSONNEL },

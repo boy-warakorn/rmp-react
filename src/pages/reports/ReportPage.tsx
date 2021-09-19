@@ -8,6 +8,13 @@ import OutlineButton from "@components/global/OutlineButton";
 
 const { TabPane } = Tabs;
 
+const tabList = [
+  { key: "-", title: "All" },
+  { key: "pending", title: "Pending" },
+  { key: "responded", title: "Responded" },
+  { key: "resolved", title: "Resolved" },
+];
+
 const ReportPage = () => {
   const history = useHistory();
 
@@ -36,7 +43,18 @@ const ReportPage = () => {
       title: "Status",
       width: 50,
       dataIndex: "status",
-      render: (value: any) => <Badge status={value} text={value} />,
+      render: (value: any) => (
+        <Badge
+          status={
+            value === "pending"
+              ? "processing"
+              : value === "responded"
+              ? "default"
+              : "success"
+          }
+          text={value}
+        />
+      ),
     },
     {
       title: "Manage",
@@ -57,69 +75,29 @@ const ReportPage = () => {
   return (
     <div className="col-span-12 mt-3">
       <CustomTabs>
-        <TabPane tab="All" key="1">
-          <TabCard>
-            <HeaderTable title="All Reports" />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                {
-                  key: "1",
-                  id: "1333",
-                  roomNo: 32,
-                  receivedTime: "20 July 2020 at 08:00 PM",
-                  resolveTime: "-",
-                  topic: "Lorem ipsum",
-                  status: "processing",
-                  index: 1,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
-        <TabPane tab="Waiting" key="2">
-          <TabCard>
-            <HeaderTable title="All Waiting Reports" />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                {
-                  key: "1",
-                  id: "1333",
-                  roomNo: 32,
-                  receivedTime: "20 July 2020 at 08:00 PM",
-                  resolveTime: "-",
-                  topic: "Lorem ipsum",
-                  status: "processing",
-                  index: 1,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
-        <TabPane tab="Resolved" key="3">
-          <TabCard>
-            <HeaderTable title="All Resolved Report" />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                {
-                  key: "1",
-                  id: "1333",
-                  roomNo: 32,
-                  receivedTime: "20 July 2020 at 08:00 PM",
-                  resolveTime: "-",
-                  topic: "Lorem ipsum",
-                  status: "processing",
-                  index: 1,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
+        {tabList.map((tab) => (
+          <TabPane tab={tab.title} key={tab.key}>
+            <TabCard>
+              <HeaderTable title={`${tab.title} Reports`} />
+              <CustomTable
+                className="mt-6"
+                columns={columns}
+                dataSource={[
+                  {
+                    key: "1",
+                    id: "1333",
+                    roomNo: 32,
+                    receivedTime: "20 July 2020 at 08:00 PM",
+                    resolveTime: "-",
+                    topic: "Lorem ipsum",
+                    status: "processing",
+                    index: 1,
+                  },
+                ]}
+              />
+            </TabCard>
+          </TabPane>
+        ))}
       </CustomTabs>
     </div>
   );

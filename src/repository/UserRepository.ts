@@ -2,7 +2,7 @@ import { getCurrentUserUrl } from "@configs/api";
 import { AxiosService } from "@services/axios.config";
 
 export interface UserRepository {
-  getCurrentUser(): Promise<GetCurrentUserResponse> | undefined;
+  getCurrentUser(): Promise<GetCurrentUserResponse | undefined>;
 }
 
 interface GetCurrentUserResponse {
@@ -10,7 +10,7 @@ interface GetCurrentUserResponse {
   profile: { name: string; role: string };
 }
 
-export const userRepository = {
+export const userRepository: UserRepository = {
   async getCurrentUser() {
     try {
       const user = (

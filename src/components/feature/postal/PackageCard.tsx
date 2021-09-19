@@ -65,21 +65,18 @@ const PackageCard = ({ isDelivered }: PackageCardProps) => {
           />
         </div>
       </div>
-
       <div
-        className={`py-6 px-4 mt-9  rounded-b-lg ${
-          isDelivered ? "bg-success py-8" : "bg-grey-card"
+        className={`py-6 px-2 mt-9  rounded-b-lg ${
+          isDelivered ? "bg-success py-8" : "bg-grey-card "
         } flex items-center justify-between`}
       >
         <SubtitleText2 className="font-montserratBold text-black">
-          Arrived:{" "}
-          <span className="font-roboto">20 December 2020 - 08:00 PM</span>
+          Arrived: <span className="font-roboto">2020-07-01 08:00 PM</span>
         </SubtitleText2>
         {isDelivered && <RightOutlined />}
         {isDelivered ? (
           <SubtitleText2 className="font-montserratBold text-black">
-            Delivered:{" "}
-            <span className="font-roboto">20 December 2020 - 08:00 PM</span>
+            Delivered: <span className="font-roboto">2020-07-01 08:00PM</span>
           </SubtitleText2>
         ) : (
           <Button color="primary" className="font-roboto text-sm">

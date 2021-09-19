@@ -153,11 +153,7 @@ const RoomDetail = () => {
               buttonTitle="New package"
               onClick={() => history.push("/packages/add")}
             />
-            <div className="mt-6 grid grid-cols-6 gap-6">
-              <PackageCard />
-              <PackageCard />
-              <PackageCard isDelivered />
-            </div>
+            <div className="mt-6 grid grid-cols-6 gap-6"></div>
           </TabCard>
         </TabPane>
         <TabPane tab="Payments" key="2">

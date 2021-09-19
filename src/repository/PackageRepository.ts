@@ -59,9 +59,9 @@ export const packageRepository: PackageRepository = {
       ).data.packages;
 
       const formattedPackages = Array.from(
-        { length: Math.ceil(result.length / 4) },
+        { length: Math.ceil(result.length / 8) },
         (_, i) => {
-          return result.slice(i * 4, i * 4 + 4);
+          return result.slice(i * 8, i * 8 + 8);
         }
       );
 

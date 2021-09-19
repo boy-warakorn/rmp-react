@@ -40,3 +40,16 @@ export const replyReportUrl = (reportId: string) =>
   `${baseReportUrl}/${reportId}/reply`;
 export const resolveReportUrl = (reportId: string) =>
   `${baseReportUrl}/${reportId}/resolve`;
+
+// package
+const basePackageUrl = "/packages";
+export const getPackagesUrl = basePackageUrl;
+export const createPackageUrl = basePackageUrl;
+export const getPackageUrl = (packageId: string) =>
+  `${basePackageUrl}/${packageId}`;
+export const updatePackageUrl = (packageId: string) =>
+  `${basePackageUrl}/${packageId}/update`;
+export const deletePackageUrl = (packageId: string) =>
+  `${basePackageUrl}/${packageId}/delete`;
+export const confirmPackageUrl = (packageId: string) =>
+  `${basePackageUrl}/${packageId}/confirm`;

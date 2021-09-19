@@ -113,7 +113,7 @@ const AddAccountPage = () => {
             <Form.Item
               className="col-span-2"
               name={["email"]}
-              rules={[{ required: true }]}
+              rules={[{ type: "email" }]}
             >
               <TextInput title="Email" disabled={isEdit} />
             </Form.Item>
@@ -162,14 +162,14 @@ const AddAccountPage = () => {
             <Form.Item
               className="col-span-2 mt-6"
               name={["phoneNumber"]}
-              rules={[{ required: true }]}
+              rules={[{ pattern: RegExp("^[0][0-9]{9}$") }]}
             >
               <TextInput title="Phone number" />
             </Form.Item>
             <Form.Item
               className="col-span-2 mt-6"
               name={["citizenNumber"]}
-              rules={[{ required: true }]}
+              rules={[{ pattern: RegExp("^[0-9]{13}$") }]}
             >
               <TextInput title="Citizen number" />
             </Form.Item>

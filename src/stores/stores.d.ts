@@ -1,5 +1,5 @@
 import { Account, AccountDetail } from "./accounts/slice";
-import { Report } from "./reports/slice";
+import { Report, ReportDetail } from "./reports/slice";
 import { Room, RoomDetail } from "./rooms/slice";
 
 export type UserState = {
@@ -20,6 +20,7 @@ export type AccountState = {
 
 export type ReportState = {
   reports: Report[];
+  currentReport: ReportDetail;
 };
 
 export type RootState = {

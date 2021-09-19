@@ -39,4 +39,4 @@ export const getReportUrl = (reportId: string) =>
 export const replyReportUrl = (reportId: string) =>
   `${baseReportUrl}/${reportId}/reply`;
 export const resolveReportUrl = (reportId: string) =>
-  `${baseReportUrl}/${reportId}/reply`;
+  `${baseReportUrl}/${reportId}/resolve`;

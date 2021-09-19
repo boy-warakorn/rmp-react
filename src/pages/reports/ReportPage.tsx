@@ -87,9 +87,9 @@ const ReportPage = () => {
         <Badge
           status={
             value === "pending"
-              ? "processing"
+              ? "warning"
               : value === "responded"
-              ? "default"
+              ? "processing"
               : "success"
           }
           text={value}

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+  GetReportResponse,
   GetReportsResponse,
   ReportResponse,
 } from "@repository/ReportRepository";
@@ -7,12 +8,15 @@ import { ReportState } from "@stores/stores";
 
 const initialState: ReportState = {
   reports: [] as Report[],
+  currentReport: {} as ReportDetail,
 };
 
 export interface Report extends ReportResponse {
   key: string;
   index: number;
 }
+
+export interface ReportDetail extends GetReportResponse {}
 
 const slice = createSlice({
   name: "report",
@@ -34,8 +38,11 @@ const slice = createSlice({
         status: report.status,
       }));
     },
+    setReport(state, action: PayloadAction<GetReportResponse>) {
+      state.currentReport = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
-export const { setReports } = slice.actions;
+export const { setReports, setReport } = slice.actions;

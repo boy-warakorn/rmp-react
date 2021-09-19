@@ -1,9 +1,11 @@
 import { Account, AccountDetail } from "./accounts/slice";
+import { Report, ReportDetail } from "./reports/slice";
 import { Room, RoomDetail } from "./rooms/slice";
 
 export type UserState = {
   name: string;
   businessName: string;
+  role: string;
 };
 
 export type RoomState = {
@@ -16,8 +18,14 @@ export type AccountState = {
   currentAccount: AccountDetail;
 };
 
+export type ReportState = {
+  reports: Report[];
+  currentReport: ReportDetail;
+};
+
 export type RootState = {
   user: UserState;
   room: RoomState;
   account: AccountState;
+  report: ReportState;
 };

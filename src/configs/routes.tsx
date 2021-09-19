@@ -27,43 +27,54 @@ import AccountPage from "@pages/accounts/AccountPage";
 import AddAccountPage from "@pages/accounts/crud/AddAccountPage";
 import AccountDetailPage from "@pages/accounts/AccountDetailPage";
 
+const PERSONNEL = ["personnel"];
+const ADMIN = ["admin"];
+const ALL = [...PERSONNEL, ...ADMIN];
+
 export const generalRoutes = [
   {
     title: "Home",
     path: "/home",
     icon: <HomeOutlined />,
+    permissions: ALL,
   },
   {
     title: "Room Management",
     path: "/rooms",
     icon: <ApartmentOutlined />,
+    permissions: ALL,
   },
   {
     title: "Resident’s packages",
     path: "/packages",
     icon: <CodeSandboxOutlined />,
+    permissions: PERSONNEL,
   },
   {
     title: "Reports",
     path: "/reports",
     icon: <BellOutlined />,
     notiCounts: 7,
+    permissions: PERSONNEL,
   },
   {
     title: "Contact List",
     path: "/contacts",
     icon: <ContactsOutlined />,
+    permissions: ALL,
   },
   {
     title: "Bills/Payments",
     path: "/payments",
     icon: <PayCircleOutlined />,
+    permissions: PERSONNEL,
   },
   {
     title: "Manage Accounts",
     path: "/manage-accounts",
     icon: <KeyOutlined />,
     disabled: false,
+    permissions: ADMIN,
   },
 ];
 
@@ -82,26 +93,46 @@ export const settingsRoutes = [
 ];
 
 export const routes = [
-  { path: "/home", component: HomePage },
-  { path: "/rooms", component: RoomPage },
-  { path: "/rooms/add", component: AddRoomPage },
-  { path: "/rooms/:id/edit", component: AddRoomPage },
-  { path: "/rooms/:id/owner/add", component: AddOwnerPage },
-  { path: "/rooms/:id/owner/edit", component: AddOwnerPage },
-  { path: "/rooms/:id", component: RoomDetailPage },
-  { path: "/payments", component: PaymentPage },
-  { path: "/payments/add", component: AddPaymentPage },
-  { path: "/packages", component: PackagePage },
-  { path: "/packages/add", component: AddPackagePage },
-  { path: "/packages/:id/edit", component: AddPackagePage },
-  { path: "/reports", component: ReportPage },
-  { path: "/reports/:id", component: ReportDetailPage },
-  { path: "/contacts", component: ContactPage },
-  { path: "/contacts/add", component: AddContactPage },
-  { path: "/contacts/:id", component: ContactDetailPage },
-  { path: "/contacts/:id/edit", component: AddContactPage },
-  { path: "/manage-accounts", component: AccountPage },
-  { path: "/manage-accounts/add", component: AddAccountPage },
-  { path: "/manage-accounts/:id", component: AccountDetailPage },
-  { path: "/manage-accounts/:id/edit", component: AddAccountPage },
+  { path: "/home", component: HomePage, permissions: ALL },
+  { path: "/rooms", component: RoomPage, permissions: ALL },
+  { path: "/rooms/add", component: AddRoomPage, permissions: ALL },
+  { path: "/rooms/:id/edit", component: AddRoomPage, permissions: ALL },
+  { path: "/rooms/:id/owner/add", component: AddOwnerPage, permissions: ALL },
+  {
+    path: "/rooms/:id/owner/edit",
+    component: AddOwnerPage,
+    permissions: ALL,
+  },
+  { path: "/rooms/:id", component: RoomDetailPage, permissions: ALL },
+  { path: "/payments", component: PaymentPage, permissions: PERSONNEL },
+  { path: "/payments/add", component: AddPaymentPage, permissions: PERSONNEL },
+  { path: "/packages", component: PackagePage, permissions: PERSONNEL },
+  { path: "/packages/add", component: AddPackagePage, permissions: PERSONNEL },
+  {
+    path: "/packages/:id/edit",
+    component: AddPackagePage,
+    permissions: PERSONNEL,
+  },
+  { path: "/reports", component: ReportPage, permissions: PERSONNEL },
+  { path: "/reports/:id", component: ReportDetailPage, permissions: PERSONNEL },
+  { path: "/contacts", component: ContactPage, permissions: ALL },
+  { path: "/contacts/add", component: AddContactPage, permissions: ALL },
+  { path: "/contacts/:id", component: ContactDetailPage, permissions: ALL },
+  { path: "/contacts/:id/edit", component: AddContactPage, permissions: ALL },
+  { path: "/manage-accounts", component: AccountPage, permissions: ADMIN },
+  {
+    path: "/manage-accounts/add",
+    component: AddAccountPage,
+    permissions: ADMIN,
+  },
+  {
+    path: "/manage-accounts/:id",
+    component: AccountDetailPage,
+    permissions: ADMIN,
+  },
+  {
+    path: "/manage-accounts/:id/edit",
+    component: AddAccountPage,
+    permissions: ADMIN,
+  },
 ];

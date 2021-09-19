@@ -30,3 +30,13 @@ export const addRoomOwnerUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}/owner`;
 export const editRoomOwnerUrl = addRoomOwnerUrl;
 export const deleteRoomOwnerUrl = addRoomOwnerUrl;
+
+// report
+const baseReportUrl = "/reports";
+export const getReportsUrl = baseReportUrl;
+export const getReportUrl = (reportId: string) =>
+  `${baseReportUrl}/${reportId}`;
+export const replyReportUrl = (reportId: string) =>
+  `${baseReportUrl}/${reportId}/reply`;
+export const resolveReportUrl = (reportId: string) =>
+  `${baseReportUrl}/${reportId}/resolve`;

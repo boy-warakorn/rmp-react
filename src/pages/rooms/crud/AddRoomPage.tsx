@@ -55,7 +55,6 @@ const AddRoomPage = () => {
   };
 
   const onFinish = async () => {
-    form[0].getFieldsError();
     const formValue = form[0].getFieldsValue();
     let roomDto: any = {
       roomNumber: formValue.roomNumber,

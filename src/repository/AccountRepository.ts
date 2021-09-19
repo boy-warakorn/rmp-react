@@ -7,13 +7,13 @@ import {
 import { AxiosService } from "@services/axios.config";
 
 export interface AccountRepository {
-  getAccounts(tab: string): Promise<AccountResponse[]> | undefined;
-  getAccount(userId: string): Promise<GetAccountResponse> | undefined;
-  addAccount(addAccountDto: AddAccountDto): Promise<void> | undefined;
+  getAccounts(tab: string): Promise<AccountResponse[] | undefined>;
+  getAccount(userId: string): Promise<GetAccountResponse | undefined>;
+  addAccount(addAccountDto: AddAccountDto): Promise<void | undefined>;
   editAccount(
     editAccountDto: EditAccountDto,
     id: string
-  ): Promise<void> | undefined;
+  ): Promise<void | undefined>;
 }
 
 interface GetAccountsResponse {
@@ -52,7 +52,7 @@ export interface AddAccountDto extends EditAccountDto {
   email: string;
 }
 
-export const accountRepository = {
+export const accountRepository: AccountRepository = {
   async getAccounts(tab: string) {
     try {
       const users = (

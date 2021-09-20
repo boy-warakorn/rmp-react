@@ -29,6 +29,7 @@ import { PackageRepository } from "@repository/PackageRepository";
 import { packageSelector } from "@stores/packages/selector";
 import { setPackages } from "@stores/packages/slice";
 import PackageTable from "@components/feature/postal/PackageTable";
+import { userSelector } from "@stores/user/selector";
 
 const { TabPane } = Tabs;
 
@@ -38,6 +39,7 @@ const RoomDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const room = useSelector(roomSelector);
   const postal = useSelector(packageSelector);
+  const user = useSelector(userSelector);
   const dispatch = useDispatch();
 
   const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
@@ -213,53 +215,55 @@ const RoomDetail = () => {
           />
         </div>
       </Card>
-      <CustomTabs className="col-span-12 mt-6">
-        <TabPane tab="Packages" key="1">
-          <TabCard>
-            <HeaderTable
-              title="All Packages"
-              buttonTitle="New package"
-              onClick={() => history.push("/packages/add")}
-            />
-            <PackageTable
-              content={postal.packages}
-              loading={isLoading}
-              onConfirm={onConfirmOrDeleteDelivery}
-            />
-          </TabCard>
-        </TabPane>
-        <TabPane tab="Payments" key="2">
-          <TabCard>
-            <HeaderTable
-              title="All Payments"
-              buttonTitle="New invoice"
-              onClick={() => history.push("/payments/add")}
-            />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                {
-                  key: "3",
-                  issueTime: "20 July 2020 at 08:00 PM",
-                  amount: 30000,
-                  type: "Common Charge",
-                  index: 2,
-                  isConfirm: true,
-                },
-                {
-                  key: "4",
-                  issueTime: "20 July 2020 at 08:00 PM",
-                  amount: 1500,
-                  type: "Rent",
-                  index: 3,
-                  isConfirm: false,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
-      </CustomTabs>
+      {user.role !== "admin" && (
+        <CustomTabs className="col-span-12 mt-6">
+          <TabPane tab="Packages" key="1">
+            <TabCard>
+              <HeaderTable
+                title="All Packages"
+                buttonTitle="New package"
+                onClick={() => history.push("/packages/add")}
+              />
+              <PackageTable
+                content={postal.packages}
+                loading={isLoading}
+                onConfirm={onConfirmOrDeleteDelivery}
+              />
+            </TabCard>
+          </TabPane>
+          <TabPane tab="Payments" key="2">
+            <TabCard>
+              <HeaderTable
+                title="All Payments"
+                buttonTitle="New invoice"
+                onClick={() => history.push("/payments/add")}
+              />
+              <CustomTable
+                className="mt-6"
+                columns={columns}
+                dataSource={[
+                  {
+                    key: "3",
+                    issueTime: "20 July 2020 at 08:00 PM",
+                    amount: 30000,
+                    type: "Common Charge",
+                    index: 2,
+                    isConfirm: true,
+                  },
+                  {
+                    key: "4",
+                    issueTime: "20 July 2020 at 08:00 PM",
+                    amount: 1500,
+                    type: "Rent",
+                    index: 3,
+                    isConfirm: false,
+                  },
+                ]}
+              />
+            </TabCard>
+          </TabPane>
+        </CustomTabs>
+      )}
     </Fragment>
   );
 };

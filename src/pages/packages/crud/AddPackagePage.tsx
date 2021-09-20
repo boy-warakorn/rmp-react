@@ -19,7 +19,6 @@ import dayjs, { Dayjs } from "dayjs";
 import generatePicker from "antd/lib/date-picker/generatePicker";
 import dayjsGenerateConfig from "rc-picker/lib/generate/dayjs";
 import { PackageRepository } from "@repository/PackageRepository";
-import { packageSelector } from "@stores/packages/selector";
 import { useHistory, useParams } from "react-router";
 import { setPackage } from "@stores/packages/slice";
 
@@ -35,7 +34,6 @@ const AddPackagePage = () => {
   const dispatch = useDispatch();
   const form = useForm();
   const history = useHistory();
-  const postal = useSelector(packageSelector);
   const room = useSelector(roomSelector);
   const packagesRepository = RepositoriesFactory.get(
     "package"
@@ -60,11 +58,11 @@ const AddPackagePage = () => {
       if (postalResponse) {
         dispatch(setPackage(postalResponse));
         form[0].setFieldsValue({
-          note: postal.currentPackage.note,
-          postalService: postal.currentPackage.postalService,
+          note: postalResponse.note,
+          postalService: postalResponse.postalService,
         });
-        setRoomNumber(postal.currentPackage.roomNumber);
-        setArrivedTime(dayjs(postal.currentPackage.arrivedAt));
+        setRoomNumber(postalResponse.roomNumber);
+        setArrivedTime(dayjs(postalResponse.arrivedAt));
       }
     } catch (error) {}
   };

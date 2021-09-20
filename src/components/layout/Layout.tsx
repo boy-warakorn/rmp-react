@@ -4,12 +4,11 @@ import { HeadingText3 } from "@components/global/typography/Typography";
 import Logo from "../../assets/images/rmp_logo.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
-import { Switch } from "react-router";
+import { Switch, Redirect } from "react-router";
 import HeaderBar from "@components/global/navigation/HeaderBar";
 import { generalRoutes, routes, settingsRoutes } from "@configs/routes";
 import { ErrorBoundary } from "react-error-boundary";
 import PrivateRoute from "@components/global/PrivateRoute";
-import { useHistory } from "react-router-dom";
 import { clearUser, setUser } from "@stores/user/slice";
 import { useDispatch } from "react-redux";
 import RepositoryFactory from "@repository/RepositoryFactory";
@@ -25,7 +24,6 @@ const Sider = styled.div`
 const Layout = () => {
   const usersRepository = RepositoryFactory.get("user") as UserRepository;
   const dispatch = useDispatch();
-  const history = useHistory();
   const role = localStorage.getItem("role");
 
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +56,6 @@ const Layout = () => {
     dispatch(clearUser());
     localStorage.setItem("token", "");
     localStorage.setItem("role", "");
-    history.push("/login");
   };
 
   return (
@@ -122,6 +119,7 @@ const Layout = () => {
                     />
                   ) : null
                 )}
+                <Redirect to="/home" />
                 <PrivateRoute path="/error" component={ErrorPage} exact />
               </Switch>
             )}

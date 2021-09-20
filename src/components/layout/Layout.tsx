@@ -16,6 +16,7 @@ import RepositoryFactory from "@repository/RepositoryFactory";
 import { UserRepository } from "@repository/UserRepository";
 import Loading from "@components/global/Loading";
 import ErrorPage from "@pages/ErrorPage";
+import { BackTop } from "antd";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -62,6 +63,7 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen flex">
+      <BackTop />
       <Sider className="w-sider">
         <div className="flex p-5 lg:py-9 lg:px-8 items-center">
           <img src={Logo} width="32px" alt="logo" />

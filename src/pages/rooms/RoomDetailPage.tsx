@@ -22,7 +22,9 @@ import Loading from "@components/global/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { roomSelector } from "@stores/rooms/selector";
 import { setCurrentRoom } from "@stores/rooms/slice";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { isObjectEmpty } from "@utils/isObjEmpty";
+import confirm from "antd/lib/modal/confirm";
 
 const { TabPane } = Tabs;
 
@@ -54,14 +56,28 @@ const RoomDetail = () => {
   };
 
   const onDelete = async () => {
-    setIsLoading(true);
-    await roomRepository.deleteRoomOwner(id);
-    notification.success({
-      duration: 2,
-      message: "Success",
-      description: `Delete Room owner Success`,
+    confirm({
+      title: "Do you want to delete room owner?",
+      icon: <ExclamationCircleOutlined />,
+      content: "If you confirm, Resident account will be disabled.",
+      onOk() {
+        confirmDelete();
+      },
+      width: "40vw",
     });
-    fetchCurrentRoom();
+  };
+
+  const confirmDelete = async () => {
+    try {
+      setIsLoading(true);
+      await roomRepository.deleteRoomOwner(id);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Delete Room owner Success`,
+      });
+      fetchCurrentRoom();
+    } catch (error) {}
   };
 
   const columns = [

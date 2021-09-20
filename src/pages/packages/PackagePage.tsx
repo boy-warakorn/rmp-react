@@ -1,4 +1,4 @@
-import PackageTable from "@components/feature/package/PackageTable";
+import PackageTable from "@components/feature/postal/PackageTable";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import HeaderTable from "@components/global/table/HeaderTable";
 import { PackageRepository } from "@repository/PackageRepository";
@@ -6,9 +6,11 @@ import RepositoriesFactory from "@repository/RepositoryFactory";
 import { packageSelector } from "@stores/packages/selector";
 import { setPackages } from "@stores/packages/slice";
 import { Tabs, notification } from "antd";
+import confirm from "antd/lib/modal/confirm";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const { TabPane } = Tabs;
 
@@ -53,16 +55,36 @@ const PackagePage = () => {
 
   const onConfirmOrDeleteDelivery = async (id: string, isConfirm: boolean) => {
     try {
-      setIsLoading(true);
       if (isConfirm) {
+        setIsLoading(true);
         await packageRepository.confirmPackage(id);
+        notification.success({
+          duration: 2,
+          message: "Success",
+          description: `${isConfirm ? "Confirm" : "Delete"} delivery Success`,
+        });
+        fetchPackages();
       } else {
-        await packageRepository.deletePackage(id);
+        confirm({
+          title: "Do you want to delete this package?",
+          icon: <ExclamationCircleOutlined />,
+          onOk() {
+            confirmDelete(id);
+          },
+          width: "40vw",
+        });
       }
+    } catch (error) {}
+  };
+
+  const confirmDelete = async (id: string) => {
+    try {
+      setIsLoading(true);
+      await packageRepository.deletePackage(id);
       notification.success({
         duration: 2,
         message: "Success",
-        description: `${isConfirm ? "Confirm" : "Delete"} Delivery Success`,
+        description: `Delete delivery Success`,
       });
       fetchPackages();
     } catch (error) {}

@@ -1,7 +1,7 @@
 import { Package } from "@repository/PackageRepository";
 import { Empty, Pagination, Spin } from "antd";
 import React, { Fragment, useState } from "react";
-import PackageCard from "../postal/PackageCard";
+import PackageCard from "./PackageCard";
 
 export interface PackageTableProps {
   content: {

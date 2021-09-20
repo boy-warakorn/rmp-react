@@ -6,7 +6,7 @@ import {
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
-import { Select, Form } from "antd";
+import { Select, Form, notification } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -91,6 +91,11 @@ const AddAccountPage = () => {
         roomDto.username = formValue.username;
         await accountsRepository.addAccount(roomDto);
       }
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `${isEdit ? "Edit" : "Add"} account Success`,
+      });
       history.goBack();
     } catch (error) {
     } finally {

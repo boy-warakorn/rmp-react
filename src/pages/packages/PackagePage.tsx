@@ -5,7 +5,7 @@ import { PackageRepository } from "@repository/PackageRepository";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { packageSelector } from "@stores/packages/selector";
 import { setPackages } from "@stores/packages/slice";
-import { Tabs } from "antd";
+import { Tabs, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -51,10 +51,19 @@ const PackagePage = () => {
     }
   };
 
-  const onConfirmDelivery = async (id: string) => {
+  const onConfirmOrDeleteDelivery = async (id: string, isConfirm: boolean) => {
     try {
       setIsLoading(true);
-      await packageRepository.confirmPackage(id);
+      if (isConfirm) {
+        await packageRepository.confirmPackage(id);
+      } else {
+        await packageRepository.deletePackage(id);
+      }
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `${isConfirm ? "Confirm" : "Delete"} Delivery Success`,
+      });
       fetchPackages();
     } catch (error) {}
   };
@@ -73,7 +82,7 @@ const PackagePage = () => {
               <PackageTable
                 content={postal.packages}
                 loading={isLoading}
-                onConfirm={onConfirmDelivery}
+                onConfirm={onConfirmOrDeleteDelivery}
               />
             </TabCard>
           </TabPane>

@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 
 interface PackageCardProps {
   postal: Package;
-  onConfirm(id: string): void;
+  onConfirm(id: string, isConfirm: boolean): void;
 }
 
 const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
@@ -63,6 +63,7 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
             onClick={() => history.push(`/packages/${postal.id}/edit`)}
           />
           <DeleteOutlined
+            onClick={() => onConfirm(postal.id, false)}
             style={{ fontSize: "18px", color: "#FF0707" }}
             className="ml-3 cursor-pointer"
           />
@@ -92,7 +93,7 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
           <Button
             color="primary"
             className="font-roboto text-sm"
-            onClick={() => onConfirm(postal.id)}
+            onClick={() => onConfirm(postal.id, true)}
           >
             Confirm Delivery
           </Button>

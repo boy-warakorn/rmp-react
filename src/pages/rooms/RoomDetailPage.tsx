@@ -12,7 +12,7 @@ import { useHistory, useParams } from "react-router";
 import RoomDetailSection from "@components/feature/room/RoomDetailSection";
 import TextButton from "@components/global/TextButton";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
-import { Tabs } from "antd";
+import { notification, Tabs } from "antd";
 import HeaderTable from "@components/global/table/HeaderTable";
 import CustomTable from "@components/global/table/Table";
 import OutlineButton from "@components/global/OutlineButton";
@@ -56,6 +56,11 @@ const RoomDetail = () => {
   const onDelete = async () => {
     setIsLoading(true);
     await roomRepository.deleteRoomOwner(id);
+    notification.success({
+      duration: 2,
+      message: "Success",
+      description: `Delete Room owner Success`,
+    });
     fetchCurrentRoom();
   };
 

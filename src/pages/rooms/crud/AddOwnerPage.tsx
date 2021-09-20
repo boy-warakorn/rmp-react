@@ -1,7 +1,7 @@
 import Card, { FormCard } from "@components/global/Card";
 import TextInput from "@components/global/form/TextInput";
 import Button from "@components/global/Button";
-import { Form } from "antd";
+import { Form, notification } from "antd";
 import {
   BodyText1,
   HeadingText3,
@@ -53,6 +53,11 @@ const AddOwnerPage = () => {
         ownerDto.email = formValue.email;
         await roomRepository.addRoomOwner(ownerDto, id);
       }
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `${isEdit ? "Edit" : "Add"} Room owner Success`,
+      });
       history.goBack();
     } catch (error) {
       setIsLoading(false);

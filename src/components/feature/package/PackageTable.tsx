@@ -9,7 +9,7 @@ export interface PackageTableProps {
     total: number;
   };
   loading: boolean;
-  onConfirm(id: string): void;
+  onConfirm(id: string, isConfirm: boolean): void;
 }
 
 const PackageTable = ({ content, loading, onConfirm }: PackageTableProps) => {

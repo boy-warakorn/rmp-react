@@ -5,7 +5,7 @@ import {
 } from "@components/global/typography/Typography";
 import Card, { FormCard } from "@components/global/Card";
 import Button from "@components/global/Button";
-import { Select } from "antd";
+import { notification, Select } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import TextInput from "@components/global/form/TextInput";
 import { useHistory, useParams } from "react-router";
@@ -32,7 +32,6 @@ const AddRoomPage = () => {
       setIsEdit(true);
       fetchRoomDetail();
     }
-
     form[0].setFieldsValue({
       type: "2 bed, 1 bath",
       unit: "sqrms.",
@@ -71,6 +70,11 @@ const AddRoomPage = () => {
       } else {
         await roomRepository.addRoom(roomDto);
       }
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `${isEdit ? "Edit" : "Add"} Room  Success`,
+      });
       history.goBack();
     } catch (error) {
       setIsLoading(false);

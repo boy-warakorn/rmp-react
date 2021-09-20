@@ -15,7 +15,7 @@ import { ReplyReportDto, ReportRepository } from "@repository/ReportRepository";
 import { reportSelector } from "@stores/reports/selector";
 import { setReport } from "@stores/reports/slice";
 import Loading from "@components/global/Loading";
-import { Form } from "antd";
+import { Form, notification } from "antd";
 import dayjs from "dayjs";
 import { useForm } from "antd/lib/form/Form";
 import { isObjectEmpty } from "@utils/isObjEmpty";
@@ -44,6 +44,11 @@ const ReportDetailPage = () => {
     try {
       setIsLoading(true);
       await reportsRepository.replyReport(id, replyDto);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Reply report Success`,
+      });
       history.goBack();
     } catch (error) {
     } finally {
@@ -68,6 +73,11 @@ const ReportDetailPage = () => {
     try {
       setIsLoading(true);
       await reportsRepository.resolveReport(id);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Resolve report Success`,
+      });
       history.goBack();
     } catch (error) {
     } finally {

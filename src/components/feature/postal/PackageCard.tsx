@@ -10,12 +10,15 @@ import {
 import { SubtitleText2 } from "@components/global/typography/Typography";
 import Button from "@components/global/Button";
 import { useHistory } from "react-router";
+import { Package } from "@repository/PackageRepository";
+import dayjs from "dayjs";
 
 interface PackageCardProps {
-  isDelivered?: boolean;
+  postal: Package;
+  onConfirm(id: string, isConfirm: boolean): void;
 }
 
-const PackageCard = ({ isDelivered }: PackageCardProps) => {
+const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
   const history = useHistory();
 
   const renderCardHeader = (
@@ -42,47 +45,56 @@ const PackageCard = ({ isDelivered }: PackageCardProps) => {
           {renderCardHeader(
             <UserOutlined style={{ fontSize: "18px" }} />,
             "Name:",
-            "A75",
-            "Anawat PaoYai"
+            postal.roomNumber,
+            postal.roomOwner ?? "No Owner"
           )}
           <div className="mt-3"></div>
           {renderCardHeader(
             <BookOutlined style={{ fontSize: "18px" }} />,
             "Note",
             "",
-            "This is a short note"
+            postal.note
           )}
         </div>
         <div className="self-start">
           <EditOutlined
             style={{ fontSize: "18px" }}
             className="cursor-pointer"
-            onClick={() => history.push("/packages/123/edit")}
+            onClick={() => history.push(`/packages/${postal.id}/edit`)}
           />
           <DeleteOutlined
+            onClick={() => onConfirm(postal.id, false)}
             style={{ fontSize: "18px", color: "#FF0707" }}
             className="ml-3 cursor-pointer"
           />
         </div>
       </div>
-
       <div
-        className={`py-6 px-4 mt-9  rounded-b-lg ${
-          isDelivered ? "bg-success py-8" : "bg-grey-card"
+        className={`py-6 px-2 mt-9  rounded-b-lg ${
+          postal.status === "delivered" ? "bg-success py-8" : "bg-grey-card "
         } flex items-center justify-between`}
       >
         <SubtitleText2 className="font-montserratBold text-black">
           Arrived:{" "}
-          <span className="font-roboto">20 December 2020 - 08:00 PM</span>
+          <span className="font-roboto">
+            {dayjs(postal.arrivedAt).format("YYYY-MM-DD HH:MMA")}
+          </span>
         </SubtitleText2>
-        {isDelivered && <RightOutlined />}
-        {isDelivered ? (
+        {postal.status === "delivered" && <RightOutlined />}
+        {postal.status === "delivered" ? (
           <SubtitleText2 className="font-montserratBold text-black">
             Delivered:{" "}
-            <span className="font-roboto">20 December 2020 - 08:00 PM</span>
+            <span className="font-roboto">
+              {" "}
+              {dayjs(postal.deliveredAt).format("YYYY-MM-DD HH:MMA")}
+            </span>
           </SubtitleText2>
         ) : (
-          <Button color="primary" className="font-roboto text-sm">
+          <Button
+            color="primary"
+            className="font-roboto text-sm"
+            onClick={() => onConfirm(postal.id, true)}
+          >
             Confirm Delivery
           </Button>
         )}

@@ -16,6 +16,7 @@ export const userRepository: UserRepository = {
       const user = (
         await AxiosService.get<GetCurrentUserResponse>(getCurrentUserUrl)
       ).data;
+      localStorage.setItem("role", user.profile.role);
       return user;
     } catch (error) {
       localStorage.setItem("token", "");

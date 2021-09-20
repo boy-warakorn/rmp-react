@@ -1,13 +1,11 @@
 import Card, { FormCard } from "@components/global/Card";
 import TextInput from "@components/global/form/TextInput";
 import Button from "@components/global/Button";
-import { Form } from "antd";
+import { Form, notification } from "antd";
 import {
-  BodyText1,
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
-import { DatePicker } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { roomSelector } from "@stores/rooms/selector";
@@ -15,8 +13,6 @@ import { useSelector } from "react-redux";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { RoomRepository } from "@repository/RoomRepository";
 import Loading from "@components/global/Loading";
-
-const { RangePicker } = DatePicker;
 
 const AddOwnerPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +49,11 @@ const AddOwnerPage = () => {
         ownerDto.email = formValue.email;
         await roomRepository.addRoomOwner(ownerDto, id);
       }
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `${isEdit ? "Edit" : "Add"} Room owner Success`,
+      });
       history.goBack();
     } catch (error) {
       setIsLoading(false);
@@ -120,7 +121,7 @@ const AddOwnerPage = () => {
               <TextInput title="Citizen ID Number" />
             </Form.Item>
           </FormCard>
-          <HeadingText4 className="mt-9">Contract Information</HeadingText4>
+          {/* <HeadingText4 className="mt-9">Contract Information</HeadingText4>
           <FormCard className="grid grid-cols-6 gap-x-4 mt-4">
             <div className="col-span-2 flex flex-col">
               <BodyText1 className="font-bold mb-2">
@@ -128,7 +129,7 @@ const AddOwnerPage = () => {
               </BodyText1>
               <RangePicker />
             </div>
-          </FormCard>
+          </FormCard> */}
           <div className="flex justify-end mt-9">
             <Button
               color="primary"

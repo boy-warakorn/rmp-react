@@ -23,7 +23,7 @@ const tabList = [
 const RoomPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const roomsSelector = useSelector(roomSelector);
+  const room = useSelector(roomSelector);
   const roomRepository = RepositoryFactory.get("room") as RoomRepository;
 
   const [currentTabKey, setCurrentTabKey] = useState("-");
@@ -123,7 +123,7 @@ const RoomPage = () => {
                 loading={isLoading}
                 className="mt-6"
                 columns={columns}
-                dataSource={roomsSelector.rooms}
+                dataSource={room.rooms}
               />
             </TabCard>
           </TabPane>

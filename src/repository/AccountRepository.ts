@@ -63,7 +63,9 @@ export const accountRepository: AccountRepository = {
         })
       ).data.users;
       return users;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async getAccount(userId: string) {
     try {
@@ -71,16 +73,22 @@ export const accountRepository: AccountRepository = {
         await AxiosService.get<GetAccountResponse>(getAccountUrl(userId))
       ).data;
       return user;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async addAccount(addAccountDto: AddAccountDto) {
     try {
       await AxiosService.post(addAccountUrl, addAccountDto);
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async editAccount(editAccountDto: EditAccountDto, id: string) {
     try {
       await AxiosService.post(updateAccountUrl(id), editAccountDto);
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
 };

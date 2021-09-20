@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SiderButton from "@components/global/navigation/SiderButton";
 import { HeadingText3 } from "@components/global/typography/Typography";
 import Logo from "../../assets/images/rmp_logo.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
-import { Redirect, Switch } from "react-router";
+import { Switch } from "react-router";
 import HeaderBar from "@components/global/navigation/HeaderBar";
 import { generalRoutes, routes, settingsRoutes } from "@configs/routes";
-
+import { ErrorBoundary } from "react-error-boundary";
 import PrivateRoute from "@components/global/PrivateRoute";
 import { useHistory } from "react-router-dom";
 import { clearUser, setUser } from "@stores/user/slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import RepositoryFactory from "@repository/RepositoryFactory";
 import { UserRepository } from "@repository/UserRepository";
-import { userSelector } from "@stores/user/selector";
+import Loading from "@components/global/Loading";
+import ErrorPage from "@pages/ErrorPage";
+import { BackTop } from "antd";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -24,7 +26,9 @@ const Layout = () => {
   const usersRepository = RepositoryFactory.get("user") as UserRepository;
   const dispatch = useDispatch();
   const history = useHistory();
-  const usersSelector = useSelector(userSelector);
+  const role = localStorage.getItem("role");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchUser();
@@ -32,26 +36,34 @@ const Layout = () => {
   }, []);
 
   const fetchUser = async () => {
-    const user = await usersRepository.getCurrentUser();
-    if (user) {
-      dispatch(
-        setUser({
-          businessName: user?.businessName,
-          name: user?.profile.name,
-          role: user?.profile.role,
-        })
-      );
+    try {
+      setIsLoading(true);
+      const user = await usersRepository.getCurrentUser();
+      if (user) {
+        dispatch(
+          setUser({
+            businessName: user?.businessName,
+            name: user?.profile.name,
+            role: user?.profile.role,
+          })
+        );
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const logout = async () => {
     dispatch(clearUser());
     localStorage.setItem("token", "");
+    localStorage.setItem("role", "");
     history.push("/login");
   };
 
   return (
     <div className="min-h-screen flex">
+      <BackTop />
       <Sider className="w-sider">
         <div className="flex p-5 lg:py-9 lg:px-8 items-center">
           <img src={Logo} width="32px" alt="logo" />
@@ -61,7 +73,7 @@ const Layout = () => {
         </div>
         {generalRoutes.map(
           ({ title, path, icon, notiCounts, disabled, permissions }, index) =>
-            permissions.includes(usersSelector?.role) ? (
+            permissions.includes(role!) ? (
               <SiderButton
                 title={title}
                 path={path}
@@ -93,22 +105,28 @@ const Layout = () => {
         className="py-4 px-6 lg:py-9 lg:px-14 bg-background flex-1 min-h-screen"
         id="content"
       >
-        <div className="grid grid-cols-12 gap-x-6">
-          <HeaderBar />
-          <Switch>
-            {routes.map((route, index) =>
-              route.permissions.includes(usersSelector?.role) ? (
-                <PrivateRoute
-                  key={`routes${index}`}
-                  path={route.path}
-                  component={route.component}
-                  exact
-                />
-              ) : null
+        <ErrorBoundary FallbackComponent={ErrorPage}>
+          <div className="grid grid-cols-12 gap-x-6">
+            <HeaderBar />
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <Switch>
+                {routes.map((route, index) =>
+                  route.permissions.includes(role!) ? (
+                    <PrivateRoute
+                      key={`routes${index}`}
+                      path={route.path}
+                      component={route.component}
+                      exact
+                    />
+                  ) : null
+                )}
+                <PrivateRoute path="/error" component={ErrorPage} exact />
+              </Switch>
             )}
-            <Redirect to="/home" />
-          </Switch>
-        </div>
+          </div>
+        </ErrorBoundary>
       </div>
     </div>
   );

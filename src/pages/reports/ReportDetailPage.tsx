@@ -15,9 +15,10 @@ import { ReplyReportDto, ReportRepository } from "@repository/ReportRepository";
 import { reportSelector } from "@stores/reports/selector";
 import { setReport } from "@stores/reports/slice";
 import Loading from "@components/global/Loading";
-import { Form } from "antd";
+import { Form, notification } from "antd";
 import dayjs from "dayjs";
 import { useForm } from "antd/lib/form/Form";
+import { isObjectEmpty } from "@utils/isObjEmpty";
 
 const ReportDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,7 +28,7 @@ const ReportDetailPage = () => {
   const reportsRepository = RepositoriesFactory.get(
     "report"
   ) as ReportRepository;
-  const reportsSelector = useSelector(reportSelector);
+  const report = useSelector(reportSelector);
   const form = useForm();
 
   useEffect(() => {
@@ -43,6 +44,11 @@ const ReportDetailPage = () => {
     try {
       setIsLoading(true);
       await reportsRepository.replyReport(id, replyDto);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Reply report Success`,
+      });
       history.goBack();
     } catch (error) {
     } finally {
@@ -53,9 +59,9 @@ const ReportDetailPage = () => {
   const fetchReport = async () => {
     try {
       setIsLoading(true);
-      const report = await reportsRepository.getReport(id);
-      if (report) {
-        dispatch(setReport(report));
+      const reportResponse = await reportsRepository.getReport(id);
+      if (reportResponse) {
+        dispatch(setReport(reportResponse));
       }
     } catch (error) {
     } finally {
@@ -65,9 +71,13 @@ const ReportDetailPage = () => {
 
   const onResolveReport = async () => {
     try {
-      console.log("triggered :>> ");
       setIsLoading(true);
       await reportsRepository.resolveReport(id);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Resolve report Success`,
+      });
       history.goBack();
     } catch (error) {
     } finally {
@@ -75,7 +85,7 @@ const ReportDetailPage = () => {
     }
   };
 
-  return isLoading ? (
+  return isLoading || isObjectEmpty(report.currentReport) ? (
     <Loading />
   ) : (
     <Fragment>
@@ -85,29 +95,25 @@ const ReportDetailPage = () => {
       <Card className="col-span-12 p-9">
         <HeadingText4>
           <span className="font-bold">From Room Number: </span>
-          {reportsSelector.currentReport.roomNumber}
+          {report.currentReport.roomNumber}
         </HeadingText4>
         <FormCard className="mt-4">
           <HeadingText4>
             <span className="font-montserratBold">Title:</span>{" "}
-            {reportsSelector.currentReport.content.title}
+            {report.currentReport.content.title}
           </HeadingText4>
           <SubHeadingText1 className="font-montserratBold mt-2">
             Received:{" "}
             <span className="font-montserrat">
-              {dayjs(reportsSelector.currentReport.requestedDate).format(
-                "D-MMMM-YYYY"
-              )}
+              {dayjs(report.currentReport.requestedDate).format("D-MMMM-YYYY")}
             </span>{" "}
             at{" "}
             <span className="font-montserrat">
-              {dayjs(reportsSelector.currentReport.requestedDate).format(
-                "HH:MM A"
-              )}
+              {dayjs(report.currentReport.requestedDate).format("HH:MM A")}
             </span>
           </SubHeadingText1>
           <BodyText1 className="mt-2">
-            {reportsSelector.currentReport.content.detail}
+            {report.currentReport.content.detail}
           </BodyText1>
         </FormCard>
         <HeadingText4 className="mt-9">
@@ -115,13 +121,13 @@ const ReportDetailPage = () => {
         </HeadingText4>
         <Form form={form[0]} onFinish={onFinish}>
           <FormCard className="mt-4">
-            {reportsSelector.currentReport.status !== "pending" ? (
+            {report.currentReport.status !== "pending" ? (
               <Fragment>
                 <HeadingText4>
                   <span className="font-bold">Paragraph: </span>
                 </HeadingText4>
                 <BodyText1 className="mt-2">
-                  {reportsSelector.currentReport.content.respondDetail}
+                  {report.currentReport.content.respondDetail}
                 </BodyText1>
               </Fragment>
             ) : (
@@ -130,20 +136,18 @@ const ReportDetailPage = () => {
               </Form.Item>
             )}
           </FormCard>
-          {reportsSelector.currentReport.status !== "resolved" && (
+          {report.currentReport.status !== "resolved" && (
             <div className="flex justify-end mt-9">
               <Button
                 onClick={onResolveReport}
                 color="primary"
                 className={`px-12 font-roboto text-sm ${
-                  reportsSelector.currentReport.status === "responded"
-                    ? ""
-                    : "mr-4"
+                  report.currentReport.status === "responded" ? "" : "mr-4"
                 }`}
               >
                 Mark as Resolved
               </Button>
-              {reportsSelector.currentReport.status === "responded" ? (
+              {report.currentReport.status === "responded" ? (
                 <div></div>
               ) : (
                 <Button

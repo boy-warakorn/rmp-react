@@ -5,6 +5,7 @@ import { RoomState } from "@stores/stores";
 const initialState: RoomState = {
   rooms: [] as Room[],
   currentRoom: {} as RoomDetail,
+  roomIdList: [] as string[],
 };
 
 export interface Room {
@@ -41,8 +42,11 @@ const slice = createSlice({
     setCurrentRoom(state, action: PayloadAction<RoomDetail>) {
       state.currentRoom = action.payload;
     },
+    setRoomIDs(state, action: PayloadAction<string[]>) {
+      state.roomIdList = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
-export const { setRooms, setCurrentRoom } = slice.actions;
+export const { setRooms, setCurrentRoom, setRoomIDs } = slice.actions;

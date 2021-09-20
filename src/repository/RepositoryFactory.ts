@@ -3,6 +3,7 @@ import { AuthRepository, authRepository } from "./AuthRepository";
 import { roomRepository, RoomRepository } from "./RoomRepository";
 import { accountRepository, AccountRepository } from "./AccountRepository";
 import { ReportRepository, reportRepository } from "./ReportRepository";
+import { packageRepository, PackageRepository } from "./PackageRepository";
 
 interface Repositories {
   user: UserRepository;
@@ -10,6 +11,7 @@ interface Repositories {
   room: RoomRepository;
   account: AccountRepository;
   report: ReportRepository;
+  package: PackageRepository;
 }
 
 const repositories = {
@@ -18,6 +20,7 @@ const repositories = {
   room: roomRepository,
   account: accountRepository,
   report: reportRepository,
+  package: packageRepository,
 };
 
 const RepositoriesFactory = {

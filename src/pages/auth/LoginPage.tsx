@@ -28,7 +28,7 @@ const LoginScreen = () => {
     try {
       setIsLoading(true);
       await authRepository.login(loginDto);
-      history.push("/");
+      history.push("/home");
     } catch (error) {
     } finally {
       setIsLoading(false);

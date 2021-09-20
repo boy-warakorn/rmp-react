@@ -6,7 +6,7 @@ import {
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
-import { Select, Form } from "antd";
+import { Select, Form, notification } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +28,7 @@ const AddAccountPage = () => {
   const accountsRepository = RepositoriesFactory.get(
     "account"
   ) as AccountRepository;
-  const accountsSelector = useSelector(accountSelector);
+  const account = useSelector(accountSelector);
   const form = Form.useForm();
 
   const path = window.location.pathname.split("/")[3];
@@ -44,9 +44,9 @@ const AddAccountPage = () => {
   const fetchAccount = async () => {
     try {
       setIsLoading(true);
-      const account = await accountsRepository.getAccount(id);
-      if (account) {
-        dispatch(setAccount(account));
+      const accountResponse = await accountsRepository.getAccount(id);
+      if (accountResponse) {
+        dispatch(setAccount(accountResponse));
         const {
           currentAccount: {
             profile: {
@@ -58,7 +58,7 @@ const AddAccountPage = () => {
               phoneNumber,
             },
           },
-        } = accountsSelector;
+        } = account;
         form[0].setFieldsValue({
           name: name,
           citizenNumber: citizenNumber,
@@ -91,6 +91,11 @@ const AddAccountPage = () => {
         roomDto.username = formValue.username;
         await accountsRepository.addAccount(roomDto);
       }
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `${isEdit ? "Edit" : "Add"} account Success`,
+      });
       history.goBack();
     } catch (error) {
     } finally {
@@ -130,8 +135,7 @@ const AddAccountPage = () => {
               rules={[
                 {
                   required: isEdit
-                    ? accountsSelector.currentAccount.profile.role !==
-                      "resident"
+                    ? account.currentAccount.profile.role !== "resident"
                     : true,
                 },
               ]}
@@ -144,8 +148,7 @@ const AddAccountPage = () => {
                 <Select
                   disabled={
                     isEdit
-                      ? accountsSelector.currentAccount.profile.role ===
-                        "resident"
+                      ? account.currentAccount.profile.role === "resident"
                       : false
                   }
                   value={selectedRole}

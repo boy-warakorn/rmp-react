@@ -24,6 +24,7 @@ export const getRoomUrl = (roomNumber: string) =>
 export const addRoomUrl = baseRoomUrl;
 export const editRoomUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}/update`;
+export const getRoomIDListUrl = "/rooms/id-list";
 
 // room owner
 export const addRoomOwnerUrl = (roomNumber: string) =>
@@ -40,3 +41,16 @@ export const replyReportUrl = (reportId: string) =>
   `${baseReportUrl}/${reportId}/reply`;
 export const resolveReportUrl = (reportId: string) =>
   `${baseReportUrl}/${reportId}/resolve`;
+
+// package
+const basePackageUrl = "/packages";
+export const getPackagesUrl = basePackageUrl;
+export const createPackageUrl = basePackageUrl;
+export const getPackageUrl = (packageId: string) =>
+  `${basePackageUrl}/${packageId}`;
+export const updatePackageUrl = (packageId: string) =>
+  `${basePackageUrl}/${packageId}/update`;
+export const deletePackageUrl = (packageId: string) =>
+  `${basePackageUrl}/${packageId}/delete`;
+export const confirmPackageUrl = (packageId: string) =>
+  `${basePackageUrl}/${packageId}/confirm`;

@@ -13,6 +13,7 @@ import { accountSelector } from "@stores/accounts/selector";
 import { setAccount } from "@stores/accounts/slice";
 import Loading from "@components/global/Loading";
 import RoleTag from "@components/feature/account/RoleTag";
+import { isObjectEmpty } from "@utils/isObjEmpty";
 
 const AccountDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,7 @@ const AccountDetailPage = () => {
   const accountsRepository = RepositoriesFactory.get(
     "account"
   ) as AccountRepository;
-  const accountsSelector = useSelector(accountSelector);
+  const account = useSelector(accountSelector);
 
   useEffect(() => {
     fetchAccount();
@@ -32,9 +33,9 @@ const AccountDetailPage = () => {
   const fetchAccount = async () => {
     try {
       setIsLoading(true);
-      const account = await accountsRepository.getAccount(id);
-      if (account) {
-        dispatch(setAccount(account));
+      const accountResponse = await accountsRepository.getAccount(id);
+      if (accountResponse) {
+        dispatch(setAccount(accountResponse));
       }
     } catch (error) {
     } finally {
@@ -42,7 +43,7 @@ const AccountDetailPage = () => {
     }
   };
 
-  return isLoading ? (
+  return isLoading || isObjectEmpty(account.currentAccount) ? (
     <Loading />
   ) : (
     <Fragment>
@@ -55,40 +56,36 @@ const AccountDetailPage = () => {
             <HeadingText4 className="font-bold">Email</HeadingText4>
           </div>
           <div className="col-span-7">
-            {accountsSelector.currentAccount.profile.email}
+            {account.currentAccount.profile.email}
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Name</HeadingText4>
           </div>
           <div className="col-span-7">
-            {accountsSelector.currentAccount.profile.name}
+            {account.currentAccount.profile.name}
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Role</HeadingText4>
           </div>
           <div className="col-span-7">
-            <RoleTag
-              role={accountsSelector.currentAccount.profile.role as any}
-            />
+            <RoleTag role={account.currentAccount.profile.role as any} />
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Citizen number</HeadingText4>
           </div>
           <div className="col-span-7">
-            {accountsSelector.currentAccount.profile.citizenNumber}
+            {account.currentAccount.profile.citizenNumber}
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Phone number</HeadingText4>
           </div>
           <div className="col-span-7">
-            {accountsSelector.currentAccount.profile.phoneNumber}
+            {account.currentAccount.profile.phoneNumber}
           </div>
           <div className="col-span-1">
             <HeadingText4 className="font-bold">Created at</HeadingText4>
           </div>
-          <div className="col-span-7">
-            {accountsSelector.currentAccount.createdAt}
-          </div>
+          <div className="col-span-7">{account.currentAccount.createdAt}</div>
         </div>
         <div className="flex justify-end mt-9">
           {/* <Button color="danger" className="px-12 mr-4">

@@ -102,7 +102,7 @@ const AddPackagePage = () => {
       let packageDto: any = {
         note: formValue.note,
         postalService: formValue.postalService,
-        arrivedAt: arrivedTime.format("YYYY-MM-DD"),
+        arrivedAt: arrivedTime.format("YYYY-MM-DD HH:MM"),
       };
       if (isEdit) {
         await packagesRepository.updatePackage(id, packageDto);

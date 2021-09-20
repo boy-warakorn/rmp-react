@@ -56,7 +56,9 @@ export const reportRepository: ReportRepository = {
         })
       ).data;
       return reports;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async getReport(id: string) {
     try {
@@ -64,16 +66,22 @@ export const reportRepository: ReportRepository = {
         await AxiosService.get<GetReportResponse>(getReportUrl(id))
       ).data;
       return report;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async replyReport(id: string, replyReportDto: ReplyReportDto) {
     try {
       await AxiosService.post(replyReportUrl(id), replyReportDto);
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async resolveReport(id: string) {
     try {
       await AxiosService.post(resolveReportUrl(id));
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
 };

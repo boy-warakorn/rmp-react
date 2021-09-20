@@ -69,32 +69,44 @@ export const packageRepository: PackageRepository = {
         packages: formattedPackages,
         total: result.length,
       };
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async createPackage(createPackageDto: CreatePackageDto) {
     try {
       await AxiosService.post(createPackageUrl, createPackageDto);
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async getPackage(id: string) {
     try {
       const result = (await AxiosService.get<Package>(getPackageUrl(id))).data;
       return result;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async updatePackage(id: string, updatePackageDto: UpdatePackageDto) {
     try {
       await AxiosService.post(updatePackageUrl(id), updatePackageDto);
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async deletePackage(id: string) {
     try {
       await AxiosService.delete(deletePackageUrl(id));
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
   async confirmPackage(id: string) {
     try {
       await AxiosService.post(confirmPackageUrl(id));
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
 };

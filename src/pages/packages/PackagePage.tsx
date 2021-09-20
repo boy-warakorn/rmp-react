@@ -1,6 +1,5 @@
 import PackageTable from "@components/feature/package/PackageTable";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
-import Loading from "@components/global/Loading";
 import HeaderTable from "@components/global/table/HeaderTable";
 import { PackageRepository } from "@repository/PackageRepository";
 import RepositoriesFactory from "@repository/RepositoryFactory";

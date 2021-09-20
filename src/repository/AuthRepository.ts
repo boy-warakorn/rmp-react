@@ -16,7 +16,11 @@ interface LoginResponse {
 
 export const authRepository: AuthRepository = {
   async login(loginDto: LoginDto) {
-    const result = await AxiosService.post<LoginResponse>(loginUrl, loginDto);
-    localStorage.setItem("token", result.data.token);
+    try {
+      const result = await AxiosService.post<LoginResponse>(loginUrl, loginDto);
+      localStorage.setItem("token", result.data.token);
+    } catch (error) {
+      throw error;
+    }
   },
 };

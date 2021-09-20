@@ -58,6 +58,7 @@ const ReportDetailPage = () => {
         dispatch(setReport(report));
       }
     } catch (error) {
+      console.log("error :>> ", error);
     } finally {
       setIsLoading(false);
     }

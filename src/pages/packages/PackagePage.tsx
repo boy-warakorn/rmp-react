@@ -74,7 +74,9 @@ const PackagePage = () => {
           width: "40vw",
         });
       }
-    } catch (error) {}
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   const confirmDelete = async (id: string) => {
@@ -87,7 +89,9 @@ const PackagePage = () => {
         description: `Delete delivery Success`,
       });
       fetchPackages();
-    } catch (error) {}
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   return (

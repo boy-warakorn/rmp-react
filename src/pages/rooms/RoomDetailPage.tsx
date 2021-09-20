@@ -89,7 +89,65 @@ const RoomDetail = () => {
         description: `Delete Room owner Success`,
       });
       fetchCurrentRoom();
-    } catch (error) {}
+    } catch (error) {
+      setIsLoading(false);
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `Can't delete because this room currently have package and payment.`,
+      });
+    }
+  };
+
+  const confirmDeletePackage = async (id: string) => {
+    try {
+      setIsLoading(true);
+      await packageRepository.deletePackage(id);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Delete delivery Success`,
+      });
+      fetchCurrentRoom();
+    } catch (error) {
+      setIsLoading(false);
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `${error}`,
+      });
+    }
+  };
+
+  const onConfirmOrDeleteDelivery = async (id: string, isConfirm: boolean) => {
+    try {
+      if (isConfirm) {
+        setIsLoading(true);
+        await packageRepository.confirmPackage(id);
+        notification.success({
+          duration: 2,
+          message: "Success",
+          description: `${isConfirm ? "Confirm" : "Delete"} delivery Success`,
+        });
+        fetchCurrentRoom();
+      } else {
+        confirm({
+          title: "Do you want to delete this package?",
+          icon: <ExclamationCircleOutlined />,
+          onOk() {
+            confirmDeletePackage(id);
+          },
+          width: "40vw",
+        });
+      }
+    } catch (error) {
+      setIsLoading(false);
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `${error}`,
+      });
+    }
   };
 
   const columns = [
@@ -130,43 +188,6 @@ const RoomDetail = () => {
       ),
     },
   ] as any;
-
-  const confirmDeletePackage = async (id: string) => {
-    try {
-      setIsLoading(true);
-      await packageRepository.deletePackage(id);
-      notification.success({
-        duration: 2,
-        message: "Success",
-        description: `Delete delivery Success`,
-      });
-      fetchCurrentRoom();
-    } catch (error) {}
-  };
-
-  const onConfirmOrDeleteDelivery = async (id: string, isConfirm: boolean) => {
-    try {
-      if (isConfirm) {
-        setIsLoading(true);
-        await packageRepository.confirmPackage(id);
-        notification.success({
-          duration: 2,
-          message: "Success",
-          description: `${isConfirm ? "Confirm" : "Delete"} delivery Success`,
-        });
-        fetchCurrentRoom();
-      } else {
-        confirm({
-          title: "Do you want to delete this package?",
-          icon: <ExclamationCircleOutlined />,
-          onOk() {
-            confirmDeletePackage(id);
-          },
-          width: "40vw",
-        });
-      }
-    } catch (error) {}
-  };
 
   return isLoading || isObjectEmpty(room.currentRoom) ? (
     <Loading />

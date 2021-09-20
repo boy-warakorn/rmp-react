@@ -25,6 +25,10 @@ import { setCurrentRoom } from "@stores/rooms/slice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { isObjectEmpty } from "@utils/isObjEmpty";
 import confirm from "antd/lib/modal/confirm";
+import { PackageRepository } from "@repository/PackageRepository";
+import { packageSelector } from "@stores/packages/selector";
+import { setPackages } from "@stores/packages/slice";
+import PackageTable from "@components/feature/postal/PackageTable";
 
 const { TabPane } = Tabs;
 
@@ -33,9 +37,13 @@ const RoomDetail = () => {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
   const room = useSelector(roomSelector);
+  const postal = useSelector(packageSelector);
   const dispatch = useDispatch();
 
   const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
+  const packageRepository = RepositoriesFactory.get(
+    "package"
+  ) as PackageRepository;
 
   useEffect(() => {
     fetchCurrentRoom();
@@ -46,8 +54,10 @@ const RoomDetail = () => {
     try {
       setIsLoading(true);
       const result = await roomRepository.getRoom(id);
-      if (result) {
+      const postals = await packageRepository.getPackages("-", id);
+      if (result && postals) {
         dispatch(setCurrentRoom(result));
+        dispatch(setPackages(postals));
       }
     } catch (error) {
     } finally {
@@ -119,6 +129,43 @@ const RoomDetail = () => {
     },
   ] as any;
 
+  const confirmDeletePackage = async (id: string) => {
+    try {
+      setIsLoading(true);
+      await packageRepository.deletePackage(id);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Delete delivery Success`,
+      });
+      fetchCurrentRoom();
+    } catch (error) {}
+  };
+
+  const onConfirmOrDeleteDelivery = async (id: string, isConfirm: boolean) => {
+    try {
+      if (isConfirm) {
+        setIsLoading(true);
+        await packageRepository.confirmPackage(id);
+        notification.success({
+          duration: 2,
+          message: "Success",
+          description: `${isConfirm ? "Confirm" : "Delete"} delivery Success`,
+        });
+        fetchCurrentRoom();
+      } else {
+        confirm({
+          title: "Do you want to delete this package?",
+          icon: <ExclamationCircleOutlined />,
+          onOk() {
+            confirmDeletePackage(id);
+          },
+          width: "40vw",
+        });
+      }
+    } catch (error) {}
+  };
+
   return isLoading || isObjectEmpty(room.currentRoom) ? (
     <Loading />
   ) : (
@@ -174,7 +221,11 @@ const RoomDetail = () => {
               buttonTitle="New package"
               onClick={() => history.push("/packages/add")}
             />
-            <div className="mt-6 grid grid-cols-6 gap-6"></div>
+            <PackageTable
+              content={postal.packages}
+              loading={isLoading}
+              onConfirm={onConfirmOrDeleteDelivery}
+            />
           </TabCard>
         </TabPane>
         <TabPane tab="Payments" key="2">

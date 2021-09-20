@@ -9,7 +9,10 @@ import {
 import { AxiosService } from "@services/axios.config";
 
 export interface PackageRepository {
-  getPackages(tab: string): Promise<GetPackages | undefined>;
+  getPackages(
+    tab: string,
+    roomNumber?: string
+  ): Promise<GetPackages | undefined>;
   createPackage(createPackageDto: CreatePackageDto): Promise<void>;
   getPackage(id: string): Promise<Package | undefined>;
   updatePackage(id: string, updatePackageDto: UpdatePackageDto): Promise<void>;
@@ -50,13 +53,22 @@ export interface Package {
 }
 
 export const packageRepository: PackageRepository = {
-  async getPackages(tab: string) {
+  async getPackages(tab: string, roomNumber?: string) {
     try {
-      const result = (
-        await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
-          params: { status: tab === "-" ? "" : tab },
-        })
-      ).data.packages;
+      let result: any;
+      if (!roomNumber) {
+        result = (
+          await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
+            params: { status: tab === "-" ? "" : tab },
+          })
+        ).data.packages;
+      } else {
+        result = (
+          await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
+            params: { roomNumber: roomNumber },
+          })
+        ).data.packages;
+      }
 
       const formattedPackages = Array.from(
         { length: Math.ceil(result.length / 8) },

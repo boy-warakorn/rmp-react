@@ -46,7 +46,7 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
             <UserOutlined style={{ fontSize: "18px" }} />,
             "Name:",
             postal.roomNumber,
-            postal.roomOwner
+            postal.roomOwner ?? "No Owner"
           )}
           <div className="mt-3"></div>
           {renderCardHeader(

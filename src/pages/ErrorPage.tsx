@@ -1,10 +1,8 @@
 import { Result } from "antd";
 import Button from "@components/global/Button";
 import React from "react";
-import { useHistory } from "react-router";
 
 const ErrorPage = () => {
-  const history = useHistory();
   return (
     <Result
       className="col-span-12"
@@ -12,7 +10,7 @@ const ErrorPage = () => {
       title="Request Failed"
       subTitle="Please wait some minutes before resubmitting."
       extra={[
-        <Button onClick={() => history.replace("/home")}>
+        <Button onClick={() => window.location.reload()}>
           Go to Homepage
         </Button>,
       ]}

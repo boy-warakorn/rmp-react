@@ -24,6 +24,7 @@ export const getRoomUrl = (roomNumber: string) =>
 export const addRoomUrl = baseRoomUrl;
 export const editRoomUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}/update`;
+export const getRoomIDListUrl = "/rooms/id-list";
 
 // room owner
 export const addRoomOwnerUrl = (roomNumber: string) =>

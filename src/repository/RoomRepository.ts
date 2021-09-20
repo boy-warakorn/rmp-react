@@ -3,6 +3,7 @@ import {
   addRoomUrl,
   editRoomOwnerUrl,
   editRoomUrl,
+  getRoomIDListUrl,
   getRoomsUrl,
   getRoomUrl,
 } from "@configs/api";
@@ -22,6 +23,7 @@ export interface RoomRepository {
   deleteRoomOwner(roomNumber: string): Promise<void>;
   addRoom(addRoomDto: AddRoomDto): Promise<void>;
   editRoom(editRoomDto: EditRoomDto, roomNumber: string): Promise<void>;
+  getRoomIDList(): Promise<string[] | undefined>;
 }
 
 export interface RoomResponse {
@@ -145,5 +147,12 @@ export const roomRepository: RoomRepository = {
     } catch (error) {
       throw error;
     }
+  },
+  async getRoomIDList() {
+    try {
+      return (
+        await AxiosService.get<{ roomNumbers: string[] }>(getRoomIDListUrl)
+      ).data.roomNumbers;
+    } catch (error) {}
   },
 };

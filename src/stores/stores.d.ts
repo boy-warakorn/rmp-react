@@ -12,6 +12,7 @@ export type UserState = {
 export type RoomState = {
   rooms: Room[];
   currentRoom: RoomDetail;
+  roomIdList: string[];
 };
 
 export type AccountState = {

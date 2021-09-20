@@ -4,10 +4,10 @@ import { HeadingText3 } from "@components/global/typography/Typography";
 import Logo from "../../assets/images/rmp_logo.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
-import { Redirect, Switch } from "react-router";
+import { Switch } from "react-router";
 import HeaderBar from "@components/global/navigation/HeaderBar";
 import { generalRoutes, routes, settingsRoutes } from "@configs/routes";
-
+import { ErrorBoundary } from "react-error-boundary";
 import PrivateRoute from "@components/global/PrivateRoute";
 import { useHistory } from "react-router-dom";
 import { clearUser, setUser } from "@stores/user/slice";
@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import RepositoryFactory from "@repository/RepositoryFactory";
 import { UserRepository } from "@repository/UserRepository";
 import Loading from "@components/global/Loading";
+import ErrorPage from "@pages/ErrorPage";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -102,26 +103,28 @@ const Layout = () => {
         className="py-4 px-6 lg:py-9 lg:px-14 bg-background flex-1 min-h-screen"
         id="content"
       >
-        <div className="grid grid-cols-12 gap-x-6">
-          <HeaderBar />
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Switch>
-              {routes.map((route, index) =>
-                route.permissions.includes(role!) ? (
-                  <PrivateRoute
-                    key={`routes${index}`}
-                    path={route.path}
-                    component={route.component}
-                    exact
-                  />
-                ) : null
-              )}
-              <Redirect to="/home" />
-            </Switch>
-          )}
-        </div>
+        <ErrorBoundary FallbackComponent={ErrorPage}>
+          <div className="grid grid-cols-12 gap-x-6">
+            <HeaderBar />
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <Switch>
+                {routes.map((route, index) =>
+                  route.permissions.includes(role!) ? (
+                    <PrivateRoute
+                      key={`routes${index}`}
+                      path={route.path}
+                      component={route.component}
+                      exact
+                    />
+                  ) : null
+                )}
+                <PrivateRoute path="/error" component={ErrorPage} exact />
+              </Switch>
+            )}
+          </div>
+        </ErrorBoundary>
       </div>
     </div>
   );

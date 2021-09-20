@@ -21,7 +21,7 @@ const tabList = [
 const PackagePage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const packagesSelector = useSelector(packageSelector);
+  const postal = useSelector(packageSelector);
   const packageRepository = RepositoriesFactory.get(
     "package"
   ) as PackageRepository;
@@ -71,7 +71,7 @@ const PackagePage = () => {
                 onClick={() => history.push("/packages/add")}
               />
               <PackageTable
-                content={packagesSelector.packages}
+                content={postal.packages}
                 loading={isLoading}
                 onConfirm={onConfirmDelivery}
               />

@@ -24,7 +24,7 @@ const tabList = [
 const AccountPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const accountsSelector = useSelector(accountSelector);
+  const account = useSelector(accountSelector);
   const accountRepository = RepositoriesFactory.get(
     "account"
   ) as AccountRepository;
@@ -44,9 +44,11 @@ const AccountPage = () => {
   const fetchAccounts = async () => {
     try {
       setIsLoading(true);
-      const rooms = await accountRepository.getAccounts(currentTabKey);
-      if (rooms) {
-        dispatch(setAccounts(rooms));
+      const accountResponse = await accountRepository.getAccounts(
+        currentTabKey
+      );
+      if (accountResponse) {
+        dispatch(setAccounts(accountResponse));
       }
     } catch (error) {
     } finally {
@@ -103,7 +105,7 @@ const AccountPage = () => {
                 className="mt-6"
                 columns={columns}
                 loading={isLoading}
-                dataSource={accountsSelector.accounts}
+                dataSource={account.accounts}
               />
             </TabCard>
           </TabPane>

@@ -23,7 +23,7 @@ const tabList = [
 const ReportPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const reportsSelector = useSelector(reportSelector);
+  const report = useSelector(reportSelector);
   const reportRepository = RepositoriesFactory.get(
     "report"
   ) as ReportRepository;
@@ -43,9 +43,9 @@ const ReportPage = () => {
   const fetchReports = async () => {
     try {
       setIsLoading(true);
-      const rooms = await reportRepository.getReports(currentTabKey);
-      if (rooms) {
-        dispatch(setReports(rooms));
+      const reportResponse = await reportRepository.getReports(currentTabKey);
+      if (reportResponse) {
+        dispatch(setReports(reportResponse));
       }
     } catch (error) {
     } finally {
@@ -123,7 +123,7 @@ const ReportPage = () => {
                 className="mt-6"
                 columns={columns}
                 loading={isLoading}
-                dataSource={reportsSelector.reports}
+                dataSource={report.reports}
               />
             </TabCard>
           </TabPane>

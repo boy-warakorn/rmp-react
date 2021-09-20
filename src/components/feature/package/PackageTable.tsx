@@ -1,4 +1,3 @@
-import { HeadingText3 } from "@components/global/typography/Typography";
 import { Package } from "@repository/PackageRepository";
 import { Empty, Pagination, Spin } from "antd";
 import React, { Fragment, useState } from "react";
@@ -40,7 +39,11 @@ const PackageTable = ({ content, loading, onConfirm }: PackageTableProps) => {
     <Fragment>
       <div className="mt-6 grid grid-cols-6 gap-6">
         {content.packages[currentPage - 1].map((postal: Package) => (
-          <PackageCard postal={postal} onConfirm={onConfirm} />
+          <PackageCard
+            postal={postal}
+            onConfirm={onConfirm}
+            key={`${postal.id}Postal`}
+          />
         ))}
       </div>
       <div className="flex mt-6 justify-end">

@@ -14,7 +14,6 @@ import TextButton from "@components/global/TextButton";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import { Tabs } from "antd";
 import HeaderTable from "@components/global/table/HeaderTable";
-import PackageCard from "@components/feature/postal/PackageCard";
 import CustomTable from "@components/global/table/Table";
 import OutlineButton from "@components/global/OutlineButton";
 import RepositoriesFactory from "@repository/RepositoryFactory";
@@ -23,6 +22,7 @@ import Loading from "@components/global/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { roomSelector } from "@stores/rooms/selector";
 import { setCurrentRoom } from "@stores/rooms/slice";
+import { isObjectEmpty } from "@utils/isObjEmpty";
 
 const { TabPane } = Tabs;
 
@@ -98,7 +98,7 @@ const RoomDetail = () => {
     },
   ] as any;
 
-  return isLoading ? (
+  return isLoading || isObjectEmpty(room.currentRoom) ? (
     <Loading />
   ) : (
     <Fragment>

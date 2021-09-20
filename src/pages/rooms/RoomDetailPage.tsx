@@ -254,11 +254,7 @@ const RoomDetail = () => {
           </TabPane>
           <TabPane tab="Payments" key="2">
             <TabCard>
-              <HeaderTable
-                title="All Payments"
-                buttonTitle="New invoice"
-                onClick={() => history.push("/payments/add")}
-              />
+              <HeaderTable title="All Payments" />
               <CustomTable
                 className="mt-6"
                 columns={columns}

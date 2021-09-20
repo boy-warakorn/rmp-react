@@ -62,11 +62,7 @@ const PaymentPage = () => {
       <CustomTabs>
         <TabPane tab="All" key="1">
           <TabCard>
-            <HeaderTable
-              title="All Payments"
-              buttonTitle="New invoice"
-              onClick={() => history.push("/payments/add")}
-            />
+            <HeaderTable title="All Payments" />
             <CustomTable
               className="mt-6"
               columns={columns}
@@ -95,11 +91,7 @@ const PaymentPage = () => {
         </TabPane>
         <TabPane tab="Awaiting" key="2">
           <TabCard>
-            <HeaderTable
-              title="Awaiting Payment"
-              buttonTitle="New invoice"
-              onClick={() => history.push("/payments/add")}
-            />
+            <HeaderTable title="Awaiting Payment" />
             <CustomTable
               className="mt-6"
               columns={columns}
@@ -119,11 +111,7 @@ const PaymentPage = () => {
         </TabPane>
         <TabPane tab="Paid" key="3">
           <TabCard>
-            <HeaderTable
-              title="Paid Payments"
-              buttonTitle="New invoice"
-              onClick={() => history.push("/payments/add")}
-            />
+            <HeaderTable title="Paid Payments" />
             <CustomTable
               className="mt-6"
               columns={columns}

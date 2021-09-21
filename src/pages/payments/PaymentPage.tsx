@@ -10,18 +10,27 @@ import OutlineButton from "@components/global/OutlineButton";
 
 const { TabPane } = Tabs;
 
+const tabList = [
+  { key: "-", title: "All" },
+  { key: "pending", title: "Pending" },
+  { key: "active", title: "Active" },
+  { key: "in-active", title: "In Active" },
+  { key: "reject", title: "Reject" },
+  { key: "complete", title: "Complete" },
+];
+
 const PaymentPage = () => {
   // const history = useHistory();
 
   const columns = [
     {
       title: "Room No.",
-      dataIndex: "roomNo",
+      dataIndex: "roomNumber",
       width: 50,
     },
     {
-      title: "Issue time",
-      dataIndex: "issueTime",
+      title: "Paid At",
+      dataIndex: "paidAt",
       width: 50,
     },
     {
@@ -30,8 +39,13 @@ const PaymentPage = () => {
       width: 50,
     },
     {
-      title: "type",
+      title: "Type",
       dataIndex: "type",
+      width: 50,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
       width: 50,
     },
     {
@@ -41,7 +55,7 @@ const PaymentPage = () => {
       fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
-          {record.isConfirm ? (
+          {record.status === "complete" ? (
             <BodyText1 className="text-success">Confirmed</BodyText1>
           ) : (
             <div className="flex items-center">
@@ -60,75 +74,14 @@ const PaymentPage = () => {
   return (
     <div className="col-span-12 mt-3">
       <CustomTabs>
-        <TabPane tab="All" key="1">
-          <TabCard>
-            <HeaderTable title="All Payments" />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                {
-                  roomNo: "1234",
-                  key: "3",
-                  issueTime: "20 July 2020 at 08:00 PM",
-                  amount: 30000,
-                  type: "Common Charge",
-                  index: 2,
-                  isConfirm: true,
-                },
-                {
-                  roomNo: "2345",
-                  key: "4",
-                  issueTime: "20 July 2020 at 08:00 PM",
-                  amount: 1500,
-                  type: "Rent",
-                  index: 3,
-                  isConfirm: false,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
-        <TabPane tab="Awaiting" key="2">
-          <TabCard>
-            <HeaderTable title="Awaiting Payment" />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                {
-                  roomNo: "2345",
-                  key: "4",
-                  issueTime: "20 July 2020 at 08:00 PM",
-                  amount: 1500,
-                  type: "Rent",
-                  index: 3,
-                  isConfirm: false,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
-        <TabPane tab="Paid" key="3">
-          <TabCard>
-            <HeaderTable title="Paid Payments" />
-            <CustomTable
-              className="mt-6"
-              columns={columns}
-              dataSource={[
-                {
-                  roomNo: "1234",
-                  key: "3",
-                  issueTime: "20 July 2020 at 08:00 PM",
-                  amount: 30000,
-                  type: "Common Charge",
-                  index: 2,
-                  isConfirm: true,
-                },
-              ]}
-            />
-          </TabCard>
-        </TabPane>
+        {tabList.map((tab) => (
+          <TabPane tab={tab.title} key={tab.key}>
+            <TabCard>
+              <HeaderTable title={`${tab.title} Payments`} />
+              <CustomTable className="mt-6" columns={columns} dataSource={[]} />
+            </TabCard>
+          </TabPane>
+        ))}
       </CustomTabs>
     </div>
   );

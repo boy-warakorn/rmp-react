@@ -22,7 +22,7 @@ const tabList = [
   { key: "-", title: "All" },
   { key: "pending", title: "Pending" },
   { key: "active", title: "Active" },
-  { key: "in-active", title: "In Active" },
+  // { key: "in-active", title: "In Active" },
   { key: "reject", title: "Reject" },
   { key: "complete", title: "Complete" },
 ];

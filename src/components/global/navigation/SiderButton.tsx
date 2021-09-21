@@ -26,10 +26,6 @@ const SiderButton = ({
   let siderStyle =
     "flex py-5 px-7 lg:py-5 lg:px-8 cursor-pointer items-center transition-all";
 
-  const onLogout = () => {
-    window.location.pathname = "/login";
-  };
-
   if (active) {
     siderStyle = siderStyle.replace("lg:px-8", "pl-6 pr-8");
     siderStyle = siderStyle.concat(
@@ -72,7 +68,7 @@ const SiderButton = ({
   );
 
   if (path === "/logout") {
-    return <div onClick={onLogout}>{linkChildren}</div>;
+    return <div onClick={onClick}>{linkChildren}</div>;
   }
 
   return disabled ? linkChildren : <Link to={path}>{linkChildren}</Link>;

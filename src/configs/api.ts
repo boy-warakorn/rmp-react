@@ -64,3 +64,14 @@ export const getSpecificPaymentReceiptUrl = (paymentId: string) =>
   `${basePaymentUrl}/${paymentId}/receipt`;
 export const confirmPaymentUrl = (paymentId: string) =>
   `${basePaymentUrl}/${paymentId}/confirm`;
+
+// Contact
+const baseContactUrl = "/contacts";
+export const getContactsUrl = baseContactUrl;
+export const createContactUrl = baseContactUrl;
+export const getContactUrl = (contactId: string) =>
+  `${baseContactUrl}/${contactId}`;
+export const deleteContactUrl = (contactId: string) =>
+  `${baseContactUrl}/${contactId}`;
+export const editContactUrl = (contactId: string) =>
+  `${baseContactUrl}/${contactId}`;

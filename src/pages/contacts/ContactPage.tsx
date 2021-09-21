@@ -2,11 +2,40 @@ import Card from "@components/global/Card";
 import HeaderTable from "@components/global/table/HeaderTable";
 import CustomTable from "@components/global/table/Table";
 import TextButton from "@components/global/TextButton";
-import React from "react";
+import { ContactRepository } from "@repository/ContactRepository";
+import RepositoriesFactory from "@repository/RepositoryFactory";
+import { contactSelector } from "@stores/contacts/selector";
+import { setContacts } from "@stores/contacts/slice";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 
 const ContactPage = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const contact = useSelector(contactSelector);
+  const contactRepository = RepositoriesFactory.get(
+    "contact"
+  ) as ContactRepository;
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchContacts();
+    // eslint-disable-next-line
+  }, []);
+
+  const fetchContacts = async () => {
+    try {
+      setIsLoading(true);
+      const contacts = await contactRepository.getContacts();
+      if (contacts) {
+        dispatch(setContacts(contacts));
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const columns = [
     {
@@ -50,24 +79,8 @@ const ContactPage = () => {
       <CustomTable
         className="mt-6"
         columns={columns}
-        dataSource={[
-          {
-            id: "boy123",
-            key: "1",
-            name: "Boy",
-            role: "Developer",
-            phoneNumber: "012-345-6789",
-            index: 1,
-          },
-          {
-            id: "ohn123",
-            key: "2",
-            name: "Ohn",
-            role: "Developer",
-            phoneNumber: "012-345-6789",
-            index: 2,
-          },
-        ]}
+        dataSource={contact.contacts}
+        loading={isLoading}
       />
     </Card>
   );

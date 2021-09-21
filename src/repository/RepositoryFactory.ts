@@ -4,6 +4,7 @@ import { roomRepository, RoomRepository } from "./RoomRepository";
 import { accountRepository, AccountRepository } from "./AccountRepository";
 import { ReportRepository, reportRepository } from "./ReportRepository";
 import { packageRepository, PackageRepository } from "./PackageRepository";
+import { paymentRepository, PaymentRepository } from "./PaymentRepository";
 
 interface Repositories {
   user: UserRepository;
@@ -12,6 +13,7 @@ interface Repositories {
   account: AccountRepository;
   report: ReportRepository;
   package: PackageRepository;
+  payment: PaymentRepository;
 }
 
 const repositories = {
@@ -21,6 +23,7 @@ const repositories = {
   account: accountRepository,
   report: reportRepository,
   package: packageRepository,
+  payment: paymentRepository,
 };
 
 const RepositoriesFactory = {

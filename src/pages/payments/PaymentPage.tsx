@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
-import { Tabs } from "antd";
+import { Modal, Tabs, Image, Spin, notification } from "antd";
 import HeaderTable from "@components/global/table/HeaderTable";
 // import { useHistory } from "react-router";
 import CustomTable from "@components/global/table/Table";
-import { BodyText1 } from "@components/global/typography/Typography";
+import {
+  BodyText1,
+  HeadingText4,
+} from "@components/global/typography/Typography";
 import OutlineButton from "@components/global/OutlineButton";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentSelector } from "@stores/payments/selector";
@@ -34,6 +37,11 @@ const PaymentPage = () => {
 
   const [currentTabKey, setCurrentTabKey] = useState("-");
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentRoomNumber, setCurrentRoomNumber] = useState("");
+  const [currentPaid, setCurrentPaid] = useState("");
+  const [currentReceiptUrl, setCurrentReceiptUrl] = useState("");
+  const [currentId, setCurrentId] = useState("");
 
   const onChangeTab = (value: string) => {
     setCurrentTabKey(value);
@@ -54,6 +62,51 @@ const PaymentPage = () => {
     } catch (error) {
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const onConfirmPaymentModal = async (record: any) => {
+    try {
+      setCurrentRoomNumber(record.roomNumber);
+      setCurrentPaid(record.paidAt);
+      setCurrentId(record.id);
+      setIsLoading(true);
+      setIsModalVisible(true);
+      const receiptUrl = await paymentRepository.getSpecificPaymentReceipt(
+        record.id
+      );
+      if (receiptUrl) {
+        setCurrentReceiptUrl(receiptUrl);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const confirmPayment = async () => {
+    try {
+      setIsLoading(true);
+      await paymentRepository.confirmPayment(currentId);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Confirm this payment Success`,
+      });
+      fetchPayment();
+    } catch (error) {
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `Can't confirm this payment, Please try again.`,
+      });
+      setIsLoading(false);
+    } finally {
+      setCurrentRoomNumber("");
+      setCurrentPaid("");
+      setCurrentId("");
+
+      setIsModalVisible(false);
     }
   };
 
@@ -94,7 +147,9 @@ const PaymentPage = () => {
           {record.status === "complete" ? (
             <BodyText1 className="text-success">Confirmed</BodyText1>
           ) : record.status === "pending" ? (
-            <OutlineButton onClick={() => {}}>Confirm</OutlineButton>
+            <OutlineButton onClick={() => onConfirmPaymentModal(record)}>
+              Confirm
+            </OutlineButton>
           ) : (
             <div></div>
           )}
@@ -120,6 +175,27 @@ const PaymentPage = () => {
           </TabPane>
         ))}
       </CustomTabs>
+      <Modal
+        title={`Confirmation payment of: ${currentRoomNumber}`}
+        visible={isModalVisible}
+        onOk={confirmPayment}
+        onCancel={() => setIsModalVisible(false)}
+        okText="Confirm!"
+      >
+        <div className="flex flex-col items-center justify-center">
+          {isLoading ? (
+            <Spin />
+          ) : (
+            <Fragment>
+              <Image preview={false} width="60%" src={currentReceiptUrl} />
+              <HeadingText4 className="mt-4">
+                <span className="font-bold">Time of submission:</span>
+                {" " + currentPaid}
+              </HeadingText4>
+            </Fragment>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

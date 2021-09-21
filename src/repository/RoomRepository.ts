@@ -160,6 +160,8 @@ export const roomRepository: RoomRepository = {
   async deleteRoom(roomNumber: string) {
     try {
       await AxiosService.delete(deleteRoomUrl(roomNumber));
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   },
 };

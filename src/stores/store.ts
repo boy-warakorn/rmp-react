@@ -11,6 +11,7 @@ import room from "./rooms/slice";
 import account from "./accounts/slice";
 import report from "./reports/slice";
 import postal from "./packages/slice";
+import payment from "./payments/slice";
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -23,6 +24,7 @@ export const store = configureStore({
     account,
     report,
     postal,
+    payment,
   },
   middleware,
 });

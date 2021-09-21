@@ -21,6 +21,8 @@ const baseRoomUrl = "/rooms";
 export const getRoomsUrl = baseRoomUrl;
 export const getRoomUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}`;
+export const deleteRoomUrl = (roomNumber: string) =>
+  `${baseRoomUrl}/${roomNumber}`;
 export const addRoomUrl = baseRoomUrl;
 export const editRoomUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}/update`;
@@ -54,3 +56,11 @@ export const deletePackageUrl = (packageId: string) =>
   `${basePackageUrl}/${packageId}/delete`;
 export const confirmPackageUrl = (packageId: string) =>
   `${basePackageUrl}/${packageId}/confirm`;
+
+// Payment
+const basePaymentUrl = "/payments";
+export const getPaymentsUrl = basePaymentUrl;
+export const getSpecificPaymentReceiptUrl = (paymentId: string) =>
+  `${basePaymentUrl}/${paymentId}/receipt`;
+export const confirmPaymentUrl = (paymentId: string) =>
+  `${basePaymentUrl}/${paymentId}/confirm`;

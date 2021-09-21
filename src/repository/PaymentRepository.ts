@@ -39,7 +39,7 @@ export const paymentRepository: PaymentRepository = {
         result = (
           await AxiosService.get<GetPaymentsResponse>(getPaymentsUrl, {
             params: {
-              tab: tab === "-" ? "" : tab,
+              status: tab === "-" ? "" : tab,
             },
           })
         ).data;

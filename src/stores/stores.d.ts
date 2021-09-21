@@ -1,5 +1,6 @@
 import { GetPackages, Package } from "@repository/PackageRepository";
 import { Account, AccountDetail } from "./accounts/slice";
+import { Payment } from "./payments/slice";
 import { Report, ReportDetail } from "./reports/slice";
 import { Room, RoomDetail } from "./rooms/slice";
 
@@ -30,10 +31,15 @@ export type PackageState = {
   currentPackage: Package;
 };
 
+export type PaymentState = {
+  payments: Payment[];
+};
+
 export type RootState = {
   user: UserState;
   room: RoomState;
   account: AccountState;
   report: ReportState;
   postal: PackageState;
+  payment: PaymentState;
 };

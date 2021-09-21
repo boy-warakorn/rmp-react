@@ -113,13 +113,13 @@ const RoomDetail = () => {
   const confirmDeleteRoom = async () => {
     try {
       setIsLoading(true);
-      await roomRepository.deleteRoomOwner(id);
+      await roomRepository.deleteRoom(id);
       notification.success({
         duration: 2,
         message: "Success",
         description: `Delete Room Success`,
       });
-      fetchCurrentRoom();
+      history.goBack();
     } catch (error) {
       setIsLoading(false);
       notification.error({

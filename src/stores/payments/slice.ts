@@ -19,6 +19,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     setPayments(state, action: PayloadAction<GetPaymentsResponse>) {
+      console.log(`action.payload.payments`, action.payload.payments);
       state.payments = action.payload.payments.map((payment, index) => ({
         key: `${payment.id}Rooms`,
         index: index,
@@ -27,6 +28,8 @@ const slice = createSlice({
         paidAt: payment.paidAt ?? "-",
         amount: payment.amount,
         type: payment.type,
+        issuedAt: payment.issuedAt,
+        confirmedAt: payment.confirmedAt,
         status: payment.status,
       }));
     },

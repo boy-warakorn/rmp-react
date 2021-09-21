@@ -29,6 +29,8 @@ export interface PaymentResponse {
   amount: number;
   type: string;
   status: string;
+  issuedAt: string;
+  confirmedAt: string;
 }
 
 export const paymentRepository: PaymentRepository = {

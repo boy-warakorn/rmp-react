@@ -114,11 +114,21 @@ const PaymentPage = () => {
     {
       title: "Room No.",
       dataIndex: "roomNumber",
-      width: 50,
+      width: 30,
     },
     {
       title: "Paid At",
       dataIndex: "paidAt",
+      width: 50,
+    },
+    {
+      title: "Confirmed At",
+      dataIndex: "confirmedAt",
+      width: 50,
+    },
+    {
+      title: "Issued At",
+      dataIndex: "issuedAt",
       width: 50,
     },
     {
@@ -151,7 +161,7 @@ const PaymentPage = () => {
               Confirm
             </OutlineButton>
           ) : (
-            <div></div>
+            <div>None</div>
           )}
         </div>
       ),

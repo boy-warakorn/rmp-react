@@ -65,7 +65,7 @@ const RoomPage = () => {
         value === "unoccupied" ? (
           <div className="text-base italic text-grey">{value}</div>
         ) : (
-          value
+          "rent"
         ),
     },
     {

@@ -74,7 +74,7 @@ const RoomDetail = () => {
       setIsLoading(true);
       const result = await roomRepository.getRoom(id);
       const postals = await packageRepository.getPackages("-", id);
-      const payments = await paymentRepository.getPayments("-", id);
+      const payments = await paymentRepository.getPayments("", id);
       if (result && postals && payments) {
         dispatch(setCurrentRoom(result));
         dispatch(setPackages(postals));

@@ -98,6 +98,37 @@ const RoomDetail = () => {
       });
     }
   };
+  const onDeleteRoom = async () => {
+    confirm({
+      title: "Do you want to delete this room?",
+      icon: <ExclamationCircleOutlined />,
+      content: "If you confirm, This room will be deleted.",
+      onOk() {
+        confirmDeleteRoom();
+      },
+      width: "40vw",
+    });
+  };
+
+  const confirmDeleteRoom = async () => {
+    try {
+      setIsLoading(true);
+      await roomRepository.deleteRoomOwner(id);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Delete Room Success`,
+      });
+      fetchCurrentRoom();
+    } catch (error) {
+      setIsLoading(false);
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `Can't delete because this room have room owner.`,
+      });
+    }
+  };
 
   const confirmDeletePackage = async (id: string) => {
     try {
@@ -193,8 +224,11 @@ const RoomDetail = () => {
     <Loading />
   ) : (
     <Fragment>
-      <div className="col-span-12 mt-3 mb-6">
+      <div className="col-span-12 mt-3 mb-6 flex justify-between">
         <HeadingText3>Room: {id}</HeadingText3>
+        <Button className="mr-2" color="danger" onClick={onDeleteRoom}>
+          Delete Room
+        </Button>
       </div>
       <Card className="col-span-8 p-6 ">
         <div>

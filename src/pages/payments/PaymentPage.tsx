@@ -3,7 +3,7 @@ import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import { Tabs } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import HeaderTable from "@components/global/table/HeaderTable";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 import CustomTable from "@components/global/table/Table";
 import { BodyText1 } from "@components/global/typography/Typography";
 import OutlineButton from "@components/global/OutlineButton";
@@ -11,7 +11,7 @@ import OutlineButton from "@components/global/OutlineButton";
 const { TabPane } = Tabs;
 
 const PaymentPage = () => {
-  const history = useHistory();
+  // const history = useHistory();
 
   const columns = [
     {

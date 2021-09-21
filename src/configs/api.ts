@@ -21,6 +21,8 @@ const baseRoomUrl = "/rooms";
 export const getRoomsUrl = baseRoomUrl;
 export const getRoomUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}`;
+export const deleteRoomUrl = (roomNumber: string) =>
+  `${baseRoomUrl}/${roomNumber}`;
 export const addRoomUrl = baseRoomUrl;
 export const editRoomUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}/update`;

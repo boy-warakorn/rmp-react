@@ -35,8 +35,13 @@ const AddContactPage = () => {
           <div className="col-span-1">
             <div className="flex flex-col">
               <BodyText1 className="font-bold mb-2">Role</BodyText1>
-              <Select value="1">
-                <Option value="1">Developer</Option>
+              <Select value="developer">
+                <Option value="developer">Developer</Option>
+                <Option value="engineer">Engineer</Option>
+                <Option value="technician">Technician</Option>
+                <Option value="resident-owner">Resident owner</Option>
+                <Option value="salesperson">Salesperson</Option>
+                <Option value="janitor">Janitor</Option>
               </Select>
             </div>
           </div>

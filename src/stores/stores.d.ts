@@ -1,5 +1,7 @@
+import { BaseContact, ContactResponse } from "@repository/ContactRepository";
 import { GetPackages, Package } from "@repository/PackageRepository";
 import { Account, AccountDetail } from "./accounts/slice";
+import { Contact } from "./contacts/slice";
 import { Payment } from "./payments/slice";
 import { Report, ReportDetail } from "./reports/slice";
 import { Room, RoomDetail } from "./rooms/slice";
@@ -35,6 +37,11 @@ export type PaymentState = {
   payments: Payment[];
 };
 
+export type ContactState = {
+  contacts: Contact[];
+  currentContact: ContactResponse;
+};
+
 export type RootState = {
   user: UserState;
   room: RoomState;
@@ -42,4 +49,5 @@ export type RootState = {
   report: ReportState;
   postal: PackageState;
   payment: PaymentState;
+  contact: ContactState;
 };

@@ -20,6 +20,7 @@ export interface CreateContactDto {
   name: string;
   phoneNumber: string;
   address: string;
+  email: string;
 }
 
 export interface EditContactDto extends CreateContactDto {}
@@ -37,6 +38,7 @@ export interface BaseContact {
 
 export interface ContactResponse extends BaseContact {
   address: string;
+  email: string;
 }
 
 export const contactRepository = {

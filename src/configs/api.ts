@@ -1,5 +1,5 @@
-export const baseApiUrl = "https://rmp.ryuhub.dev/api";
-// export const baseApiUrl = "http://localhost:1234/api";
+// export const baseApiUrl = "https://rmp.ryuhub.dev/api";
+export const baseApiUrl = "http://localhost:1234/api";
 
 // auth
 export const loginUrl = "/auth";
@@ -56,3 +56,11 @@ export const deletePackageUrl = (packageId: string) =>
   `${basePackageUrl}/${packageId}/delete`;
 export const confirmPackageUrl = (packageId: string) =>
   `${basePackageUrl}/${packageId}/confirm`;
+
+// Payment
+const basePaymentUrl = "/payments";
+export const getPaymentsUrl = basePaymentUrl;
+export const getSpecificPaymentReceiptUrl = (paymentId: string) =>
+  `${basePaymentUrl}/${paymentId}/receipt`;
+export const confirmPaymentUrl = (paymentId: string) =>
+  `${basePaymentUrl}/${paymentId}/confirm`;

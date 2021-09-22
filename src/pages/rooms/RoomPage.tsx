@@ -77,6 +77,12 @@ const RoomPage = () => {
       title: "Payments status",
       dataIndex: "paymentStatus",
       width: 70,
+      render: (value: string) =>
+        value === "All Paid" ? (
+          <div className="text-success">{value}</div>
+        ) : (
+          <div className="text-error">{value}</div>
+        ),
     },
     {
       title: "Last move at",

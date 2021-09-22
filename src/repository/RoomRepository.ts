@@ -36,6 +36,8 @@ export interface RoomResponse {
   lastMoveAt: string;
   size: number;
   unit: string;
+  paymentDues?: number;
+  packageRemaining?: number;
 }
 
 export interface GetRoomsResponse {
@@ -92,12 +94,15 @@ export const roomRepository: RoomRepository = {
           },
         })
       ).data.rooms;
-      return rooms.map((room: any) => ({
+      return rooms.map((room: RoomResponse) => ({
         roomNumber: room.roomNumber,
         lastMoveAt: room.lastMoveAt,
         contractType: room.contractType,
-        packages: 0,
-        paymentStatus: "All Paid",
+        packages: room.packageRemaining!,
+        paymentStatus:
+          room.paymentDues! > 0
+            ? `${room.paymentDues} Payment Dues`
+            : "All Paid",
         size: room.size,
         unit: room.unit,
       }));

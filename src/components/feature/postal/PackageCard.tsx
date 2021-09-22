@@ -53,7 +53,7 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
             <BookOutlined style={{ fontSize: "18px" }} />,
             "Note",
             "",
-            postal.note
+            !postal.note ? "-" : postal.note
           )}
         </div>
         <div className="self-start">

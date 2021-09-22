@@ -37,6 +37,7 @@ export const deleteRoomOwnerUrl = addRoomOwnerUrl;
 // report
 const baseReportUrl = "/reports";
 export const getReportsUrl = baseReportUrl;
+export const getPendingCountUrl = `${baseReportUrl}/pending`;
 export const getReportUrl = (reportId: string) =>
   `${baseReportUrl}/${reportId}`;
 export const replyReportUrl = (reportId: string) =>

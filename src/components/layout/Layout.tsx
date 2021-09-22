@@ -16,6 +16,7 @@ import { UserRepository } from "@repository/UserRepository";
 import Loading from "@components/global/Loading";
 import ErrorPage from "@pages/ErrorPage";
 import { BackTop } from "antd";
+import { ReportRepository } from "@repository/ReportRepository";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -23,16 +24,28 @@ const Sider = styled.div`
 
 const Layout = () => {
   const usersRepository = RepositoryFactory.get("user") as UserRepository;
+  const reportsRepository = RepositoryFactory.get("report") as ReportRepository;
   const dispatch = useDispatch();
   const role = localStorage.getItem("role");
   const history = useHistory();
 
   const [isLoading, setIsLoading] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     fetchUser();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    fetchPendingCount();
+    // eslint-disable-next-line
+  }, [window.location.pathname]);
+
+  const fetchPendingCount = async () => {
+    const countResponse = await reportsRepository.getPendingReportCount();
+    if (countResponse !== undefined) setCount(countResponse);
+  };
 
   const fetchUser = async () => {
     try {
@@ -71,14 +84,14 @@ const Layout = () => {
           </HeadingText3>
         </div>
         {generalRoutes.map(
-          ({ title, path, icon, notiCounts, disabled, permissions }, index) =>
+          ({ title, path, icon, disabled, permissions }, index) =>
             permissions.includes(role!) ? (
               <SiderButton
                 title={title}
                 path={path}
                 icon={icon}
                 active={window.location.pathname.includes(path)}
-                notiCounts={notiCounts}
+                notiCounts={path === "/reports" ? count : 0}
                 key={`routes${index}`}
                 disabled={disabled}
               />

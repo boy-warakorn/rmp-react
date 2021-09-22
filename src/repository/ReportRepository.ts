@@ -1,4 +1,5 @@
 import {
+  getPendingCountUrl,
   getReportsUrl,
   getReportUrl,
   replyReportUrl,
@@ -11,6 +12,7 @@ export interface ReportRepository {
   getReport(id: string): Promise<GetReportResponse | undefined>;
   replyReport(id: string, replyReportDto: ReplyReportDto): Promise<void>;
   resolveReport(id: string): Promise<void>;
+  getPendingReportCount(): Promise<number | void>;
 }
 
 export interface ReplyReportDto {
@@ -43,6 +45,10 @@ export interface GetReportResponse {
   requestedDate: string;
   resolvedDate: string;
   status: string;
+}
+
+export interface GetReportCountResponse {
+  count: number;
 }
 
 export const reportRepository: ReportRepository = {
@@ -83,5 +89,12 @@ export const reportRepository: ReportRepository = {
     } catch (error) {
       throw error;
     }
+  },
+  async getPendingReportCount() {
+    try {
+      return (
+        await AxiosService.get<GetReportCountResponse>(getPendingCountUrl)
+      ).data.count;
+    } catch (error) {}
   },
 };

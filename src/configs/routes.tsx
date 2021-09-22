@@ -54,7 +54,6 @@ export const generalRoutes = [
     title: "Reports",
     path: "/reports",
     icon: <BellOutlined />,
-    notiCounts: 7,
     permissions: PERSONNEL,
   },
   {

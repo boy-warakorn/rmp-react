@@ -62,7 +62,7 @@ const SiderButton = ({
         >
           {title}
         </HeadingText4>
-        {notiCounts && <CustomBadge count={notiCounts} />}
+        {notiCounts ? <CustomBadge count={notiCounts} /> : null}
       </div>
     </div>
   );

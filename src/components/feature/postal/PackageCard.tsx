@@ -39,9 +39,9 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
   );
 
   return (
-    <Card className="col-span-3 ">
+    <Card className="col-span-3 flex flex-col justify-between">
       <div className="flex justify-between p-4">
-        <div className="flex flex-col">
+        <div className="flex flex-col" style={{ maxWidth: "70%" }}>
           {renderCardHeader(
             <UserOutlined style={{ fontSize: "18px" }} />,
             "Name:",
@@ -57,11 +57,13 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
           )}
         </div>
         <div className="self-start">
-          <EditOutlined
-            style={{ fontSize: "18px" }}
-            className="cursor-pointer"
-            onClick={() => history.push(`/packages/${postal.id}/edit`)}
-          />
+          {postal.status !== "delivered" ? (
+            <EditOutlined
+              style={{ fontSize: "18px" }}
+              className="cursor-pointer"
+              onClick={() => history.push(`/packages/${postal.id}/edit`)}
+            />
+          ) : null}
           <DeleteOutlined
             onClick={() => onConfirm(postal.id, false)}
             style={{ fontSize: "18px", color: "#FF0707" }}

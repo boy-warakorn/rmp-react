@@ -48,6 +48,10 @@ body {
   margin-left: 75px;
 }
 
+.height_max-content {
+  height: max-content;
+}
+
 .hover-underline {
   @apply transform hover:-translate-y-0.5 border-b-2 border-primary border-opacity-0 hover:border-opacity-50 transition-all;
 }

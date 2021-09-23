@@ -1,6 +1,5 @@
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import Logo from "../../assets/images/rmp_logo.png";
-
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import {
   HeadingText1,
@@ -9,8 +8,38 @@ import {
 } from "@components/global/typography/Typography";
 import TextInput from "@components/global/form/LoginInput";
 import Button from "@components/global/Button";
+import { AuthRepository, LoginDto } from "@repository/AuthRepository";
+import RepositoryFactory from "@repository/RepositoryFactory";
+import { notification, Spin } from "antd";
+import { useHistory } from "react-router";
 
 const LoginScreen = () => {
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
+
+  const authRepository = RepositoryFactory.get("auth") as AuthRepository;
+
+  const onLogin = async () => {
+    const loginDto: LoginDto = form;
+    try {
+      setIsLoading(true);
+      await authRepository.login(loginDto);
+      history.push("/home");
+    } catch (error) {
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `The username/email or password is incorrect`,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="grid grid-cols-8">
       <div className="col-start-1 col-end-4">
@@ -33,13 +62,23 @@ const LoginScreen = () => {
             size="large"
             className="mt-3"
             placeholder="Enter your username.."
+            name="username"
+            value={form.username}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
             prefix={<UserOutlined />}
           />
           <HeadingText3 className="uppercase mt-6">password</HeadingText3>
           <TextInput
             size="large"
             className="mt-3"
+            name="password"
             placeholder="Enter your password.."
+            value={form.password}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setForm({ ...form, [e.target.name]: e.target.value })
+            }
             prefix={<LockOutlined />}
             type="password"
           />
@@ -53,10 +92,19 @@ const LoginScreen = () => {
                 height: "100%",
               }}
               color="primary"
-              onClick={() => (window.location.pathname = "/")}
+              onClick={isLoading ? () => {} : onLogin}
             >
               <HeadingText3 className="uppercase font-montserratMedium">
-                sign in
+                {isLoading ? (
+                  <Spin
+                    size="small"
+                    style={{
+                      width: "80px",
+                    }}
+                  />
+                ) : (
+                  "sign in"
+                )}
               </HeadingText3>
             </Button>
           </div>

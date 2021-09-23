@@ -8,13 +8,17 @@ import React from "react";
 import AvatarImage from "@assets/images/avatar.png";
 import { getHeaderTitle } from "@utils/getHeaderTitle";
 import { useHistory } from "react-router";
+import { userSelector } from "@stores/user/selector";
+import { useSelector } from "react-redux";
 
 const HeaderBar = () => {
   const history = useHistory();
+  const user = useSelector(userSelector);
+
   let titleText =
     window.location.pathname !== "/home"
       ? getHeaderTitle()
-      : "Boy-Paint-Ohn Condo";
+      : user?.businessName;
 
   let headingText = <HeadingText2>{titleText}</HeadingText2>;
 
@@ -37,7 +41,7 @@ const HeaderBar = () => {
       {headingText}
       <div className="flex items-center border-0 border-l-2 border-grey-light pl-3">
         <SubHeadingText1 className="font-montserrat mr-3">
-          Noppanut Boonrueng
+          {user?.name}
         </SubHeadingText1>
         <Avatar src={AvatarImage} style={{ width: "40px", height: "40px" }} />
       </div>

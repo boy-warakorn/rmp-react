@@ -10,7 +10,11 @@ interface TextButtonProps {
 
 const TextButton = ({ className, title, style, onClick }: TextButtonProps) => {
   return (
-    <div className="cursor-pointer py-1 hover-underline" onClick={onClick}>
+    <div
+      className="cursor-pointer py-1 hover-underline"
+      style={{ width: "max-content" }}
+      onClick={onClick}
+    >
       <BodyText1 className={className} style={style}>
         {title}
       </BodyText1>

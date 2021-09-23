@@ -36,7 +36,6 @@
 
 body {
   margin: 0;
-  font-family: "MontserratBold", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -47,6 +46,10 @@ body {
 
 #content {
   margin-left: 75px;
+}
+
+.height_max-content {
+  height: max-content;
 }
 
 .hover-underline {

@@ -11,6 +11,7 @@ interface SiderButtonProps {
   notiCounts?: number;
   path: string;
   disabled?: boolean;
+  onClick?: () => Promise<void>;
 }
 
 const SiderButton = ({
@@ -20,13 +21,10 @@ const SiderButton = ({
   notiCounts,
   path,
   disabled,
+  onClick,
 }: SiderButtonProps) => {
   let siderStyle =
     "flex py-5 px-7 lg:py-5 lg:px-8 cursor-pointer items-center transition-all";
-
-  const onLogout = () => {
-    window.location.pathname = "/login";
-  };
 
   if (active) {
     siderStyle = siderStyle.replace("lg:px-8", "pl-6 pr-8");
@@ -37,6 +35,7 @@ const SiderButton = ({
 
   const linkChildren = (
     <div
+      onClick={onClick}
       className={`${siderStyle} sider-btn ${
         disabled ? "cursor-not-allowed bg-black" : ""
       }`}
@@ -63,13 +62,13 @@ const SiderButton = ({
         >
           {title}
         </HeadingText4>
-        {notiCounts && <CustomBadge count={notiCounts} />}
+        {notiCounts ? <CustomBadge count={notiCounts} /> : null}
       </div>
     </div>
   );
 
   if (path === "/logout") {
-    return <div onClick={onLogout}>{linkChildren}</div>;
+    return <div onClick={onClick}>{linkChildren}</div>;
   }
 
   return disabled ? linkChildren : <Link to={path}>{linkChildren}</Link>;

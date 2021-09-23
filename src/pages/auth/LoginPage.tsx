@@ -10,7 +10,7 @@ import TextInput from "@components/global/form/LoginInput";
 import Button from "@components/global/Button";
 import { AuthRepository, LoginDto } from "@repository/AuthRepository";
 import RepositoryFactory from "@repository/RepositoryFactory";
-import { Spin } from "antd";
+import { notification, Spin } from "antd";
 import { useHistory } from "react-router";
 
 const LoginScreen = () => {
@@ -30,6 +30,11 @@ const LoginScreen = () => {
       await authRepository.login(loginDto);
       history.push("/home");
     } catch (error) {
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `The username/email or password is incorrect`,
+      });
     } finally {
       setIsLoading(false);
     }

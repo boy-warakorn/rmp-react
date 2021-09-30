@@ -138,7 +138,7 @@ const AddPackagePage = () => {
                 showSearch
                 defaultValue={roomNumber}
                 style={{ width: "100%" }}
-                placeholder="Enter Room Number"
+                placeholder="Select Room Number"
                 onSelect={onSelect}
               >
                 {room.roomIdList.map((id, index) => (

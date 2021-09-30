@@ -24,7 +24,7 @@ export interface RoomRepository {
   deleteRoomOwner(roomNumber: string): Promise<void>;
   addRoom(addRoomDto: AddRoomDto): Promise<void>;
   editRoom(editRoomDto: EditRoomDto, roomNumber: string): Promise<void>;
-  getRoomIDList(): Promise<string[] | undefined>;
+  getRoomIDList(allRoom?: boolean): Promise<string[] | undefined>;
   deleteRoom(roomNumber: string): Promise<void>;
 }
 
@@ -155,10 +155,12 @@ export const roomRepository: RoomRepository = {
       throw error;
     }
   },
-  async getRoomIDList() {
+  async getRoomIDList(allRoom: boolean) {
     try {
       return (
-        await AxiosService.get<{ roomNumbers: string[] }>(getRoomIDListUrl)
+        await AxiosService.get<{ roomNumbers: string[] }>(getRoomIDListUrl, {
+          params: { allRoom: allRoom },
+        })
       ).data.roomNumbers;
     } catch (error) {}
   },

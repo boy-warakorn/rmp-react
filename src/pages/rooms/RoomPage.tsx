@@ -35,6 +35,7 @@ const RoomPage = () => {
 
   useEffect(() => {
     fetchRoom();
+
     // eslint-disable-next-line
   }, [currentTabKey]);
 
@@ -42,6 +43,7 @@ const RoomPage = () => {
     try {
       setIsLoading(true);
       const rooms = await roomRepository.getRooms(currentTabKey);
+
       if (rooms) {
         dispatch(setRooms(rooms));
       }

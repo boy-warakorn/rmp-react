@@ -3,10 +3,7 @@ import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import { Modal, Tabs, Image, Spin, notification } from "antd";
 import HeaderTable from "@components/global/table/HeaderTable";
 import CustomTable from "@components/global/table/Table";
-import {
-  BodyText1,
-  HeadingText4,
-} from "@components/global/typography/Typography";
+import { HeadingText4 } from "@components/global/typography/Typography";
 import OutlineButton from "@components/global/OutlineButton";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentSelector } from "@stores/payments/selector";

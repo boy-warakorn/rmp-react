@@ -1,8 +1,7 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import { Modal, Tabs, Image, Spin, notification } from "antd";
 import HeaderTable from "@components/global/table/HeaderTable";
-// import { useHistory } from "react-router";
 import CustomTable from "@components/global/table/Table";
 import {
   BodyText1,
@@ -22,13 +21,11 @@ const tabList = [
   { key: "-", title: "All" },
   { key: "pending", title: "Pending" },
   { key: "active", title: "Active" },
-  // { key: "in-active", title: "In Active" },
   { key: "reject", title: "Reject" },
   { key: "complete", title: "Complete" },
 ];
 
 const PaymentPage = () => {
-  // const history = useHistory();
   const dispatch = useDispatch();
   const payments = useSelector(paymentSelector);
   const paymentRepository = RepositoriesFactory.get(
@@ -154,14 +151,12 @@ const PaymentPage = () => {
       fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
-          {record.status === "complete" ? (
-            <BodyText1 className="text-success">Confirmed</BodyText1>
-          ) : record.status === "pending" ? (
+          {record.status === "pending" ? (
             <OutlineButton onClick={() => onConfirmPaymentModal(record)}>
-              Confirm
+              Verify
             </OutlineButton>
           ) : (
-            <div>None</div>
+            <div></div>
           )}
         </div>
       ),

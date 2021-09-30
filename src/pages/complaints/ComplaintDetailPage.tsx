@@ -20,7 +20,7 @@ import dayjs from "dayjs";
 import { useForm } from "antd/lib/form/Form";
 import { isObjectEmpty } from "@utils/isObjEmpty";
 
-const ReportDetailPage = () => {
+const ComplaintDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -166,4 +166,4 @@ const ReportDetailPage = () => {
   );
 };
 
-export default ReportDetailPage;
+export default ComplaintDetailPage;

@@ -91,7 +91,7 @@ const Layout = () => {
                 path={path}
                 icon={icon}
                 active={window.location.pathname.includes(path)}
-                notiCounts={path === "/reports" ? count : 0}
+                notiCounts={path === "/complaints" ? count : 0}
                 key={`routes${index}`}
                 disabled={disabled}
               />

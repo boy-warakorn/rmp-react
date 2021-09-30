@@ -12,7 +12,9 @@ interface Repositories {
   auth: AuthRepository;
   room: RoomRepository;
   account: AccountRepository;
+  // report = complaint
   report: ReportRepository;
+  // add new generateReport
   package: PackageRepository;
   payment: PaymentRepository;
   contact: ContactRepository;

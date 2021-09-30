@@ -18,8 +18,8 @@ import PaymentPage from "@pages/payments/PaymentPage";
 import AddPaymentPage from "@pages/payments/crud/AddPaymentPage";
 import PackagePage from "@pages/packages/PackagePage";
 import AddPackagePage from "@pages/packages/crud/AddPackagePage";
-import ReportPage from "@pages/reports/ReportPage";
-import ReportDetailPage from "@pages/reports/ReportDetailPage";
+import ReportPage from "@pages/complaints/ComplaintPage";
+import ComplaintDetailPage from "@pages/complaints/ComplaintDetailPage";
 import ContactPage from "@pages/contacts/ContactPage";
 import ContactDetailPage from "@pages/contacts/ContactDetailPage";
 import AddContactPage from "@pages/contacts/crud/AddContactPage";
@@ -51,8 +51,8 @@ export const generalRoutes = [
     permissions: PERSONNEL,
   },
   {
-    title: "Reports",
-    path: "/reports",
+    title: "Complaints",
+    path: "/complaints",
     icon: <BellOutlined />,
     permissions: PERSONNEL,
   },
@@ -112,8 +112,12 @@ export const routes = [
     component: AddPackagePage,
     permissions: PERSONNEL,
   },
-  { path: "/reports", component: ReportPage, permissions: PERSONNEL },
-  { path: "/reports/:id", component: ReportDetailPage, permissions: PERSONNEL },
+  { path: "/complaints", component: ReportPage, permissions: PERSONNEL },
+  {
+    path: "/complaints/:id",
+    component: ComplaintDetailPage,
+    permissions: PERSONNEL,
+  },
   { path: "/contacts", component: ContactPage, permissions: ALL },
   { path: "/contacts/add", component: AddContactPage, permissions: ALL },
   { path: "/contacts/:id", component: ContactDetailPage, permissions: ALL },

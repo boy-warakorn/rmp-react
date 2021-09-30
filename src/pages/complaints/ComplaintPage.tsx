@@ -20,7 +20,7 @@ const tabList = [
   { key: "resolved", title: "Resolved" },
 ];
 
-const ReportPage = () => {
+const ComplaintPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const report = useSelector(reportSelector);
@@ -133,4 +133,4 @@ const ReportPage = () => {
   );
 };
 
-export default ReportPage;
+export default ComplaintPage;

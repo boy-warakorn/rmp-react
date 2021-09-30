@@ -118,7 +118,7 @@ const ComplaintPage = () => {
         {tabList.map((tab) => (
           <TabPane tab={tab.title} key={tab.key}>
             <TabCard>
-              <HeaderTable title={`${tab.title} Reports`} />
+              <HeaderTable title={`${tab.title} Complaints`} />
               <CustomTable
                 className="mt-6"
                 columns={columns}

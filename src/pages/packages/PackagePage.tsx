@@ -17,7 +17,7 @@ const { TabPane } = Tabs;
 const tabList = [
   { key: "-", title: "All" },
   { key: "in-storage", title: "In Storage" },
-  { key: "delivered", title: "Delivered" },
+  { key: "received", title: "Received" },
 ];
 
 const PackagePage = () => {

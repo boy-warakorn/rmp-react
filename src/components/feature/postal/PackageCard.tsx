@@ -57,7 +57,7 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
           )}
         </div>
         <div className="self-start">
-          {postal.status !== "delivered" ? (
+          {postal.status !== "received" ? (
             <EditOutlined
               style={{ fontSize: "18px" }}
               className="cursor-pointer"
@@ -73,7 +73,7 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
       </div>
       <div
         className={`py-6 px-2 mt-9  rounded-b-lg ${
-          postal.status === "delivered" ? "bg-success py-8" : "bg-grey-card "
+          postal.status === "received" ? "bg-success py-8" : "bg-grey-card "
         } flex items-center justify-between`}
       >
         <SubtitleText2 className="font-montserratBold text-black">
@@ -82,8 +82,8 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
             {dayjs(postal.arrivedAt).format("YYYY-MM-DD HH:MMA")}
           </span>
         </SubtitleText2>
-        {postal.status === "delivered" && <RightOutlined />}
-        {postal.status === "delivered" ? (
+        {postal.status === "received" && <RightOutlined />}
+        {postal.status === "received" ? (
           <SubtitleText2 className="font-montserratBold text-black">
             Delivered:{" "}
             <span className="font-roboto">

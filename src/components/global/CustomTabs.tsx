@@ -4,6 +4,7 @@ import React from "react";
 import tw from "twin.macro";
 
 const StyledTabs = styled(Tabs)`
+  ${tw`shadow rounded-xl`}
   & .ant-tabs-nav {
     margin: 0px !important;
   }
@@ -38,7 +39,7 @@ const StyledTabs = styled(Tabs)`
 `;
 
 export const TabCard = styled.div`
-  ${tw`w-full bg-card-bg shadow-md p-9`}
+  ${tw`w-full bg-card-bg p-9`}
   min-height: 600px;
 `;
 

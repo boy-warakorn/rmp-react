@@ -4,6 +4,7 @@ import {
   deleteRoomUrl,
   editRoomOwnerUrl,
   editRoomUrl,
+  forceDeleteRoomOwnerUrl,
   getRoomIDListUrl,
   getRoomsUrl,
   getRoomUrl,
@@ -11,7 +12,10 @@ import {
 import { AxiosService } from "@services/axios.config";
 
 export interface RoomRepository {
-  getRooms(tab: string): Promise<RoomResponse[] | undefined>;
+  getRooms(
+    tab: string,
+    roomNumber?: string
+  ): Promise<RoomResponse[] | undefined>;
   getRoom(roomNumber: string): Promise<GetRoomResponse | undefined>;
   editRoomOwner(
     editRoomOwnerDto: EditRoomOwnerDto,
@@ -22,9 +26,10 @@ export interface RoomRepository {
     roomNumber: string
   ): Promise<void>;
   deleteRoomOwner(roomNumber: string): Promise<void>;
+  forceDeleteRoomOwner(roomNumber: string): Promise<void>;
   addRoom(addRoomDto: AddRoomDto): Promise<void>;
   editRoom(editRoomDto: EditRoomDto, roomNumber: string): Promise<void>;
-  getRoomIDList(): Promise<string[] | undefined>;
+  getRoomIDList(allRoom?: boolean): Promise<string[] | undefined>;
   deleteRoom(roomNumber: string): Promise<void>;
 }
 
@@ -85,12 +90,13 @@ export interface GetRoomResponse {
 }
 
 export const roomRepository: RoomRepository = {
-  async getRooms(tab: string) {
+  async getRooms(tab: string, roomNumber?: string) {
     try {
       const rooms = (
         await AxiosService.get<GetRoomsResponse>(getRoomsUrl, {
           params: {
             filter_tab: tab === "-" ? "" : tab,
+            roomNumber: roomNumber,
           },
         })
       ).data.rooms;
@@ -141,6 +147,13 @@ export const roomRepository: RoomRepository = {
       throw error;
     }
   },
+  async forceDeleteRoomOwner(roomNumber: string) {
+    try {
+      await AxiosService.delete(forceDeleteRoomOwnerUrl(roomNumber));
+    } catch (error) {
+      throw error;
+    }
+  },
   async addRoom(addRoomDto: AddRoomDto) {
     try {
       await AxiosService.post(addRoomUrl, addRoomDto);
@@ -155,10 +168,12 @@ export const roomRepository: RoomRepository = {
       throw error;
     }
   },
-  async getRoomIDList() {
+  async getRoomIDList(allRoom: boolean) {
     try {
       return (
-        await AxiosService.get<{ roomNumbers: string[] }>(getRoomIDListUrl)
+        await AxiosService.get<{ roomNumbers: string[] }>(getRoomIDListUrl, {
+          params: { allRoom: allRoom },
+        })
       ).data.roomNumbers;
     } catch (error) {}
   },

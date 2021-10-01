@@ -42,6 +42,10 @@ export type ContactState = {
   currentContact: ContactResponse;
 };
 
+export type FilterState = {
+  filterRoomNumber?: string;
+};
+
 export type RootState = {
   user: UserState;
   room: RoomState;
@@ -50,4 +54,5 @@ export type RootState = {
   postal: PackageState;
   payment: PaymentState;
   contact: ContactState;
+  filter: FilterState;
 };

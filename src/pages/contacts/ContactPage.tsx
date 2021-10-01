@@ -75,6 +75,7 @@ const ContactPage = () => {
         title="All Contacts"
         buttonTitle="Add new contact"
         onClick={() => history.push("/contacts/add")}
+        haveFilter={false}
       />
       <CustomTable
         className="mt-6"

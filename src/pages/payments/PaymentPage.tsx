@@ -1,13 +1,9 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import { Modal, Tabs, Image, Spin, notification } from "antd";
 import HeaderTable from "@components/global/table/HeaderTable";
-// import { useHistory } from "react-router";
 import CustomTable from "@components/global/table/Table";
-import {
-  BodyText1,
-  HeadingText4,
-} from "@components/global/typography/Typography";
+import { HeadingText4 } from "@components/global/typography/Typography";
 import OutlineButton from "@components/global/OutlineButton";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentSelector } from "@stores/payments/selector";
@@ -15,22 +11,22 @@ import RepositoriesFactory from "@repository/RepositoryFactory";
 import { PaymentRepository } from "@repository/PaymentRepository";
 import { setPayments } from "@stores/payments/slice";
 import PaymentTag from "@components/feature/payment/PaymentTag";
+import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
 
 const tabList = [
   { key: "-", title: "All" },
   { key: "pending", title: "Pending" },
-  { key: "active", title: "Active" },
-  // { key: "in-active", title: "In Active" },
-  { key: "reject", title: "Reject" },
-  { key: "complete", title: "Complete" },
+  { key: "active", title: "Active / Due" },
+  { key: "reject", title: "Rejected" },
+  { key: "complete", title: "Completed" },
 ];
 
 const PaymentPage = () => {
-  // const history = useHistory();
   const dispatch = useDispatch();
   const payments = useSelector(paymentSelector);
+  const filter = useSelector(filterSelector);
   const paymentRepository = RepositoriesFactory.get(
     "payment"
   ) as PaymentRepository;
@@ -50,12 +46,15 @@ const PaymentPage = () => {
   useEffect(() => {
     fetchPayment();
     // eslint-disable-next-line
-  }, [currentTabKey]);
+  }, [currentTabKey, filter.filterRoomNumber]);
 
   const fetchPayment = async () => {
     try {
       setIsLoading(true);
-      const payments = await paymentRepository.getPayments(currentTabKey, "");
+      const payments = await paymentRepository.getPayments(
+        currentTabKey,
+        filter.filterRoomNumber
+      );
       if (payments) {
         dispatch(setPayments(payments));
       }
@@ -154,14 +153,12 @@ const PaymentPage = () => {
       fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
-          {record.status === "complete" ? (
-            <BodyText1 className="text-success">Confirmed</BodyText1>
-          ) : record.status === "pending" ? (
+          {record.status === "pending" ? (
             <OutlineButton onClick={() => onConfirmPaymentModal(record)}>
-              Confirm
+              Verify
             </OutlineButton>
           ) : (
-            <div>None</div>
+            <div></div>
           )}
         </div>
       ),

@@ -11,19 +11,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
 
 const tabList = [
   { key: "-", title: "All" },
   { key: "in-storage", title: "In Storage" },
-  { key: "delivered", title: "Delivered" },
+  { key: "received", title: "Received" },
 ];
 
 const PackagePage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const postal = useSelector(packageSelector);
+  const filter = useSelector(filterSelector);
   const packageRepository = RepositoriesFactory.get(
     "package"
   ) as PackageRepository;
@@ -38,12 +40,15 @@ const PackagePage = () => {
   useEffect(() => {
     fetchPackages();
     // eslint-disable-next-line
-  }, [currentTabKey]);
+  }, [currentTabKey, filter.filterRoomNumber]);
 
   const fetchPackages = async () => {
     try {
       setIsLoading(true);
-      const packages = await packageRepository.getPackages(currentTabKey);
+      const packages = await packageRepository.getPackages(
+        currentTabKey,
+        filter.filterRoomNumber
+      );
       if (packages) {
         dispatch(setPackages(packages));
       }

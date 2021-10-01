@@ -8,10 +8,13 @@ import {
 import { AxiosService } from "@services/axios.config";
 
 export interface ReportRepository {
-  getReports(tab: string): Promise<GetReportsResponse | undefined>;
+  getReports(
+    tab: string,
+    roomNumber?: string
+  ): Promise<GetReportsResponse | undefined>;
   getReport(id: string): Promise<GetReportResponse | undefined>;
   replyReport(id: string, replyReportDto: ReplyReportDto): Promise<void>;
-  resolveReport(id: string): Promise<void>;
+  resolveReport(id: string, resolveDetail: string): Promise<void>;
   getPendingReportCount(): Promise<number | void>;
 }
 
@@ -28,6 +31,7 @@ export interface ReportResponse {
   reportOwner: string;
   requestedDate: string;
   resolvedDate: string;
+  resolvedBy: string;
   title: string;
   detail: string;
   status: string;
@@ -40,6 +44,8 @@ export interface GetReportResponse {
     title: string;
     detail: string;
     respondDetail: string;
+    resolveDetail: string;
+    resolveBy: string;
   };
   roomNumber: string;
   requestedDate: string;
@@ -52,12 +58,13 @@ export interface GetReportCountResponse {
 }
 
 export const reportRepository: ReportRepository = {
-  async getReports(tab: string) {
+  async getReports(tab: string, roomNumber?: string) {
     try {
       const reports = (
         await AxiosService.get<GetReportsResponse>(getReportsUrl, {
           params: {
-            status: tab === "-" ? "" : tab,
+            status: tab === "-" ? undefined : tab,
+            roomNumber: roomNumber,
           },
         })
       ).data;
@@ -83,9 +90,12 @@ export const reportRepository: ReportRepository = {
       throw error;
     }
   },
-  async resolveReport(id: string) {
+  async resolveReport(id: string, resolveDetail: string) {
     try {
-      await AxiosService.post(resolveReportUrl(id));
+      await AxiosService.post(resolveReportUrl(id), {
+        detail: resolveDetail,
+        resolveBy: "condos personnel",
+      });
     } catch (error) {
       throw error;
     }

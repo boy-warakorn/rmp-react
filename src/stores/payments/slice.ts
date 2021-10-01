@@ -19,7 +19,6 @@ const slice = createSlice({
   initialState,
   reducers: {
     setPayments(state, action: PayloadAction<GetPaymentsResponse>) {
-      console.log(`action.payload.payments`, action.payload.payments);
       state.payments = action.payload.payments.map((payment, index) => ({
         key: `${payment.id}Rooms`,
         index: index,

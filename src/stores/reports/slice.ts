@@ -36,6 +36,7 @@ const slice = createSlice({
           : report.resolvedDate,
         title: report.title,
         status: report.status,
+        resolvedBy: report.resolvedBy,
       }));
     },
     setReport(state, action: PayloadAction<GetReportResponse>) {

@@ -10,6 +10,7 @@ import { reportSelector } from "@stores/reports/selector";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { ReportRepository } from "@repository/ReportRepository";
 import { setReports } from "@stores/reports/slice";
+import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
 
@@ -20,10 +21,11 @@ const tabList = [
   { key: "resolved", title: "Resolved" },
 ];
 
-const ReportPage = () => {
+const ComplaintPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const report = useSelector(reportSelector);
+  const filter = useSelector(filterSelector);
   const reportRepository = RepositoriesFactory.get(
     "report"
   ) as ReportRepository;
@@ -38,12 +40,15 @@ const ReportPage = () => {
   useEffect(() => {
     fetchReports();
     // eslint-disable-next-line
-  }, [currentTabKey]);
+  }, [currentTabKey, filter.filterRoomNumber]);
 
   const fetchReports = async () => {
     try {
       setIsLoading(true);
-      const reportResponse = await reportRepository.getReports(currentTabKey);
+      const reportResponse = await reportRepository.getReports(
+        currentTabKey,
+        filter.filterRoomNumber
+      );
       if (reportResponse) {
         dispatch(setReports(reportResponse));
       }
@@ -80,6 +85,11 @@ const ReportPage = () => {
       dataIndex: "title",
     },
     {
+      title: "Resolved By",
+      width: 50,
+      dataIndex: "resolvedBy",
+    },
+    {
       title: "Status",
       width: 50,
       dataIndex: "status",
@@ -105,7 +115,7 @@ const ReportPage = () => {
         <OutlineButton
           className="ml-3 px-10"
           color="primary"
-          onClick={() => history.push(`/reports/${record.id}`)}
+          onClick={() => history.push(`/complaints/${record.id}`)}
         >
           Open
         </OutlineButton>
@@ -118,7 +128,7 @@ const ReportPage = () => {
         {tabList.map((tab) => (
           <TabPane tab={tab.title} key={tab.key}>
             <TabCard>
-              <HeaderTable title={`${tab.title} Reports`} />
+              <HeaderTable title={`${tab.title} Complaints`} />
               <CustomTable
                 className="mt-6"
                 columns={columns}
@@ -133,4 +143,4 @@ const ReportPage = () => {
   );
 };
 
-export default ReportPage;
+export default ComplaintPage;

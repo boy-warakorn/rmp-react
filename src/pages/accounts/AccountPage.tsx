@@ -100,6 +100,7 @@ const AccountPage = () => {
                 title={`${tab.title} Accounts`}
                 buttonTitle="New Accounts"
                 onClick={() => history.push("/manage-accounts/add")}
+                haveFilter={false}
               />
               <CustomTable
                 className="mt-6"

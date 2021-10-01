@@ -3,11 +3,12 @@ import {
   ContactsOutlined,
   SettingFilled,
   LogoutOutlined,
-  CodeSandboxOutlined,
-  PayCircleOutlined,
+  InboxOutlined,
+  BankOutlined,
   ApartmentOutlined,
-  KeyOutlined,
-  BellOutlined,
+  UserOutlined,
+  CommentOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import HomePage from "@pages/HomePage";
 import RoomPage from "@pages/rooms/RoomPage";
@@ -18,14 +19,15 @@ import PaymentPage from "@pages/payments/PaymentPage";
 import AddPaymentPage from "@pages/payments/crud/AddPaymentPage";
 import PackagePage from "@pages/packages/PackagePage";
 import AddPackagePage from "@pages/packages/crud/AddPackagePage";
-import ReportPage from "@pages/reports/ReportPage";
-import ReportDetailPage from "@pages/reports/ReportDetailPage";
+import ReportPage from "@pages/complaints/ComplaintPage";
+import ComplaintDetailPage from "@pages/complaints/ComplaintDetailPage";
 import ContactPage from "@pages/contacts/ContactPage";
 import ContactDetailPage from "@pages/contacts/ContactDetailPage";
 import AddContactPage from "@pages/contacts/crud/AddContactPage";
 import AccountPage from "@pages/accounts/AccountPage";
 import AddAccountPage from "@pages/accounts/crud/AddAccountPage";
 import AccountDetailPage from "@pages/accounts/AccountDetailPage";
+import BuildingPage from "@pages/buildings/BuildingPage";
 
 const PERSONNEL = ["personnel"];
 const ADMIN = ["admin"];
@@ -35,6 +37,12 @@ export const generalRoutes = [
   {
     title: "Home",
     path: "/home",
+    icon: <BarChartOutlined />,
+    permissions: ALL,
+  },
+  {
+    title: "Building Management",
+    path: "/buildings",
     icon: <HomeOutlined />,
     permissions: ALL,
   },
@@ -47,33 +55,34 @@ export const generalRoutes = [
   {
     title: "Resident’s packages",
     path: "/packages",
-    icon: <CodeSandboxOutlined />,
-    permissions: PERSONNEL,
+    icon: <InboxOutlined />,
+    permissions: ALL,
   },
   {
-    title: "Reports",
-    path: "/reports",
-    icon: <BellOutlined />,
-    permissions: PERSONNEL,
+    title: "Complaints",
+    path: "/complaints",
+    icon: <CommentOutlined />,
+    permissions: ALL,
+  },
+  {
+    title: "Bills/Payments",
+    path: "/payments",
+    icon: <BankOutlined />,
+    permissions: ALL,
+  },
+
+  {
+    title: "Manage Accounts",
+    path: "/manage-accounts",
+    icon: <UserOutlined />,
+    disabled: false,
+    permissions: ADMIN,
   },
   {
     title: "Contact List",
     path: "/contacts",
     icon: <ContactsOutlined />,
     permissions: ALL,
-  },
-  {
-    title: "Bills/Payments",
-    path: "/payments",
-    icon: <PayCircleOutlined />,
-    permissions: PERSONNEL,
-  },
-  {
-    title: "Manage Accounts",
-    path: "/manage-accounts",
-    icon: <KeyOutlined />,
-    disabled: false,
-    permissions: ADMIN,
   },
 ];
 
@@ -103,17 +112,21 @@ export const routes = [
     permissions: ALL,
   },
   { path: "/rooms/:id", component: RoomDetailPage, permissions: ALL },
-  { path: "/payments", component: PaymentPage, permissions: PERSONNEL },
-  { path: "/payments/add", component: AddPaymentPage, permissions: PERSONNEL },
-  { path: "/packages", component: PackagePage, permissions: PERSONNEL },
-  { path: "/packages/add", component: AddPackagePage, permissions: PERSONNEL },
+  { path: "/payments", component: PaymentPage, permissions: ALL },
+  { path: "/payments/add", component: AddPaymentPage, permissions: ALL },
+  { path: "/packages", component: PackagePage, permissions: ALL },
+  { path: "/packages/add", component: AddPackagePage, permissions: ALL },
   {
     path: "/packages/:id/edit",
     component: AddPackagePage,
-    permissions: PERSONNEL,
+    permissions: ALL,
   },
-  { path: "/reports", component: ReportPage, permissions: PERSONNEL },
-  { path: "/reports/:id", component: ReportDetailPage, permissions: PERSONNEL },
+  { path: "/complaints", component: ReportPage, permissions: ALL },
+  {
+    path: "/complaints/:id",
+    component: ComplaintDetailPage,
+    permissions: ALL,
+  },
   { path: "/contacts", component: ContactPage, permissions: ALL },
   { path: "/contacts/add", component: AddContactPage, permissions: ALL },
   { path: "/contacts/:id", component: ContactDetailPage, permissions: ALL },
@@ -133,5 +146,10 @@ export const routes = [
     path: "/manage-accounts/:id/edit",
     component: AddAccountPage,
     permissions: ADMIN,
+  },
+  {
+    path: "/buildings",
+    component: BuildingPage,
+    permissions: ALL,
   },
 ];

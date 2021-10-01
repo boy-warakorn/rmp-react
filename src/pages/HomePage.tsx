@@ -36,12 +36,12 @@ const HomePage = () => {
       <div className="col-span-6 md:col-span-3">
         <DashboardCard text="Complaints" count={64} />
       </div>
-      <div className="col-span-12 mt-6 mb-6">
-        <HeadingText4>
-          {user.role === "admin" ? "Room summary" : "Recent incoming packages"}
-        </HeadingText4>
+      <div className="col-span-6 mt-6 mb-6">
+        <HeadingText4>Recent incoming packages</HeadingText4>
       </div>
-
+      <div className="col-span-6 mt-6 mb-6">
+        <HeadingText4>Room summary</HeadingText4>
+      </div>
       <div className="col-span-6">
         <Fragment>
           <DashboardPackageCard />

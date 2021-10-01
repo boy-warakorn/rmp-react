@@ -91,14 +91,34 @@ const RoomDetail = () => {
       onOk() {
         confirmDelete();
       },
+      okType: "danger",
       width: "40vw",
     });
   };
 
-  const confirmDelete = async () => {
+  const onForceDelete = async () => {
+    confirm({
+      title: "Do you want to force delete room owner?",
+      icon: <ExclamationCircleOutlined />,
+      content:
+        "If you confirm, Resident account, payments, and packages will be disabled",
+      onOk() {
+        confirmDelete(true);
+      },
+      okType: "danger",
+      okText: "DELETE",
+      width: "40vw",
+    });
+  };
+
+  const confirmDelete = async (isForce?: boolean) => {
     try {
       setIsLoading(true);
-      await roomRepository.deleteRoomOwner(id);
+      if (isForce) {
+        await roomRepository.forceDeleteRoomOwner(id);
+      } else {
+        await roomRepository.deleteRoomOwner(id);
+      }
       notification.success({
         duration: 2,
         message: "Success",
@@ -122,6 +142,7 @@ const RoomDetail = () => {
       onOk() {
         confirmDeleteRoom();
       },
+      okType: "danger",
       width: "40vw",
     });
   };
@@ -320,6 +341,9 @@ const RoomDetail = () => {
                 onClick={() => history.push(`/rooms/${id}/owner/edit`)}
               >
                 Edit Owner
+              </Button>
+              <Button className="mr-2" color="danger" onClick={onForceDelete}>
+                Force Move out
               </Button>
               <Button color="danger" onClick={onDelete}>
                 Move out

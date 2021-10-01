@@ -4,6 +4,7 @@ import {
   deleteRoomUrl,
   editRoomOwnerUrl,
   editRoomUrl,
+  forceDeleteRoomOwnerUrl,
   getRoomIDListUrl,
   getRoomsUrl,
   getRoomUrl,
@@ -25,6 +26,7 @@ export interface RoomRepository {
     roomNumber: string
   ): Promise<void>;
   deleteRoomOwner(roomNumber: string): Promise<void>;
+  forceDeleteRoomOwner(roomNumber: string): Promise<void>;
   addRoom(addRoomDto: AddRoomDto): Promise<void>;
   editRoom(editRoomDto: EditRoomDto, roomNumber: string): Promise<void>;
   getRoomIDList(allRoom?: boolean): Promise<string[] | undefined>;
@@ -141,6 +143,13 @@ export const roomRepository: RoomRepository = {
   async deleteRoomOwner(roomNumber: string) {
     try {
       await AxiosService.delete(addRoomOwnerUrl(roomNumber));
+    } catch (error) {
+      throw error;
+    }
+  },
+  async forceDeleteRoomOwner(roomNumber: string) {
+    try {
+      await AxiosService.delete(forceDeleteRoomOwnerUrl(roomNumber));
     } catch (error) {
       throw error;
     }

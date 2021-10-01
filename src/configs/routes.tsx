@@ -3,11 +3,11 @@ import {
   ContactsOutlined,
   SettingFilled,
   LogoutOutlined,
-  CodeSandboxOutlined,
-  PayCircleOutlined,
+  InboxOutlined,
+  BankOutlined,
   ApartmentOutlined,
-  KeyOutlined,
-  BellOutlined,
+  UserOutlined,
+  CommentOutlined,
 } from "@ant-design/icons";
 import HomePage from "@pages/HomePage";
 import RoomPage from "@pages/rooms/RoomPage";
@@ -47,26 +47,26 @@ export const generalRoutes = [
   {
     title: "Resident’s packages",
     path: "/packages",
-    icon: <CodeSandboxOutlined />,
+    icon: <InboxOutlined />,
     permissions: ALL,
   },
   {
     title: "Complaints",
     path: "/complaints",
-    icon: <BellOutlined />,
+    icon: <CommentOutlined />,
     permissions: ALL,
   },
   {
     title: "Bills/Payments",
     path: "/payments",
-    icon: <PayCircleOutlined />,
+    icon: <BankOutlined />,
     permissions: ALL,
   },
 
   {
     title: "Manage Accounts",
     path: "/manage-accounts",
-    icon: <KeyOutlined />,
+    icon: <UserOutlined />,
     disabled: false,
     permissions: ADMIN,
   },

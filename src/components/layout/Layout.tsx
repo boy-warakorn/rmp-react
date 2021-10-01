@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SiderButton from "@components/global/navigation/SiderButton";
 import { HeadingText3 } from "@components/global/typography/Typography";
-import Logo from "../../assets/images/rmp_logo.png";
+import Logo from "../../assets/images/rmp_logo_white.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 import { Switch, Redirect, useHistory } from "react-router";
@@ -80,7 +80,7 @@ const Layout = () => {
         <div className="flex p-5 lg:py-9 lg:px-8 items-center">
           <img src={Logo} width="32px" alt="logo" />
           <HeadingText3 className="text-grey ml-3 text hidden lg:inline-block ">
-            RMPSystem
+            RMP System
           </HeadingText3>
         </div>
         {generalRoutes.map(

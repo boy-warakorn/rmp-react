@@ -7,6 +7,8 @@ import { roomSelector } from "@stores/rooms/selector";
 import RepositoryFactory from "@repository/RepositoryFactory";
 import { RoomRepository } from "@repository/RoomRepository";
 import { setRoomIDs } from "@stores/rooms/slice";
+import { clearFilter, setFilterRoomNumber } from "@stores/filters/slice";
+import { filterSelector } from "@stores/filters/selector";
 
 interface HeaderTableProps {
   title: string;
@@ -25,12 +27,16 @@ const HeaderTable = ({
 }: HeaderTableProps) => {
   const dispatch = useDispatch();
   const room = useSelector(roomSelector);
+  const filter = useSelector(filterSelector);
   const roomRepository = RepositoryFactory.get("room") as RoomRepository;
 
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchRoomIDList();
+    return () => {
+      dispatch(clearFilter());
+    };
     // eslint-disable-next-line
   }, []);
 
@@ -50,16 +56,17 @@ const HeaderTable = ({
   return (
     <div className="flex justify-between">
       <HeadingText4>{title}</HeadingText4>
-
       <div className="flex">
         {haveFilter && (
           <Select
             showSearch
+            value={filter.filterRoomNumber}
             loading={isLoading}
             allowClear
             className="mr-4 w-52"
             placeholder="Filter Room Number"
-            onSelect={(value: any) => {}}
+            onSelect={(value: string) => dispatch(setFilterRoomNumber(value))}
+            onClear={() => dispatch(clearFilter())}
           >
             {room.roomIdList.map((id, index) => (
               <Option value={id} key={`${id}${index}HeaderTableRoomID`}>

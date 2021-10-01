@@ -13,6 +13,7 @@ import report from "./reports/slice";
 import postal from "./packages/slice";
 import payment from "./payments/slice";
 import contact from "./contacts/slice";
+import filter from "./filters/slice";
 
 const middleware = [...getDefaultMiddleware()];
 
@@ -27,6 +28,7 @@ export const store = configureStore({
     postal,
     payment,
     contact,
+    filter,
   },
   middleware,
 });

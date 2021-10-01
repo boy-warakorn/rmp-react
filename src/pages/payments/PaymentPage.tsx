@@ -11,6 +11,7 @@ import RepositoriesFactory from "@repository/RepositoryFactory";
 import { PaymentRepository } from "@repository/PaymentRepository";
 import { setPayments } from "@stores/payments/slice";
 import PaymentTag from "@components/feature/payment/PaymentTag";
+import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
 
@@ -25,6 +26,7 @@ const tabList = [
 const PaymentPage = () => {
   const dispatch = useDispatch();
   const payments = useSelector(paymentSelector);
+  const filter = useSelector(filterSelector);
   const paymentRepository = RepositoriesFactory.get(
     "payment"
   ) as PaymentRepository;
@@ -44,12 +46,15 @@ const PaymentPage = () => {
   useEffect(() => {
     fetchPayment();
     // eslint-disable-next-line
-  }, [currentTabKey]);
+  }, [currentTabKey, filter.filterRoomNumber]);
 
   const fetchPayment = async () => {
     try {
       setIsLoading(true);
-      const payments = await paymentRepository.getPayments(currentTabKey, "");
+      const payments = await paymentRepository.getPayments(
+        currentTabKey,
+        filter.filterRoomNumber
+      );
       if (payments) {
         dispatch(setPayments(payments));
       }

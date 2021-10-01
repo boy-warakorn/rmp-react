@@ -11,6 +11,7 @@ import { RoomRepository } from "@repository/RoomRepository";
 import { useDispatch, useSelector } from "react-redux";
 import { Room, setRooms } from "@stores/rooms/slice";
 import { roomSelector } from "@stores/rooms/selector";
+import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
 
@@ -24,6 +25,7 @@ const RoomPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const room = useSelector(roomSelector);
+  const filter = useSelector(filterSelector);
   const roomRepository = RepositoryFactory.get("room") as RoomRepository;
 
   const [currentTabKey, setCurrentTabKey] = useState("-");
@@ -37,12 +39,15 @@ const RoomPage = () => {
     fetchRoom();
 
     // eslint-disable-next-line
-  }, [currentTabKey]);
+  }, [currentTabKey, filter.filterRoomNumber]);
 
   const fetchRoom = async () => {
     try {
       setIsLoading(true);
-      const rooms = await roomRepository.getRooms(currentTabKey);
+      const rooms = await roomRepository.getRooms(
+        currentTabKey,
+        filter.filterRoomNumber
+      );
 
       if (rooms) {
         dispatch(setRooms(rooms));

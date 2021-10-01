@@ -56,19 +56,12 @@ export const packageRepository: PackageRepository = {
   async getPackages(tab: string, roomNumber?: string) {
     try {
       let result: any;
-      if (!roomNumber) {
-        result = (
-          await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
-            params: { status: tab === "-" ? "" : tab },
-          })
-        ).data.packages;
-      } else {
-        result = (
-          await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
-            params: { roomNumber: roomNumber },
-          })
-        ).data.packages;
-      }
+
+      result = (
+        await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
+          params: { status: tab === "-" ? "" : tab, roomNumber: roomNumber },
+        })
+      ).data.packages;
 
       const formattedPackages = Array.from(
         { length: Math.ceil(result.length / 8) },

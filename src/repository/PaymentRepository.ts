@@ -8,7 +8,7 @@ import { AxiosService } from "@services/axios.config";
 export interface PaymentRepository {
   getPayments(
     tab: string,
-    roomNumber: string
+    roomNumber?: string
   ): Promise<GetPaymentsResponse | undefined>;
   getSpecificPaymentReceipt(id: string): Promise<string | undefined>;
   confirmPayment(id: string): Promise<void>;
@@ -34,26 +34,16 @@ export interface PaymentResponse {
 }
 
 export const paymentRepository: PaymentRepository = {
-  async getPayments(tab: string, roomNumber: string) {
+  async getPayments(tab: string, roomNumber?: string) {
     try {
-      let result: any;
-      if (tab) {
-        result = (
-          await AxiosService.get<GetPaymentsResponse>(getPaymentsUrl, {
-            params: {
-              status: tab === "-" ? "" : tab,
-            },
-          })
-        ).data;
-      } else {
-        result = (
-          await AxiosService.get<GetPaymentsResponse>(getPaymentsUrl, {
-            params: {
-              roomNumber: roomNumber,
-            },
-          })
-        ).data;
-      }
+      const result = (
+        await AxiosService.get<GetPaymentsResponse>(getPaymentsUrl, {
+          params: {
+            status: tab === "-" ? "" : tab,
+            roomNumber: roomNumber,
+          },
+        })
+      ).data;
       return result;
     } catch (error) {
       throw error;

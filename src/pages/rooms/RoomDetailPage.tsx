@@ -1,7 +1,6 @@
 import RoomOwnerSection from "@components/feature/room/RoomOwnerSection";
 import Card from "@components/global/Card";
 import {
-  BodyText1,
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
@@ -74,7 +73,7 @@ const RoomDetail = () => {
       setIsLoading(true);
       const result = await roomRepository.getRoom(id);
       const postals = await packageRepository.getPackages("-", id);
-      const payments = await paymentRepository.getPayments("", id);
+      const payments = await paymentRepository.getPayments("-", id);
       if (result && postals && payments) {
         dispatch(setCurrentRoom(result));
         dispatch(setPackages(postals));
@@ -247,11 +246,6 @@ const RoomDetail = () => {
 
   const columns = [
     {
-      title: "Room No.",
-      dataIndex: "roomNumber",
-      width: 30,
-    },
-    {
       title: "Paid At",
       dataIndex: "paidAt",
       width: 50,
@@ -289,14 +283,12 @@ const RoomDetail = () => {
       fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
-          {record.status === "complete" ? (
-            <BodyText1 className="text-success">Confirmed</BodyText1>
-          ) : record.status === "pending" ? (
+          {record.status === "pending" ? (
             <OutlineButton onClick={() => onConfirmPaymentModal(record)}>
-              Confirm
+              Verify
             </OutlineButton>
           ) : (
-            <div>None</div>
+            <div></div>
           )}
         </div>
       ),
@@ -308,7 +300,9 @@ const RoomDetail = () => {
   ) : (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6 flex justify-between">
-        <HeadingText3>Room: {id}</HeadingText3>
+        <HeadingText3>
+          Room number: <span className="font-montserratMedium">{id}</span>
+        </HeadingText3>
         <Button className="mr-2" color="danger" onClick={onDeleteRoom}>
           Delete Room
         </Button>
@@ -353,39 +347,39 @@ const RoomDetail = () => {
           />
         </div>
       </Card>
-      {user.role !== "admin" && (
-        <CustomTabs
-          className="col-span-12 mt-6"
-          activeKey={currentTabKey}
-          onChange={onChangeTab}
-        >
-          <TabPane tab="Packages" key="1">
-            <TabCard>
-              <HeaderTable
-                title="All Packages"
-                buttonTitle="New package"
-                onClick={() => history.push("/packages/add")}
-              />
-              <PackageTable
-                content={postal.packages}
-                loading={isLoading}
-                onConfirm={onConfirmOrDeleteDelivery}
-              />
-            </TabCard>
-          </TabPane>
-          <TabPane tab="Payments" key="2">
-            <TabCard>
-              <HeaderTable title="All Payments" />
-              <CustomTable
-                className="mt-6"
-                columns={columns}
-                dataSource={payments.payments}
-                loading={isLoading}
-              />
-            </TabCard>
-          </TabPane>
-        </CustomTabs>
-      )}
+
+      <CustomTabs
+        className="col-span-12 mt-6"
+        activeKey={currentTabKey}
+        onChange={onChangeTab}
+      >
+        <TabPane tab="Packages" key="1">
+          <TabCard>
+            <HeaderTable
+              title="All Packages"
+              buttonTitle="New package"
+              onClick={() => history.push("/packages/add")}
+              haveFilter={false}
+            />
+            <PackageTable
+              content={postal.packages}
+              loading={isLoading}
+              onConfirm={onConfirmOrDeleteDelivery}
+            />
+          </TabCard>
+        </TabPane>
+        <TabPane tab="Payments" key="2">
+          <TabCard>
+            <HeaderTable title="All Payments" haveFilter={false} />
+            <CustomTable
+              className="mt-6"
+              columns={columns}
+              dataSource={payments.payments}
+              loading={isLoading}
+            />
+          </TabCard>
+        </TabPane>
+      </CustomTabs>
       <Modal
         title={`Confirmation payment of: ${currentRoomNumber}`}
         visible={isModalVisible}

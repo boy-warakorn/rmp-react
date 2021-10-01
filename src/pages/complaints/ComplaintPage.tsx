@@ -10,6 +10,7 @@ import { reportSelector } from "@stores/reports/selector";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { ReportRepository } from "@repository/ReportRepository";
 import { setReports } from "@stores/reports/slice";
+import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
 
@@ -24,6 +25,7 @@ const ComplaintPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const report = useSelector(reportSelector);
+  const filter = useSelector(filterSelector);
   const reportRepository = RepositoriesFactory.get(
     "report"
   ) as ReportRepository;
@@ -38,12 +40,15 @@ const ComplaintPage = () => {
   useEffect(() => {
     fetchReports();
     // eslint-disable-next-line
-  }, [currentTabKey]);
+  }, [currentTabKey, filter.filterRoomNumber]);
 
   const fetchReports = async () => {
     try {
       setIsLoading(true);
-      const reportResponse = await reportRepository.getReports(currentTabKey);
+      const reportResponse = await reportRepository.getReports(
+        currentTabKey,
+        filter.filterRoomNumber
+      );
       if (reportResponse) {
         dispatch(setReports(reportResponse));
       }

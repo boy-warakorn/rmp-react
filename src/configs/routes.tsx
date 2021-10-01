@@ -8,6 +8,7 @@ import {
   ApartmentOutlined,
   UserOutlined,
   CommentOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import HomePage from "@pages/HomePage";
 import RoomPage from "@pages/rooms/RoomPage";
@@ -26,6 +27,7 @@ import AddContactPage from "@pages/contacts/crud/AddContactPage";
 import AccountPage from "@pages/accounts/AccountPage";
 import AddAccountPage from "@pages/accounts/crud/AddAccountPage";
 import AccountDetailPage from "@pages/accounts/AccountDetailPage";
+import BuildingPage from "@pages/buildings/BuildingPage";
 
 const PERSONNEL = ["personnel"];
 const ADMIN = ["admin"];
@@ -35,6 +37,12 @@ export const generalRoutes = [
   {
     title: "Home",
     path: "/home",
+    icon: <BarChartOutlined />,
+    permissions: ALL,
+  },
+  {
+    title: "Building Management",
+    path: "/buildings",
     icon: <HomeOutlined />,
     permissions: ALL,
   },
@@ -138,5 +146,10 @@ export const routes = [
     path: "/manage-accounts/:id/edit",
     component: AddAccountPage,
     permissions: ADMIN,
+  },
+  {
+    path: "/buildings",
+    component: BuildingPage,
+    permissions: ALL,
   },
 ];

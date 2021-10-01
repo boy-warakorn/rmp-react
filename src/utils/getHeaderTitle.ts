@@ -8,6 +8,9 @@ export const getHeaderTitle = () => {
     case "/packages": {
       return "Residents’ packages";
     }
+    case "/buildings": {
+      return "Building Management";
+    }
     case "/complaints": {
       return "Complaints";
     }

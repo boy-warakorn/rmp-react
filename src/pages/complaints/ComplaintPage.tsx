@@ -85,6 +85,11 @@ const ComplaintPage = () => {
       dataIndex: "title",
     },
     {
+      title: "Resolved By",
+      width: 50,
+      dataIndex: "resolvedBy",
+    },
+    {
       title: "Status",
       width: 50,
       dataIndex: "status",
@@ -110,7 +115,7 @@ const ComplaintPage = () => {
         <OutlineButton
           className="ml-3 px-10"
           color="primary"
-          onClick={() => history.push(`/reports/${record.id}`)}
+          onClick={() => history.push(`/complaints/${record.id}`)}
         >
           Open
         </OutlineButton>

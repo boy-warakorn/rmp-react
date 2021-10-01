@@ -7,7 +7,7 @@ import {
   HeadingText4,
   SubHeadingText1,
 } from "@components/global/typography/Typography";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import RepositoriesFactory from "@repository/RepositoryFactory";
@@ -15,7 +15,7 @@ import { ReplyReportDto, ReportRepository } from "@repository/ReportRepository";
 import { reportSelector } from "@stores/reports/selector";
 import { setReport } from "@stores/reports/slice";
 import Loading from "@components/global/Loading";
-import { Form, notification } from "antd";
+import { Form, notification, Spin, Modal } from "antd";
 import dayjs from "dayjs";
 import { useForm } from "antd/lib/form/Form";
 import { isObjectEmpty } from "@utils/isObjEmpty";
@@ -25,6 +25,10 @@ const ComplaintDetailPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [resolveReason, setResolveReason] = useState<string | undefined>(
+    undefined
+  );
   const reportsRepository = RepositoriesFactory.get(
     "report"
   ) as ReportRepository;
@@ -69,18 +73,26 @@ const ComplaintDetailPage = () => {
     }
   };
 
-  const onResolveReport = async () => {
+  const onResolveReport = () => {
+    setIsModalVisible(true);
+  };
+
+  const onConfirmResolve = async () => {
     try {
-      setIsLoading(true);
-      await reportsRepository.resolveReport(id);
-      notification.success({
-        duration: 2,
-        message: "Success",
-        description: `Resolve report Success`,
-      });
-      history.goBack();
+      if (resolveReason) {
+        setIsLoading(true);
+        await reportsRepository.resolveReport(id, resolveReason);
+        notification.success({
+          duration: 2,
+          message: "Success",
+          description: `Resolve report Success`,
+        });
+        setIsModalVisible(false);
+        history.goBack();
+      }
     } catch (error) {
     } finally {
+      setIsModalVisible(false);
       setIsLoading(false);
     }
   };
@@ -127,7 +139,9 @@ const ComplaintDetailPage = () => {
                   <span className="font-bold">Paragraph: </span>
                 </HeadingText4>
                 <BodyText1 className="mt-2">
-                  {report.currentReport.content.respondDetail}
+                  {!report.currentReport.content.respondDetail
+                    ? "-"
+                    : report.currentReport.content.respondDetail}
                 </BodyText1>
               </Fragment>
             ) : (
@@ -136,6 +150,41 @@ const ComplaintDetailPage = () => {
               </Form.Item>
             )}
           </FormCard>
+          {report.currentReport.status === "resolved" && (
+            <Fragment>
+              <HeadingText4 className="mt-9">
+                <span className="font-bold">Resolve Detail</span>
+              </HeadingText4>
+              <BodyText1 className="mt-1">
+                <span className="font-bold">Resolve By: </span>
+                {report.currentReport.content.resolveBy}
+              </BodyText1>
+              <FormCard className="mt-4">
+                <Fragment>
+                  <HeadingText4>
+                    <span className="font-bold">Detail: </span>
+                  </HeadingText4>
+                  <SubHeadingText1 className="font-montserratBold mt-2">
+                    Resolved:{" "}
+                    <span className="font-montserrat">
+                      {dayjs(report.currentReport.resolvedDate).format(
+                        "D-MMMM-YYYY"
+                      )}
+                    </span>{" "}
+                    at{" "}
+                    <span className="font-montserrat">
+                      {dayjs(report.currentReport.resolvedDate).format(
+                        "HH:MM A"
+                      )}
+                    </span>
+                  </SubHeadingText1>
+                  <BodyText1 className="mt-2">
+                    {report.currentReport.content.resolveDetail}
+                  </BodyText1>
+                </Fragment>
+              </FormCard>
+            </Fragment>
+          )}
           {report.currentReport.status !== "resolved" && (
             <div className="flex justify-end mt-9">
               <Button
@@ -145,7 +194,7 @@ const ComplaintDetailPage = () => {
                   report.currentReport.status === "responded" ? "" : "mr-4"
                 }`}
               >
-                Mark as Resolved
+                Resolve Report
               </Button>
               {report.currentReport.status === "responded" ? (
                 <div></div>
@@ -162,6 +211,36 @@ const ComplaintDetailPage = () => {
           )}
         </Form>
       </Card>
+      <Modal
+        title="Resolve Report"
+        visible={isModalVisible}
+        onOk={onConfirmResolve}
+        onCancel={() => {
+          setIsModalVisible(false);
+          setResolveReason(undefined);
+        }}
+        okText="Confirm"
+      >
+        <div className="flex flex-col justify-center">
+          {isLoading ? (
+            <Spin />
+          ) : (
+            <Fragment>
+              <HeadingText4 className="mb-2">
+                Please inform a detail
+              </HeadingText4>
+              <TextInput
+                title="Detail"
+                rows={5}
+                value={resolveReason}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setResolveReason(e.target.value)
+                }
+              />
+            </Fragment>
+          )}
+        </div>
+      </Modal>
     </Fragment>
   );
 };

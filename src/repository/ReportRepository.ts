@@ -14,7 +14,7 @@ export interface ReportRepository {
   ): Promise<GetReportsResponse | undefined>;
   getReport(id: string): Promise<GetReportResponse | undefined>;
   replyReport(id: string, replyReportDto: ReplyReportDto): Promise<void>;
-  resolveReport(id: string): Promise<void>;
+  resolveReport(id: string, resolveDetail: string): Promise<void>;
   getPendingReportCount(): Promise<number | void>;
 }
 
@@ -31,6 +31,7 @@ export interface ReportResponse {
   reportOwner: string;
   requestedDate: string;
   resolvedDate: string;
+  resolvedBy: string;
   title: string;
   detail: string;
   status: string;
@@ -43,6 +44,8 @@ export interface GetReportResponse {
     title: string;
     detail: string;
     respondDetail: string;
+    resolveDetail: string;
+    resolveBy: string;
   };
   roomNumber: string;
   requestedDate: string;
@@ -60,7 +63,7 @@ export const reportRepository: ReportRepository = {
       const reports = (
         await AxiosService.get<GetReportsResponse>(getReportsUrl, {
           params: {
-            status: tab === "-" ? "" : tab,
+            status: tab === "-" ? undefined : tab,
             roomNumber: roomNumber,
           },
         })
@@ -87,9 +90,12 @@ export const reportRepository: ReportRepository = {
       throw error;
     }
   },
-  async resolveReport(id: string) {
+  async resolveReport(id: string, resolveDetail: string) {
     try {
-      await AxiosService.post(resolveReportUrl(id));
+      await AxiosService.post(resolveReportUrl(id), {
+        detail: resolveDetail,
+        resolveBy: "condos personnel",
+      });
     } catch (error) {
       throw error;
     }

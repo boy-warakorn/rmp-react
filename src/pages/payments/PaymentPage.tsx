@@ -19,8 +19,8 @@ const tabList = [
   { key: "-", title: "All" },
   { key: "pending", title: "Pending" },
   { key: "active", title: "Active / Due" },
-  { key: "reject", title: "Reject" },
-  { key: "complete", title: "Complete" },
+  { key: "reject", title: "Rejected" },
+  { key: "complete", title: "Completed" },
 ];
 
 const PaymentPage = () => {

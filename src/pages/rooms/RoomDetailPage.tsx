@@ -27,7 +27,6 @@ import { PackageRepository } from "@repository/PackageRepository";
 import { packageSelector } from "@stores/packages/selector";
 import { setPackages } from "@stores/packages/slice";
 import PackageTable from "@components/feature/postal/PackageTable";
-import { userSelector } from "@stores/user/selector";
 import { paymentSelector } from "@stores/payments/selector";
 import { PaymentRepository } from "@repository/PaymentRepository";
 import { setPayments } from "@stores/payments/slice";
@@ -46,7 +45,6 @@ const RoomDetail = () => {
   const [currentId, setCurrentId] = useState("");
   const room = useSelector(roomSelector);
   const postal = useSelector(packageSelector);
-  const user = useSelector(userSelector);
   const dispatch = useDispatch();
   const payments = useSelector(paymentSelector);
   const [currentTabKey, setCurrentTabKey] = useState("1");

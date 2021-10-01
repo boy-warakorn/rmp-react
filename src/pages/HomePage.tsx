@@ -12,12 +12,9 @@ import Button from "@components/global/Button";
 import DashboardPackageCard from "@components/feature/dashboard/DashboardPackageCard";
 import DashboardReportCard from "@components/feature/dashboard/DashboardReportCard";
 import { useHistory } from "react-router";
-import { useSelector } from "react-redux";
-import { userSelector } from "@stores/user/selector";
 
 const HomePage = () => {
   const history = useHistory();
-  const user = useSelector(userSelector);
 
   return (
     <Fragment>

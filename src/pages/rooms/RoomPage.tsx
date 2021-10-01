@@ -17,6 +17,7 @@ const { TabPane } = Tabs;
 
 const tabList = [
   { key: "-", title: "All" },
+  { key: "overdued", title: "Overdued Payment" },
   { key: "occupied", title: "Occupied" },
   { key: "unoccupied", title: "Unoccupied" },
 ];

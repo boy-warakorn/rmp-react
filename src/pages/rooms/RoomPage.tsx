@@ -130,8 +130,8 @@ const RoomPage = () => {
             <TabCard>
               <HeaderTable
                 title={`${tab.title} Rooms`}
-                buttonTitle="Add Room"
-                onClick={() => history.push("/rooms/add")}
+                // buttonTitle="Add Room"
+                // onClick={() => history.push("/rooms/add")}
               />
               <CustomTable
                 loading={isLoading}

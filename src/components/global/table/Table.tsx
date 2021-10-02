@@ -18,7 +18,8 @@ interface CustomTableProps {
   scroll?: any;
   sortDirections?: any;
   showSorterTooltip?: any;
-  className: string;
+  className?: string;
+  defaultPageSize?: number;
 }
 
 const StyledTable = styled(Table)`
@@ -35,7 +36,7 @@ const CustomTable = (props: CustomTableProps) => {
     <StyledTable
       bordered
       scroll={{ x: 1000 }}
-      pagination={{ defaultPageSize: 10 }}
+      pagination={{ defaultPageSize: props.defaultPageSize ?? 10 }}
       {...(props as any)}
     />
   );

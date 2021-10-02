@@ -3,32 +3,115 @@ import {
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
-import { Empty, Input } from "antd";
+import { Empty, Input, Spin } from "antd";
 import { SearchOutlined, CloseOutlined } from "@ant-design/icons";
 import Button from "@components/global/Button";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import BuildingCard from "@components/feature/building/BuildingCard";
 import Card from "@components/global/Card";
 import FloorCard from "@components/feature/building/FloorCard";
 import FloorDetailSection from "@components/feature/building/FloorDetailSection";
 import { useHistory } from "react-router";
-
-const MOCKUP_BUILDING = [
-  { id: "1", name: "Sansuk" },
-  { id: "2", name: "Sansao" },
-  { id: "3", name: "Saojung" },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { buildingSelector } from "@stores/buildings/selector";
+import RepositoriesFactory from "@repository/RepositoryFactory";
+import { BuildingRepository } from "@repository/BuildingRepository";
+import {
+  setBuildings,
+  setCurrentBuilding,
+  setCurrentFloorRooms,
+} from "@stores/buildings/slice";
+import Loading from "@components/global/Loading";
 
 const BuildingPage = () => {
   const history = useHistory();
-  const [currentBuilding, setCurrentBuilding] = useState("");
+  const dispatch = useDispatch();
+  const building = useSelector(buildingSelector);
+  const buildingRepository = RepositoriesFactory.get(
+    "building"
+  ) as BuildingRepository;
+  const [currentBuildingId, setCurrentBuildingId] = useState("");
+  const [currentFloor, setCurrentFloor] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isInnerLoading, setIsInnerLoading] = useState(false);
+  const [isTableLoading, setIsTableLoading] = useState(false);
+
+  useEffect(() => {
+    fetchBuildings();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (currentBuildingId) {
+      fetchBuilding();
+    }
+  }, [currentBuildingId]);
+
+  useEffect(() => {
+    if (currentFloor) {
+      fetchRoomInFloor();
+    }
+  }, [currentFloor]);
+
+  const fetchBuildings = async () => {
+    try {
+      setIsLoading(true);
+      const buildings = await buildingRepository.getBuildings();
+      if (buildings) {
+        dispatch(setBuildings(buildings));
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchBuilding = async () => {
+    try {
+      setIsInnerLoading(true);
+      const building = await buildingRepository.getBuilding(currentBuildingId);
+
+      if (building) {
+        setCurrentFloor(`${building.floors}`)
+        dispatch(setCurrentBuilding(building));
+      }
+    } catch (error) {
+    } finally {
+      setIsInnerLoading(false);
+    }
+  };
+
+  const fetchRoomInFloor = async () => {
+    try {
+      setIsTableLoading(true);
+      const rooms =
+        await buildingRepository.getRoomsFromSpecificFloorAndBuilding(
+          currentBuildingId,
+          currentFloor
+        );
+      if (rooms) {
+        dispatch(setCurrentFloorRooms(rooms));
+      }
+    } catch (error) {
+    } finally {
+      setIsTableLoading(false);
+    }
+  };
 
   const onSelectBuilding = (id: string) => {
-    if (currentBuilding !== id) {
-      setCurrentBuilding(id);
+    if (currentBuildingId !== id) {
+      setCurrentBuildingId(id);
     } else {
-      setCurrentBuilding("");
+      setCurrentBuildingId("");
     }
+  };
+
+  const generateArrayFromFloor = (floors: number) => {
+    const array = [];
+    for (let index = floors; index > 0; index--) {
+      array.push(index);
+    }
+    return array;
   };
 
   return (
@@ -50,63 +133,90 @@ const BuildingPage = () => {
           </Button>
         </div>
         <div className="flex overflow-x-scroll w-full p-3 mt-3">
-          {MOCKUP_BUILDING.map((building) => (
-            <BuildingCard
-              onClick={() => onSelectBuilding(building.id)}
-              buildingName={building.name}
-              isSelected={currentBuilding === building.id}
-            />
-          ))}
+          {isLoading ? (
+            <Loading />
+          ) : (
+            building.buildings.map((building) => (
+              <BuildingCard
+                onClick={() => onSelectBuilding(building.id)}
+                buildingName={building.buildingName}
+                isSelected={currentBuildingId === building.id}
+              />
+            ))
+          )}
         </div>
       </Card>
-      {currentBuilding ? (
-        <Fragment>
-          <Card className="rounded-b-none col-span-12 p-6 ">
-            <div className="flex justify-between">
-              <HeadingText3>Building Details</HeadingText3>
-              <CloseOutlined
-                style={{ fontSize: "24px" }}
-                className="cursor-pointer"
-                onClick={() => setCurrentBuilding("")}
-              />
-            </div>
-            <HeadingText4 className="mt-2">
-              <span className="font-montserratBold">Building name:</span> Sansuk
-            </HeadingText4>
-            <BodyText1>
-              <span className="font-montserratBold">Room prefix:</span> A
-            </BodyText1>
-            <BodyText1>
-              <span className="font-montserratBold">Base common charge:</span>{" "}
-              3,000
-            </BodyText1>
-            <BodyText1>
-              <span className="font-montserratBold">Address:</span> Lorem ipsum
-              dolor sit amet consectetur adipisicing elit. Aliquid pariatur quod
-              officia eum placeat rerum,
-            </BodyText1>
-            <BodyText1>
-              <span className="font-montserratBold">Floors:</span> 4 floors
-            </BodyText1>
-            <div className="flex justify-end">
-              <Button color="primary">Edit building detail</Button>
-            </div>
-          </Card>
-          <Card
-            className="col-span-12 rounded-t-none bg-card-bg flex"
-            style={{ height: "55vh" }}
+      {currentBuildingId ? (
+        isInnerLoading ? (
+          <div
+            style={{ minHeight: "30vh" }}
+            className="col-span-12 flex justify-center items-center"
           >
-            <div className="w-64 bg-background-dark rounded-bl-lg p-4 overflow-y-scroll">
-              <FloorCard isFirst isSelected />
-              <FloorCard />
-              <FloorCard />
-              <FloorCard />
-            </div>
-            <div className="p-4 w-full overflow-y-scroll">
-              <FloorDetailSection />
-            </div>
-          </Card>
-        </Fragment>
+            <Spin size="large" />
+          </div>
+        ) : (
+          <Fragment>
+            <Card className="rounded-b-none col-span-12 p-6 ">
+              <div className="flex justify-between">
+                <HeadingText3>Building Details</HeadingText3>
+                <CloseOutlined
+                  style={{ fontSize: "24px" }}
+                  className="cursor-pointer"
+                  onClick={() => setCurrentBuildingId("")}
+                />
+              </div>
+              <HeadingText4 className="mt-2">
+                <span className="font-montserratBold">Building name:</span>{" "}
+                {building.currentBuilding.buildingName}
+              </HeadingText4>
+              <BodyText1>
+                <span className="font-montserratBold">Room prefix:</span>{" "}
+                {building.currentBuilding.roomPrefix}
+              </BodyText1>
+              <BodyText1>
+                <span className="font-montserratBold">Base common charge:</span>{" "}
+                {building.currentBuilding.baseCommonCharge}
+              </BodyText1>
+              <BodyText1>
+                <span className="font-montserratBold">Address:</span>{" "}
+                {building.currentBuilding.address}
+              </BodyText1>
+              <BodyText1>
+                <span className="font-montserratBold">Floors:</span>{" "}
+                {building.currentBuilding.floors} floors
+              </BodyText1>
+              <div className="flex justify-end">
+                <Button color="primary">Edit building detail</Button>
+              </div>
+            </Card>
+            <Card
+              className="col-span-12 rounded-t-none bg-card-bg flex"
+              style={{ height: "55vh" }}
+            >
+              <div className="w-64 bg-background-dark rounded-bl-lg p-4 overflow-y-scroll">
+                {generateArrayFromFloor(building.currentBuilding.floors).map(
+                  (floor) => (
+                    <FloorCard
+                      floor={floor}
+                      isSelected={`${floor}` === currentFloor}
+                      isFirst={floor === building.currentBuilding.floors}
+                      onClick={() => setCurrentFloor(`${floor}`)}
+                    />
+                  )
+                )}
+              </div>
+              <div className="p-4 w-full overflow-y-scroll">
+                {isTableLoading ? (
+                  <div className="flex justify-center items-center h-full">
+                    <Spin />
+                  </div>
+                ) : (
+                  <FloorDetailSection currentFloor={currentFloor} />
+                )}
+              </div>
+            </Card>
+          </Fragment>
+        )
       ) : (
         <Card
           className="flex justify-center items-center col-span-12"

@@ -1,3 +1,7 @@
+import {
+  BaseBuilding,
+  GetBuildingResponse,
+} from "@repository/BuildingRepository";
 import { BaseContact, ContactResponse } from "@repository/ContactRepository";
 import { GetPackages, Package } from "@repository/PackageRepository";
 import { Account, AccountDetail } from "./accounts/slice";

@@ -33,7 +33,9 @@ const HeaderTable = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchRoomIDList();
+    if (haveFilter) {
+      fetchRoomIDList();
+    }
     return () => {
       dispatch(clearFilter());
     };

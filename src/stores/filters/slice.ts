@@ -6,7 +6,7 @@ const initialState: FilterState = {
 };
 
 const slice = createSlice({
-  name: "report",
+  name: "filter",
   initialState,
   reducers: {
     setFilterRoomNumber(state, action: PayloadAction<string>) {

@@ -8,6 +8,9 @@ import GeneralDetailForm from "@components/feature/building/GeneralDetailForm";
 import RoomDetailForm, {
   getSizeDisabled,
 } from "@components/feature/building/RoomDetailForm";
+import RepositoriesFactory from "@repository/RepositoryFactory";
+import { BuildingRepository } from "@repository/BuildingRepository";
+import { useHistory } from "react-router";
 
 const { Step } = Steps;
 
@@ -20,6 +23,7 @@ export interface GeneralDetail {
 }
 
 const AddBuildingPage = () => {
+  const history = useHistory();
   const [currentStep, setCurrentStep] = useState(0);
   const [floor, setFloor] = useState("");
   const [eachFloor, setEachFloor] = useState(1);
@@ -42,6 +46,9 @@ const AddBuildingPage = () => {
   const [roomType, setRoomType] = useState("2 bed, 1 toilet");
   const [generatedRoomList, setGeneratedRoomList] = useState<any>([]);
   const [roomPayload, setRoomPayload] = useState<any>(undefined);
+  const buildingRepository = RepositoriesFactory.get(
+    "building"
+  ) as BuildingRepository;
   const totalRoomNotValid =
     eachFloor === 1 ? !totalRoom : getSizeDisabled(floorRoomList);
   const notValid =
@@ -160,16 +167,32 @@ const AddBuildingPage = () => {
     );
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const createBuildingDto = {
       buildingName: generalDetails.buildingName,
-      defaultCostPerMonth: generalDetails.costPerMonth,
-      baseCommonCharge: generalDetails.baseCommonCharge,
+      defaultCostPerMonth: Number(generalDetails.costPerMonth),
+      baseCommonCharge: Number(generalDetails.baseCommonCharge),
       address: generalDetails.address,
       roomPrefix: generalDetails.roomPrefix,
       rooms: roomPayload,
-      floors: floor,
+      floors: Number(floor),
     };
+
+    try {
+      await buildingRepository.createBuilding(createBuildingDto);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Add building success!`,
+      });
+      history.goBack();
+    } catch (error) {
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `Can't add because this building prefix or room number is already in your business.`,
+      });
+    }
   };
 
   return (

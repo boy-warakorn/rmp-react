@@ -45,12 +45,14 @@ const BuildingPage = () => {
     if (currentBuildingId) {
       fetchBuilding();
     }
+    // eslint-disable-next-line
   }, [currentBuildingId]);
 
   useEffect(() => {
     if (currentFloor) {
       fetchRoomInFloor();
     }
+    // eslint-disable-next-line
   }, [currentFloor]);
 
   const fetchBuildings = async () => {

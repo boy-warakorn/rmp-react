@@ -72,7 +72,7 @@ const BuildingPage = () => {
       const building = await buildingRepository.getBuilding(currentBuildingId);
 
       if (building) {
-        setCurrentFloor(`${building.floors}`)
+        setCurrentFloor(`${building.floors}`);
         dispatch(setCurrentBuilding(building));
       }
     } catch (error) {

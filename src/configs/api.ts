@@ -1,5 +1,5 @@
-export const baseApiUrl = "https://rmp.ryuhub.dev/api";
-// export const baseApiUrl = "http://localhost:1234/api";
+// export const baseApiUrl = "https://rmp.ryuhub.dev/api";
+export const baseApiUrl = "http://localhost:1234/api";
 
 // auth
 export const loginUrl = "/auth";
@@ -15,6 +15,16 @@ export const addAccountUrl = baseAccountUrl;
 export const getAccountUrl = (id: string) => `${baseAccountUrl}/${id}`;
 export const updateAccountUrl = (id: string) =>
   `${baseAccountUrl}/${id}/update`;
+
+// building
+const baseBuildingUrl = "/buildings";
+export const createBuildingUrl = baseBuildingUrl;
+export const getBuildingsUrl = baseBuildingUrl;
+export const getBuildingUrl = (id: string) => `${baseBuildingUrl}/${id}`;
+export const getSpecificRoomInBuildingAndFloorUrl = (
+  id: string,
+  floor: string
+) => `${baseBuildingUrl}/${id}/floor/${floor}`;
 
 // room
 const baseRoomUrl = "/rooms";

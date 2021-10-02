@@ -8,7 +8,6 @@ import GeneralDetailForm from "@components/feature/building/GeneralDetailForm";
 import RoomDetailForm, {
   getSizeDisabled,
 } from "@components/feature/building/RoomDetailForm";
-import { AxiosService } from "@services/axios.config";
 
 const { Step } = Steps;
 
@@ -162,7 +161,7 @@ const AddBuildingPage = () => {
   };
 
   const onSubmit = () => {
-    const payload = {
+    const createBuildingDto = {
       buildingName: generalDetails.buildingName,
       defaultCostPerMonth: generalDetails.costPerMonth,
       baseCommonCharge: generalDetails.baseCommonCharge,

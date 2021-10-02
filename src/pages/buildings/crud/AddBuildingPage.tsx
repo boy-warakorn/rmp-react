@@ -55,7 +55,9 @@ const AddBuildingPage = () => {
         <Steps
           current={currentStep}
           className="px-28"
-          onChange={(current) => setCurrentStep(current)}
+          onChange={
+            isBtnDisabled ? () => {} : (current) => setCurrentStep(current)
+          }
         >
           <Step
             title="General Building Detail"
@@ -100,6 +102,7 @@ const AddBuildingPage = () => {
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       onInputChange(e, "baseCommonCharge")
                     }
+                    min={0}
                   />
                 </div>
                 <div className="col-span-6"></div>

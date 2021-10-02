@@ -1,6 +1,7 @@
 import { BaseContact, ContactResponse } from "@repository/ContactRepository";
 import { GetPackages, Package } from "@repository/PackageRepository";
 import { Account, AccountDetail } from "./accounts/slice";
+import { FormattedRoomInBuilding } from "./buildings/slice";
 import { Contact } from "./contacts/slice";
 import { Payment } from "./payments/slice";
 import { Report, ReportDetail } from "./reports/slice";
@@ -10,6 +11,12 @@ export type UserState = {
   name: string;
   businessName: string;
   role: string;
+};
+
+export type BuildingState = {
+  buildings: BaseBuilding[];
+  currentBuilding: GetBuildingResponse;
+  currentFloorRooms: FormattedRoomInBuilding[];
 };
 
 export type RoomState = {
@@ -55,4 +62,5 @@ export type RootState = {
   payment: PaymentState;
   contact: ContactState;
   filter: FilterState;
+  building: BuildingState;
 };

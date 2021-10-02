@@ -8,8 +8,10 @@ import React, { Fragment } from "react";
 import { Room } from "@stores/rooms/slice";
 import Button from "@components/global/Button";
 import OutlineButton from "@components/global/OutlineButton";
+// import { useHistory } from "react-router";
 
 const FloorDetailSection = () => {
+  // const history = useHistory();
   const columns = [
     {
       title: "Room No.",
@@ -62,9 +64,10 @@ const FloorDetailSection = () => {
         <span className="font-montserratBold">Total rooms:</span> 17 rooms
       </BodyText1>
       <HeaderTable
-        buttonTitle="Add Room"
+        // buttonTitle="Add Room"
         title="All Rooms"
         haveFilter={false}
+        // onClick={() => history.push("/rooms/add")}
       />
       <CustomTable
         className="mt-4"

@@ -70,7 +70,6 @@ const BuildingPage = () => {
                 onClick={() => setCurrentBuilding("")}
               />
             </div>
-
             <HeadingText4 className="mt-2">
               <span className="font-montserratBold">Building name:</span> Sansuk
             </HeadingText4>

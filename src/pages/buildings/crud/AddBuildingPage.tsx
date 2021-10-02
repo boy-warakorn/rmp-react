@@ -1,31 +1,69 @@
-import Card, { FormCard } from "@components/global/Card";
-import TextInput from "@components/global/form/TextInput";
-import {
-  HeadingText3,
-  HeadingText4,
-} from "@components/global/typography/Typography";
-import { Steps, Form, Divider } from "antd";
+import Card from "@components/global/Card";
+import { HeadingText3 } from "@components/global/typography/Typography";
+import { Steps, Form, Divider, notification } from "antd";
 import Button from "@components/global/Button";
-import React, { ChangeEvent, Fragment, useState } from "react";
+import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
+import GeneralDetailForm from "@components/feature/building/GeneralDetailForm";
+
+import RoomDetailForm from "@components/feature/building/RoomDetailForm";
 
 const { Step } = Steps;
 
-interface GeneralDetail {
+export interface GeneralDetail {
   buildingName: string;
   roomPrefix: string;
   baseCommonCharge: string;
   address: string;
+  costPerMonth: string;
 }
 
 const AddBuildingPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
-
+  const [floor, setFloor] = useState("");
+  const [eachFloor, setEachFloor] = useState(1);
+  const [eachRoom, setEachRoom] = useState(1);
+  const [floorRoomList, setFloorRoomList] = useState<
+    {
+      floor: number;
+      totalRoom: string;
+    }[]
+  >([] as any);
+  const [totalRoom, setTotalRoom] = useState("");
+  const [roomSize, setRoomSize] = useState("");
   const [generalDetails, setGeneralDetails] = useState<GeneralDetail>({
     buildingName: "",
     roomPrefix: "",
     baseCommonCharge: "",
     address: "",
+    costPerMonth: "",
   });
+  const [roomType, setRoomType] = useState("2 bed, 1 toilet");
+  const [generatedRoomList, setGeneratedRoomList] = useState<any>([]);
+  const [roomPayload, setRoomPayload] = useState<any>(undefined);
+
+  const notValid =
+    !floor || !totalRoom || generatedRoomList.length < 0 || !roomSize;
+
+  useEffect(() => {
+    setGeneratedRoomList([]);
+  }, [floor]);
+
+  useEffect(() => {
+    if (eachFloor === 1) {
+      setFloorRoomList([]);
+    } else {
+      const floorCount = Number(floor);
+      const newFloorRoomList = [];
+      for (let index = 1; index <= floorCount; index++) {
+        newFloorRoomList.push({
+          floor: index,
+          totalRoom: "",
+        });
+      }
+      setFloorRoomList(newFloorRoomList);
+    }
+    // eslint-disable-next-line
+  }, [eachFloor]);
 
   const isBtnDisabled =
     !generalDetails.address ||
@@ -45,6 +83,92 @@ const AddBuildingPage = () => {
     e: ChangeEvent<HTMLInputElement>,
     name: keyof GeneralDetail
   ) => setGeneralDetails({ ...generalDetails, [name]: e.target.value });
+
+  const onSelectFloorRadio = (value: number) => {
+    if (!floor) {
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: "Please enter floor before select this one",
+      });
+      return;
+    }
+    setEachFloor(value);
+  };
+
+  const onChangeTotalRoomForEachFloor = (value: string, floor: number) => {
+    if (Number(value) > 20) return;
+    let newFloorRoom = floorRoomList.find(
+      (floorRoom) => floorRoom.floor === floor
+    )!;
+    newFloorRoom.totalRoom = value;
+    const deletedFloor = floorRoomList.filter(
+      (floorRoom) => floorRoom.floor !== floor
+    );
+    const newFloorRoomList = [...deletedFloor, newFloorRoom].sort(
+      (a, b) => a.floor - b.floor
+    );
+
+    setFloorRoomList(newFloorRoomList);
+  };
+
+  const onGenerateRooms = () => {
+    let generatedRoomList = [];
+
+    for (let index = 1; index <= Number(floor); index++) {
+      let generatedRoomInFloor = [];
+
+      const newTotalRoom =
+        eachFloor === 1
+          ? Number(totalRoom)
+          : Number(floorRoomList[index - 1].totalRoom);
+      for (let i = 1; i <= newTotalRoom; i++) {
+        let newRoomSuffix = "";
+        if (i < 100 && i >= 10) {
+          newRoomSuffix = `${index}` + i;
+        } else {
+          newRoomSuffix = index + "0" + i;
+        }
+
+        const newRoom = {
+          floor: index,
+          roomNumber: generalDetails.roomPrefix.concat(newRoomSuffix),
+          size: roomSize,
+          type: roomType,
+          costPerMonth: generalDetails.costPerMonth,
+          unit: "sqrms.",
+        };
+        generatedRoomInFloor.push(newRoom);
+      }
+
+      generatedRoomList.push(...generatedRoomInFloor);
+    }
+    setRoomPayload(generatedRoomList);
+    setGeneratedRoomList(
+      generatedRoomList.map((room, index) => ({
+        floor: room.floor,
+        roomNumber: room.roomNumber,
+        size: room.size,
+        type: room.type,
+        costPerMonth: room.costPerMonth,
+        index: index,
+        key: `generateRoom${index}`,
+      }))
+    );
+  };
+
+  const onSubmit = () => {
+    const payload = {
+      buildingName: generalDetails.buildingName,
+      defaultCostPerMonth: generalDetails.costPerMonth,
+      baseCommonCharge: generalDetails.baseCommonCharge,
+      address: generalDetails.address,
+      roomPrefix: generalDetails.roomPrefix,
+      rooms: roomPayload,
+      floors: floor,
+    };
+    console.log(payload);
+  };
 
   return (
     <Fragment>
@@ -71,55 +195,31 @@ const AddBuildingPage = () => {
         <Divider />
         <Form className="mt-6">
           {currentStep === 0 ? (
-            <Fragment>
-              <HeadingText4>Detail</HeadingText4>
-              <FormCard className="grid grid-cols-8 gap-x-4 mt-4">
-                <div className="col-span-2">
-                  <TextInput
-                    value={generalDetails.buildingName}
-                    title="Building name"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      onInputChange(e, "buildingName")
-                    }
-                  />
-                </div>
-                <div className="col-span-1">
-                  <TextInput
-                    value={generalDetails.roomPrefix}
-                    title="Room prefix"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      onInputChange(e, "roomPrefix")
-                    }
-                  />
-                </div>
-                <div className="col-span-5"></div>
-                <div className="col-span-2 mt-6">
-                  <TextInput
-                    value={generalDetails.baseCommonCharge}
-                    title="Base common charge"
-                    suffix="THB"
-                    type="number"
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      onInputChange(e, "baseCommonCharge")
-                    }
-                    min={0}
-                  />
-                </div>
-                <div className="col-span-6"></div>
-                <div className="col-span-4 mt-6">
-                  <TextInput
-                    title="Address"
-                    value={generalDetails.address}
-                    rows={5}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      onInputChange(e, "address")
-                    }
-                  />
-                </div>
-              </FormCard>
-            </Fragment>
+            <GeneralDetailForm
+              generalDetails={generalDetails}
+              onInputChange={onInputChange}
+            />
           ) : (
-            <div></div>
+            <RoomDetailForm
+              eachFloor={eachFloor}
+              floor={floor}
+              floorRoomList={floorRoomList}
+              totalRoom={totalRoom}
+              generatedRoomList={generatedRoomList}
+              roomSize={roomSize}
+              eachRoom={eachRoom}
+              roomType={roomType}
+              setFloor={(value: string) => setFloor(value)}
+              onSelectFloorRadio={(value: number) => onSelectFloorRadio(value)}
+              setTotalRoom={(value: string) => setTotalRoom(value)}
+              onGenerateRooms={onGenerateRooms}
+              setRoomSize={(value: string) => setRoomSize(value)}
+              setEachRoom={(value: number) => setEachRoom(value)}
+              onChangeTotalRoomForEachFloor={(value: string, floor: number) =>
+                onChangeTotalRoomForEachFloor(value, floor)
+              }
+              setRoomType={(value: string) => setRoomType(value)}
+            />
           )}
         </Form>
         <div className="flex justify-end mt-9">
@@ -137,9 +237,14 @@ const AddBuildingPage = () => {
           <Button
             color="primary"
             className="px-12 font-roboto text-sm"
-            htmlType={currentStep === 1 ? "submit" : ""}
-            onClick={isBtnDisabled ? () => {} : onNextStep}
-            isDisabled={isBtnDisabled}
+            onClick={
+              isBtnDisabled
+                ? () => {}
+                : currentStep === 1
+                ? onSubmit
+                : onNextStep
+            }
+            isDisabled={currentStep === 1 ? notValid : isBtnDisabled}
           >
             {currentStep === 1 ? "Submit" : "Next"}
           </Button>

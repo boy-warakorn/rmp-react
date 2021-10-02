@@ -5,7 +5,10 @@ import Button from "@components/global/Button";
 import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import GeneralDetailForm from "@components/feature/building/GeneralDetailForm";
 
-import RoomDetailForm from "@components/feature/building/RoomDetailForm";
+import RoomDetailForm, {
+  getSizeDisabled,
+} from "@components/feature/building/RoomDetailForm";
+import { AxiosService } from "@services/axios.config";
 
 const { Step } = Steps;
 
@@ -40,9 +43,10 @@ const AddBuildingPage = () => {
   const [roomType, setRoomType] = useState("2 bed, 1 toilet");
   const [generatedRoomList, setGeneratedRoomList] = useState<any>([]);
   const [roomPayload, setRoomPayload] = useState<any>(undefined);
-
+  const totalRoomNotValid =
+    eachFloor === 1 ? !totalRoom : getSizeDisabled(floorRoomList);
   const notValid =
-    !floor || !totalRoom || generatedRoomList.length < 0 || !roomSize;
+    !floor || !roomSize || totalRoomNotValid || generatedRoomList.length < 1;
 
   useEffect(() => {
     setGeneratedRoomList([]);
@@ -167,7 +171,6 @@ const AddBuildingPage = () => {
       rooms: roomPayload,
       floors: floor,
     };
-    console.log(payload);
   };
 
   return (

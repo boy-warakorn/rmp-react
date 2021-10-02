@@ -34,6 +34,18 @@ interface RoomDetailFormProps {
   generatedRoomList: any;
 }
 
+export const getSizeDisabled = (
+  floorRoomList: {
+    floor: number;
+    totalRoom: string;
+  }[]
+) => {
+  for (const floorRoom of floorRoomList) {
+    if (!floorRoom.totalRoom) return true;
+  }
+  return false;
+};
+
 const RoomDetailForm = ({
   eachFloor,
   floor,
@@ -52,18 +64,6 @@ const RoomDetailForm = ({
   onGenerateRooms,
   generatedRoomList,
 }: RoomDetailFormProps) => {
-  const getSizeDisabled = (
-    floorRoomList: {
-      floor: number;
-      totalRoom: string;
-    }[]
-  ) => {
-    for (const floorRoom of floorRoomList) {
-      if (!floorRoom.totalRoom) return true;
-    }
-    return false;
-  };
-
   const columns = [
     {
       title: "Room No.",

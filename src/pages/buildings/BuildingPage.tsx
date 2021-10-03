@@ -3,15 +3,10 @@ import {
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
-import { Empty, Input, notification, Spin } from "antd";
-import {
-  SearchOutlined,
-  CloseOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
+import { Empty, notification, Spin } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Button from "@components/global/Button";
 import React, { Fragment, useEffect, useState } from "react";
-import BuildingCard from "@components/feature/building/BuildingCard";
 import Card from "@components/global/Card";
 import FloorCard from "@components/feature/building/FloorCard";
 import FloorDetailSection from "@components/feature/building/FloorDetailSection";
@@ -21,12 +16,9 @@ import { buildingSelector } from "@stores/buildings/selector";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { BuildingRepository } from "@repository/BuildingRepository";
 import {
-  clearState,
-  setBuildings,
   setCurrentBuilding,
   setCurrentFloorRooms,
 } from "@stores/buildings/slice";
-import Loading from "@components/global/Loading";
 import DashboardCard from "@components/feature/dashboard/DashboardCard";
 import confirm from "antd/lib/modal/confirm";
 import { RoomRepository } from "@repository/RoomRepository";
@@ -42,25 +34,12 @@ const BuildingPage = () => {
   const [currentBuildingId, setCurrentBuildingId] = useState("");
   const [currentFloor, setCurrentFloor] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isInnerLoading, setIsInnerLoading] = useState(false);
   const [isTableLoading, setIsTableLoading] = useState(false);
 
   useEffect(() => {
-    if (building.currentBuildingId && building.currentFloor) {
-      setCurrentBuildingId(building.currentBuildingId);
-      setCurrentFloor(building.currentFloor);
-      dispatch(clearState());
-    }
-    fetchBuildings();
+    fetchBuilding();
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (currentBuildingId) {
-      fetchBuilding();
-    }
-    // eslint-disable-next-line
-  }, [currentBuildingId]);
 
   useEffect(() => {
     if (currentFloor) {
@@ -69,30 +48,18 @@ const BuildingPage = () => {
     // eslint-disable-next-line
   }, [currentFloor]);
 
-  const fetchBuildings = async () => {
-    try {
-      setIsLoading(true);
-      const buildings = await buildingRepository.getBuildings();
-      if (buildings) {
-        dispatch(setBuildings(buildings));
-      }
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const fetchBuilding = async () => {
     try {
-      setIsInnerLoading(true);
-      const building = await buildingRepository.getBuilding(currentBuildingId);
+      setIsLoading(true);
+      const building = await buildingRepository.getBuilding();
 
       if (building) {
+        setCurrentBuildingId(building.id);
         dispatch(setCurrentBuilding(building));
       }
     } catch (error) {
     } finally {
-      setIsInnerLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -110,15 +77,6 @@ const BuildingPage = () => {
     } catch (error) {
     } finally {
       setIsTableLoading(false);
-    }
-  };
-
-  const onSelectBuilding = (id: string) => {
-    setCurrentFloor("");
-    if (currentBuildingId !== id) {
-      setCurrentBuildingId(id);
-    } else {
-      setCurrentBuildingId("");
     }
   };
 
@@ -161,9 +119,8 @@ const BuildingPage = () => {
         message: "Success",
         description: `Delete Building Success`,
       });
-      setCurrentBuildingId("");
       setCurrentFloor("");
-      fetchBuildings();
+      fetchBuilding();
     } catch (error) {
       notification.error({
         duration: 2,
@@ -210,38 +167,8 @@ const BuildingPage = () => {
 
   return (
     <Fragment>
-      <Card className="col-span-12 flex flex-col p-6 mt-3 mb-4">
-        <HeadingText4 className="col-span-12">Buildings List</HeadingText4>
-        <div className="mt-3 flex justify-between">
-          <Input
-            placeholder="Search by building name"
-            prefix={<SearchOutlined />}
-            style={{ width: "30%" }}
-          />
-          <Button
-            className="col-span-2"
-            color="primary"
-            onClick={() => history.push("/buildings/add")}
-          >
-            Add Building
-          </Button>
-        </div>
-        <div className="flex overflow-x-scroll w-full p-3 mt-3">
-          {isLoading ? (
-            <Loading />
-          ) : (
-            building.buildings.map((building) => (
-              <BuildingCard
-                onClick={() => onSelectBuilding(building.id)}
-                buildingName={building.buildingName}
-                isSelected={currentBuildingId === building.id}
-              />
-            ))
-          )}
-        </div>
-      </Card>
-      {currentBuildingId ? (
-        isInnerLoading ? (
+      {building.currentBuilding.buildingName ? (
+        isLoading ? (
           <div
             style={{ minHeight: "30vh" }}
             className="col-span-12 flex justify-center items-center"
@@ -251,14 +178,8 @@ const BuildingPage = () => {
         ) : (
           <Fragment>
             <Card className="rounded-b-none col-span-12 p-6 ">
-              <div className="flex justify-between">
-                <HeadingText3>Building Detail</HeadingText3>
-                <CloseOutlined
-                  style={{ fontSize: "24px" }}
-                  className="cursor-pointer"
-                  onClick={() => setCurrentBuildingId("")}
-                />
-              </div>
+              <HeadingText3>Building Detail</HeadingText3>
+
               <HeadingText4 className="mt-2">
                 <span className="font-montserratBold">Building name:</span>{" "}
                 {building.currentBuilding.buildingName}
@@ -354,11 +275,18 @@ const BuildingPage = () => {
               height: 150,
             }}
             description={
-              <HeadingText4 className="text-grey font-montserratBold">
-                {building.buildings.length < 1
-                  ? "Please add building"
-                  : "Please select building"}
-              </HeadingText4>
+              <Fragment>
+                <HeadingText4 className="text-grey font-montserratBold">
+                  Please add building first
+                </HeadingText4>
+                <Button
+                  className="col-span-2 mt-2"
+                  color="primary"
+                  onClick={() => history.push("/buildings/add")}
+                >
+                  Add Building
+                </Button>
+              </Fragment>
             }
           />
         </Card>

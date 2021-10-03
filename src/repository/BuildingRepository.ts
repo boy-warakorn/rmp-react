@@ -1,7 +1,6 @@
 import {
   createBuildingUrl,
   deleteBuildingUrl,
-  getBuildingsUrl,
   getBuildingUrl,
   getSpecificRoomInBuildingAndFloorUrl,
 } from "@configs/api";
@@ -11,8 +10,7 @@ export interface BuildingRepository {
   createBuilding(
     createBuildingDto: CreateBuildingDto
   ): Promise<void | undefined>;
-  getBuildings(): Promise<GetBuildingsResponse | undefined>;
-  getBuilding(id: string): Promise<GetBuildingResponse | undefined>;
+  getBuilding(): Promise<GetBuildingResponse | undefined>;
   getRoomsFromSpecificFloorAndBuilding(
     id: string,
     floor: string
@@ -80,16 +78,10 @@ export const buildingRepository: BuildingRepository = {
       throw error;
     }
   },
-  async getBuildings() {
-    const result = (
-      await AxiosService.get<GetBuildingsResponse>(getBuildingsUrl)
-    ).data;
-    return result;
-  },
-  async getBuilding(id: string) {
-    const result = (
-      await AxiosService.get<GetBuildingResponse>(getBuildingUrl(id))
-    ).data;
+
+  async getBuilding() {
+    const result = (await AxiosService.get<GetBuildingResponse>(getBuildingUrl))
+      .data;
     return result;
   },
   async getRoomsFromSpecificFloorAndBuilding(id: string, floor: string) {

@@ -12,6 +12,7 @@ import { buildingSelector } from "@stores/buildings/selector";
 import { getThNumber } from "@utils/getFormatNumber";
 import { CloseOutlined } from "@ant-design/icons";
 import { FormattedRoomInBuilding } from "@stores/buildings/slice";
+import { useHistory } from "react-router";
 
 export interface FloorDetailSectionProps {
   currentFloor: string;
@@ -24,6 +25,7 @@ const FloorDetailSection = ({
   onClose,
   onDeleteRoom,
 }: FloorDetailSectionProps) => {
+  const history = useHistory();
   const building = useSelector(buildingSelector);
 
   const columns = [
@@ -79,7 +81,11 @@ const FloorDetailSection = ({
       fixed: "right",
       render: (_: any, record: FormattedRoomInBuilding) => (
         <div className="flex">
-          <OutlineButton onClick={() => {}}>Edit detail</OutlineButton>
+          <OutlineButton
+            onClick={() => history.push(`/rooms/${record.roomNumber}/edit`)}
+          >
+            Edit detail
+          </OutlineButton>
           {record.contractType !== " rent" && (
             <Button
               color="danger"

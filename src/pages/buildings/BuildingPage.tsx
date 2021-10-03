@@ -281,7 +281,7 @@ const BuildingPage = () => {
                 >
                   Delete building
                 </Button>
-                <Button color="primary">Edit building detail</Button>
+                {/* <Button color="primary">Edit building detail</Button> */}
               </div>
             </Card>
             <Card

@@ -98,7 +98,7 @@ const FloorDetailSection = ({
           >
             Edit detail
           </OutlineButton>
-          {record.contractType !== " rent" && (
+          {record.contractType !== "rent" && (
             <Button
               color="danger"
               onClick={() => onDeleteRoom(record.roomNumber)}

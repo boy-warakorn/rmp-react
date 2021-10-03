@@ -11,6 +11,7 @@ import RoomDetailForm, {
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { BuildingRepository } from "@repository/BuildingRepository";
 import { useHistory } from "react-router";
+import Loading from "@components/global/Loading";
 
 const { Step } = Steps;
 
@@ -46,6 +47,7 @@ const AddBuildingPage = () => {
   const [roomType, setRoomType] = useState("2 bed, 1 toilet");
   const [generatedRoomList, setGeneratedRoomList] = useState<any>([]);
   const [roomPayload, setRoomPayload] = useState<any>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
   const buildingRepository = RepositoriesFactory.get(
     "building"
   ) as BuildingRepository;
@@ -179,6 +181,7 @@ const AddBuildingPage = () => {
     };
 
     try {
+      setIsLoading(true);
       await buildingRepository.createBuilding(createBuildingDto);
       notification.success({
         duration: 2,
@@ -187,6 +190,7 @@ const AddBuildingPage = () => {
       });
       history.goBack();
     } catch (error) {
+      setIsLoading(false);
       notification.error({
         duration: 2,
         message: "Error",
@@ -195,7 +199,9 @@ const AddBuildingPage = () => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
         <HeadingText3>Add Building</HeadingText3>

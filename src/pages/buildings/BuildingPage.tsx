@@ -3,8 +3,12 @@ import {
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
-import { Empty, Input, Spin } from "antd";
-import { SearchOutlined, CloseOutlined } from "@ant-design/icons";
+import { Empty, Input, notification, Spin } from "antd";
+import {
+  SearchOutlined,
+  CloseOutlined,
+  ExclamationCircleOutlined,
+} from "@ant-design/icons";
 import Button from "@components/global/Button";
 import React, { Fragment, useEffect, useState } from "react";
 import BuildingCard from "@components/feature/building/BuildingCard";
@@ -23,6 +27,8 @@ import {
 } from "@stores/buildings/slice";
 import Loading from "@components/global/Loading";
 import DashboardCard from "@components/feature/dashboard/DashboardCard";
+import confirm from "antd/lib/modal/confirm";
+import { RoomRepository } from "@repository/RoomRepository";
 
 const BuildingPage = () => {
   const history = useHistory();
@@ -31,6 +37,7 @@ const BuildingPage = () => {
   const buildingRepository = RepositoriesFactory.get(
     "building"
   ) as BuildingRepository;
+  const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
   const [currentBuildingId, setCurrentBuildingId] = useState("");
   const [currentFloor, setCurrentFloor] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -126,6 +133,75 @@ const BuildingPage = () => {
     return array;
   };
 
+  const onDeleteBuilding = async () => {
+    confirm({
+      title: "Do you want to delete this building?",
+      icon: <ExclamationCircleOutlined />,
+      content: "If you confirm, This building will be deleted.",
+      onOk() {
+        confirmDeleteBuilding();
+      },
+      okType: "danger",
+      width: "40vw",
+    });
+  };
+
+  const confirmDeleteBuilding = async () => {
+    try {
+      setIsLoading(true);
+      await buildingRepository.deleteBuilding(currentBuildingId);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Delete Building Success`,
+      });
+      setCurrentBuildingId("");
+      setCurrentFloor("");
+      fetchBuildings();
+    } catch (error) {
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `Can't delete because this building have occupied room.`,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onDeleteRoom = (roomNumber: string) => {
+    confirm({
+      title: "Do you want to delete this room?",
+      icon: <ExclamationCircleOutlined />,
+      content: "If you confirm, This room will be deleted.",
+      onOk() {
+        confirmDeleteRoom(roomNumber);
+      },
+      okType: "danger",
+      width: "40vw",
+    });
+  };
+
+  const confirmDeleteRoom = async (roomNumber: string) => {
+    try {
+      setIsTableLoading(true);
+      await roomRepository.deleteRoom(roomNumber);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Delete Room Success`,
+      });
+      fetchRoomInFloor();
+    } catch (error) {
+      setIsTableLoading(false);
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `Can't delete because this room was occupied by resident`,
+      });
+    }
+  };
+
   return (
     <Fragment>
       <Card className="col-span-12 flex flex-col p-6 mt-3 mb-4">
@@ -198,6 +274,13 @@ const BuildingPage = () => {
                 {building.currentBuilding.floors} floors
               </BodyText1>
               <div className="flex justify-end">
+                <Button
+                  color="danger"
+                  className="mr-4"
+                  onClick={onDeleteBuilding}
+                >
+                  Delete building
+                </Button>
                 <Button color="primary">Edit building detail</Button>
               </div>
             </Card>
@@ -245,6 +328,7 @@ const BuildingPage = () => {
                   </div>
                 ) : (
                   <FloorDetailSection
+                    onDeleteRoom={onDeleteRoom}
                     currentFloor={currentFloor}
                     onClose={() => setCurrentFloor("")}
                   />
@@ -265,7 +349,9 @@ const BuildingPage = () => {
             }}
             description={
               <HeadingText4 className="text-grey font-montserratBold">
-                Please select building
+                {building.buildings.length < 1
+                  ? "Please add building"
+                  : "Please select building"}
               </HeadingText4>
             }
           />

@@ -5,7 +5,6 @@ import {
   HeadingText3,
 } from "@components/global/typography/Typography";
 import React, { Fragment } from "react";
-import { Room } from "@stores/rooms/slice";
 import Button from "@components/global/Button";
 import OutlineButton from "@components/global/OutlineButton";
 import { useSelector } from "react-redux";
@@ -17,13 +16,16 @@ import { FormattedRoomInBuilding } from "@stores/buildings/slice";
 export interface FloorDetailSectionProps {
   currentFloor: string;
   onClose(): void;
+  onDeleteRoom(roomNumber: string): void;
 }
 
 const FloorDetailSection = ({
   currentFloor,
   onClose,
+  onDeleteRoom,
 }: FloorDetailSectionProps) => {
   const building = useSelector(buildingSelector);
+
   const columns = [
     {
       title: "Room No.",
@@ -75,12 +77,18 @@ const FloorDetailSection = ({
       dataIndex: "manage",
       width: 30,
       fixed: "right",
-      render: (_: any, record: Room) => (
+      render: (_: any, record: FormattedRoomInBuilding) => (
         <div className="flex">
           <OutlineButton onClick={() => {}}>Edit detail</OutlineButton>
-          <Button color="danger" onClick={() => {}} className="ml-4">
-            Delete
-          </Button>
+          {record.contractType !== " rent" && (
+            <Button
+              color="danger"
+              onClick={() => onDeleteRoom(record.roomNumber)}
+              className="ml-4"
+            >
+              Delete
+            </Button>
+          )}
         </div>
       ),
     },

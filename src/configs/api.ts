@@ -20,6 +20,7 @@ export const updateAccountUrl = (id: string) =>
 const baseBuildingUrl = "/buildings";
 export const createBuildingUrl = baseBuildingUrl;
 export const getBuildingsUrl = baseBuildingUrl;
+export const deleteBuildingUrl = (id: string) => `${baseBuildingUrl}/${id}`;
 export const getBuildingUrl = (id: string) => `${baseBuildingUrl}/${id}`;
 export const getSpecificRoomInBuildingAndFloorUrl = (
   id: string,

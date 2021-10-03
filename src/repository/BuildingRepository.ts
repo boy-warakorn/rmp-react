@@ -1,5 +1,6 @@
 import {
   createBuildingUrl,
+  deleteBuildingUrl,
   getBuildingsUrl,
   getBuildingUrl,
   getSpecificRoomInBuildingAndFloorUrl,
@@ -16,6 +17,7 @@ export interface BuildingRepository {
     id: string,
     floor: string
   ): Promise<GetRoomsFromSpecificFloorAndBuildingResponse | undefined>;
+  deleteBuilding(id: string): Promise<void | undefined>;
 }
 
 export interface CreateBuildingDto {
@@ -98,5 +100,12 @@ export const buildingRepository: BuildingRepository = {
     ).data;
 
     return result;
+  },
+  async deleteBuilding(id: string) {
+    try {
+      await AxiosService.delete(deleteBuildingUrl(id));
+    } catch (error) {
+      throw error;
+    }
   },
 };

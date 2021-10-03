@@ -11,13 +11,18 @@ import OutlineButton from "@components/global/OutlineButton";
 import { useSelector } from "react-redux";
 import { buildingSelector } from "@stores/buildings/selector";
 import { getThNumber } from "@utils/getFormatNumber";
+import { CloseOutlined } from "@ant-design/icons";
 import { FormattedRoomInBuilding } from "@stores/buildings/slice";
 
 export interface FloorDetailSectionProps {
   currentFloor: string;
+  onClose(): void;
 }
 
-const FloorDetailSection = ({ currentFloor }: FloorDetailSectionProps) => {
+const FloorDetailSection = ({
+  currentFloor,
+  onClose,
+}: FloorDetailSectionProps) => {
   const building = useSelector(buildingSelector);
   const columns = [
     {
@@ -32,6 +37,17 @@ const FloorDetailSection = ({ currentFloor }: FloorDetailSectionProps) => {
       render: (_: any, record: FormattedRoomInBuilding) => (
         <div>{`${record.size} sqrms.`}</div>
       ),
+    },
+    {
+      title: "Contract type",
+      dataIndex: "contractType",
+      width: 20,
+      render: (value: string) =>
+        value === "unoccupied" ? (
+          <div className="text-base italic text-grey">{value}</div>
+        ) : (
+          "rent"
+        ),
     },
     {
       title: "Type",
@@ -72,7 +88,14 @@ const FloorDetailSection = ({ currentFloor }: FloorDetailSectionProps) => {
 
   return (
     <Fragment>
-      <HeadingText3>{getThNumber(Number(currentFloor))} floor</HeadingText3>
+      <div className="flex items-center justify-between">
+        <HeadingText3>{getThNumber(Number(currentFloor))} floor</HeadingText3>
+        <CloseOutlined
+          style={{ fontSize: "24px" }}
+          className="cursor-pointer"
+          onClick={onClose}
+        />
+      </div>
       <BodyText1 className="mb-4">
         <span className="font-montserratBold">Total rooms:</span>{" "}
         {building.currentFloorRooms.length} rooms

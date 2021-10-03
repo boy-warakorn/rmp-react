@@ -53,6 +53,8 @@ export interface GetBuildingResponse {
   baseCommonCharge: number;
   address: string;
   floors: number;
+  totalRoom: number;
+  totalOccupiedRoom: number;
 }
 
 export interface GetRoomsFromSpecificFloorAndBuildingResponse {
@@ -65,6 +67,7 @@ export interface RoomInBuilding {
   type: string;
   costPerMonth: number;
   purchasePrice: number;
+  contractType: string;
 }
 
 export const buildingRepository: BuildingRepository = {

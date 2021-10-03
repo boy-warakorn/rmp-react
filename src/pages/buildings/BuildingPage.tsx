@@ -22,6 +22,7 @@ import {
   setCurrentFloorRooms,
 } from "@stores/buildings/slice";
 import Loading from "@components/global/Loading";
+import DashboardCard from "@components/feature/dashboard/DashboardCard";
 
 const BuildingPage = () => {
   const history = useHistory();
@@ -74,7 +75,7 @@ const BuildingPage = () => {
       const building = await buildingRepository.getBuilding(currentBuildingId);
 
       if (building) {
-        setCurrentFloor(`${building.floors}`);
+        setCurrentFloor("");
         dispatch(setCurrentBuilding(building));
       }
     } catch (error) {
@@ -108,11 +109,20 @@ const BuildingPage = () => {
     }
   };
 
+  const onSelectFloor = (id: number) => {
+    if (Number(currentFloor) !== id) {
+      setCurrentFloor(`${id}`);
+    } else {
+      setCurrentFloor(``);
+    }
+  };
+
   const generateArrayFromFloor = (floors: number) => {
     const array = [];
-    for (let index = floors; index > 0; index--) {
+    for (let index = Number(floors); index > 0; index--) {
       array.push(index);
     }
+
     return array;
   };
 
@@ -160,7 +170,7 @@ const BuildingPage = () => {
           <Fragment>
             <Card className="rounded-b-none col-span-12 p-6 ">
               <div className="flex justify-between">
-                <HeadingText3>Building Details</HeadingText3>
+                <HeadingText3>Building Detail</HeadingText3>
                 <CloseOutlined
                   style={{ fontSize: "24px" }}
                   className="cursor-pointer"
@@ -184,7 +194,7 @@ const BuildingPage = () => {
                 {building.currentBuilding.address}
               </BodyText1>
               <BodyText1>
-                <span className="font-montserratBold">Floors:</span>{" "}
+                <span className="font-montserratBold">Floor:</span>{" "}
                 {building.currentBuilding.floors} floors
               </BodyText1>
               <div className="flex justify-end">
@@ -196,13 +206,16 @@ const BuildingPage = () => {
               style={{ height: "55vh" }}
             >
               <div className="w-64 bg-background-dark rounded-bl-lg p-4 overflow-y-scroll">
+                <HeadingText4 className="text-center text-white">
+                  Select floor
+                </HeadingText4>
                 {generateArrayFromFloor(building.currentBuilding.floors).map(
                   (floor) => (
                     <FloorCard
                       floor={floor}
                       isSelected={`${floor}` === currentFloor}
                       isFirst={floor === building.currentBuilding.floors}
-                      onClick={() => setCurrentFloor(`${floor}`)}
+                      onClick={() => onSelectFloor(floor)}
                     />
                   )
                 )}
@@ -212,8 +225,29 @@ const BuildingPage = () => {
                   <div className="flex justify-center items-center h-full">
                     <Spin />
                   </div>
+                ) : !currentFloor ? (
+                  <div className="grid grid-cols-8 gap-y-4 gap-x-6">
+                    <HeadingText3 className="col-span-8">
+                      Overall Room Detail
+                    </HeadingText3>
+                    <div className="col-span-4">
+                      <DashboardCard
+                        text="Total Room"
+                        count={building.currentBuilding.totalRoom}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <DashboardCard
+                        text="Occupied Room"
+                        count={building.currentBuilding.totalOccupiedRoom}
+                      />
+                    </div>
+                  </div>
                 ) : (
-                  <FloorDetailSection currentFloor={currentFloor} />
+                  <FloorDetailSection
+                    currentFloor={currentFloor}
+                    onClose={() => setCurrentFloor("")}
+                  />
                 )}
               </div>
             </Card>

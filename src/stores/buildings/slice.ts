@@ -41,6 +41,7 @@ const slice = createSlice({
         purchasePrice: room.purchasePrice,
         type: room.type,
         roomNumber: room.roomNumber,
+        contractType: room.contractType,
       }));
     },
   },

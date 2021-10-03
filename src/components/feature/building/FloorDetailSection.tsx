@@ -7,11 +7,14 @@ import {
 import React, { Fragment } from "react";
 import Button from "@components/global/Button";
 import OutlineButton from "@components/global/OutlineButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { buildingSelector } from "@stores/buildings/selector";
 import { getThNumber } from "@utils/getFormatNumber";
 import { CloseOutlined } from "@ant-design/icons";
-import { FormattedRoomInBuilding } from "@stores/buildings/slice";
+import {
+  FormattedRoomInBuilding,
+  saveCurrentState,
+} from "@stores/buildings/slice";
 import { useHistory } from "react-router";
 
 export interface FloorDetailSectionProps {
@@ -26,6 +29,7 @@ const FloorDetailSection = ({
   onDeleteRoom,
 }: FloorDetailSectionProps) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const building = useSelector(buildingSelector);
 
   const columns = [
@@ -82,7 +86,15 @@ const FloorDetailSection = ({
       render: (_: any, record: FormattedRoomInBuilding) => (
         <div className="flex">
           <OutlineButton
-            onClick={() => history.push(`/rooms/${record.roomNumber}/edit`)}
+            onClick={() => {
+              dispatch(
+                saveCurrentState({
+                  currentBuildingId: building.currentBuilding.id,
+                  currentFloor: currentFloor,
+                })
+              );
+              history.push(`/rooms/${record.roomNumber}/edit`);
+            }}
           >
             Edit detail
           </OutlineButton>

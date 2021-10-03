@@ -21,6 +21,7 @@ import { buildingSelector } from "@stores/buildings/selector";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { BuildingRepository } from "@repository/BuildingRepository";
 import {
+  clearState,
   setBuildings,
   setCurrentBuilding,
   setCurrentFloorRooms,
@@ -45,6 +46,11 @@ const BuildingPage = () => {
   const [isTableLoading, setIsTableLoading] = useState(false);
 
   useEffect(() => {
+    if (building.currentBuildingId && building.currentFloor) {
+      setCurrentBuildingId(building.currentBuildingId);
+      setCurrentFloor(building.currentFloor);
+      dispatch(clearState());
+    }
     fetchBuildings();
     // eslint-disable-next-line
   }, []);
@@ -82,7 +88,6 @@ const BuildingPage = () => {
       const building = await buildingRepository.getBuilding(currentBuildingId);
 
       if (building) {
-        setCurrentFloor("");
         dispatch(setCurrentBuilding(building));
       }
     } catch (error) {
@@ -109,6 +114,7 @@ const BuildingPage = () => {
   };
 
   const onSelectBuilding = (id: string) => {
+    setCurrentFloor("");
     if (currentBuildingId !== id) {
       setCurrentBuildingId(id);
     } else {

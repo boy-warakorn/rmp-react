@@ -21,6 +21,8 @@ export type BuildingState = {
   buildings: BaseBuilding[];
   currentBuilding: GetBuildingResponse;
   currentFloorRooms: FormattedRoomInBuilding[];
+  currentFloor: string;
+  currentBuildingId: string;
 };
 
 export type RoomState = {

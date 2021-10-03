@@ -12,6 +12,8 @@ const initialState: BuildingState = {
   buildings: [] as BaseBuilding[],
   currentBuilding: {} as GetBuildingResponse,
   currentFloorRooms: [] as FormattedRoomInBuilding[],
+  currentFloor: "",
+  currentBuildingId: "",
 };
 
 export interface FormattedRoomInBuilding extends RoomInBuilding {
@@ -44,9 +46,25 @@ const slice = createSlice({
         contractType: room.contractType,
       }));
     },
+    saveCurrentState(
+      state,
+      action: PayloadAction<{ currentFloor: string; currentBuildingId: string }>
+    ) {
+      state.currentFloor = action.payload.currentFloor;
+      state.currentBuildingId = action.payload.currentBuildingId;
+    },
+    clearState(state) {
+      state.currentFloor = "";
+      state.currentBuildingId = "";
+    },
   },
 });
 
 export default slice.reducer;
-export const { setBuildings, setCurrentBuilding, setCurrentFloorRooms } =
-  slice.actions;
+export const {
+  setBuildings,
+  setCurrentBuilding,
+  setCurrentFloorRooms,
+  saveCurrentState,
+  clearState,
+} = slice.actions;

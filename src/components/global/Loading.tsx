@@ -13,7 +13,7 @@ const Container = styled.div`
   align-items: center;
   z-index: 99999;
   background: rgba(192, 192, 192, 0.8);
-  width: calc(100% - 275px);
+  width: calc(100% - 300px);
   height: 100%;
 `;
 

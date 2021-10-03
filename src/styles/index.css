@@ -76,3 +76,7 @@ body {
     margin-left: 300px;
   }
 }
+
+svg {
+  vertical-align: baseline;
+}

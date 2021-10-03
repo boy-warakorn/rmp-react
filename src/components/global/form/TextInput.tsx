@@ -24,6 +24,8 @@ export interface InputProps {
   className?: string;
   title: string;
   rows?: number;
+  min?: number;
+  max?: number;
 }
 
 const { TextArea } = Input;

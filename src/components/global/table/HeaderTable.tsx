@@ -55,6 +55,9 @@ const HeaderTable = ({
   }, []);
 
   useEffect(() => {
+    if (roomId) {
+      setRoomId(undefined);
+    }
     fetchRoomIds();
   }, [buildingId]);
 

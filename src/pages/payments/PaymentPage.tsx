@@ -46,14 +46,15 @@ const PaymentPage = () => {
   useEffect(() => {
     fetchPayment();
     // eslint-disable-next-line
-  }, [currentTabKey, filter.filterRoomNumber]);
+  }, [currentTabKey, filter.filterRoomNumber, filter.filterBuildingId]);
 
   const fetchPayment = async () => {
     try {
       setIsLoading(true);
       const payments = await paymentRepository.getPayments(
         currentTabKey,
-        filter.filterRoomNumber
+        filter.filterRoomNumber,
+        filter.filterBuildingId
       );
       if (payments) {
         dispatch(setPayments(payments));

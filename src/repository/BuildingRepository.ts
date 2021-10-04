@@ -2,6 +2,7 @@ import {
   createBuildingUrl,
   deleteBuildingUrl,
   editBuildingUrl,
+  getBuildingIdsUrl,
   getBuildingsUrl,
   getBuildingUrl,
   getSpecificRoomInBuildingAndFloorUrl,
@@ -23,6 +24,14 @@ export interface BuildingRepository {
     id: string,
     updateBuildingDto: UpdateBuildingDto
   ): Promise<void | undefined>;
+  getBuildingIds(): Promise<GetBuildingIds | undefined>;
+}
+
+export interface GetBuildingIds {
+  buildings: {
+    id: string;
+    buildingName: string;
+  }[];
 }
 
 export interface CreateBuildingDto {
@@ -125,6 +134,15 @@ export const buildingRepository: BuildingRepository = {
   async editBuilding(id: string, updateBuildingDto: UpdateBuildingDto) {
     try {
       await AxiosService.post(editBuildingUrl(id), updateBuildingDto);
+    } catch (error) {
+      throw error;
+    }
+  },
+  async getBuildingIds() {
+    try {
+      const result = (await AxiosService.get<GetBuildingIds>(getBuildingIdsUrl))
+        .data;
+      return result;
     } catch (error) {
       throw error;
     }

@@ -40,14 +40,15 @@ const ComplaintPage = () => {
   useEffect(() => {
     fetchReports();
     // eslint-disable-next-line
-  }, [currentTabKey, filter.filterRoomNumber]);
+  }, [currentTabKey, filter.filterRoomNumber, filter.filterBuildingId]);
 
   const fetchReports = async () => {
     try {
       setIsLoading(true);
       const reportResponse = await reportRepository.getReports(
         currentTabKey,
-        filter.filterRoomNumber
+        filter.filterRoomNumber,
+        filter.filterBuildingId
       );
       if (reportResponse) {
         dispatch(setReports(reportResponse));

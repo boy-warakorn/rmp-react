@@ -10,7 +10,8 @@ import { AxiosService } from "@services/axios.config";
 export interface ReportRepository {
   getReports(
     tab: string,
-    roomNumber?: string
+    roomNumber?: string,
+    buildingId?: string
   ): Promise<GetReportsResponse | undefined>;
   getReport(id: string): Promise<GetReportResponse | undefined>;
   replyReport(id: string, replyReportDto: ReplyReportDto): Promise<void>;
@@ -58,13 +59,14 @@ export interface GetReportCountResponse {
 }
 
 export const reportRepository: ReportRepository = {
-  async getReports(tab: string, roomNumber?: string) {
+  async getReports(tab: string, roomNumber?: string, buildingId?: string) {
     try {
       const reports = (
         await AxiosService.get<GetReportsResponse>(getReportsUrl, {
           params: {
             status: tab === "-" ? undefined : tab,
             roomNumber: roomNumber,
+            buildingId: buildingId,
           },
         })
       ).data;

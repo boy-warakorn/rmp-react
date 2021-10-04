@@ -40,14 +40,15 @@ const RoomPage = () => {
     fetchRoom();
 
     // eslint-disable-next-line
-  }, [currentTabKey, filter.filterRoomNumber]);
+  }, [currentTabKey, filter.filterRoomNumber, filter.filterBuildingId]);
 
   const fetchRoom = async () => {
     try {
       setIsLoading(true);
       const rooms = await roomRepository.getRooms(
         currentTabKey,
-        filter.filterRoomNumber
+        filter.filterRoomNumber,
+        filter.filterBuildingId
       );
 
       if (rooms) {

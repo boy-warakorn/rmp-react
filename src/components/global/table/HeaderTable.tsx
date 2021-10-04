@@ -59,6 +59,7 @@ const HeaderTable = ({
       setRoomId(undefined);
     }
     fetchRoomIds();
+    // eslint-disable-next-line
   }, [buildingId]);
 
   const fetchRoomIds = async () => {

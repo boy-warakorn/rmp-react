@@ -40,14 +40,15 @@ const PackagePage = () => {
   useEffect(() => {
     fetchPackages();
     // eslint-disable-next-line
-  }, [currentTabKey, filter.filterRoomNumber]);
+  }, [currentTabKey, filter.filterRoomNumber, filter.filterBuildingId]);
 
   const fetchPackages = async () => {
     try {
       setIsLoading(true);
       const packages = await packageRepository.getPackages(
         currentTabKey,
-        filter.filterRoomNumber
+        filter.filterRoomNumber,
+        filter.filterBuildingId
       );
       if (packages) {
         dispatch(setPackages(packages));

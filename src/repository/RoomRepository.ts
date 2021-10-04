@@ -14,7 +14,8 @@ import { AxiosService } from "@services/axios.config";
 export interface RoomRepository {
   getRooms(
     tab: string,
-    roomNumber?: string
+    roomNumber?: string,
+    buildingId?: string
   ): Promise<RoomResponse[] | undefined>;
   getRoom(roomNumber: string): Promise<GetRoomResponse | undefined>;
   editRoomOwner(
@@ -90,13 +91,14 @@ export interface GetRoomResponse {
 }
 
 export const roomRepository: RoomRepository = {
-  async getRooms(tab: string, roomNumber?: string) {
+  async getRooms(tab: string, roomNumber?: string, buildingId?: string) {
     try {
       const rooms = (
         await AxiosService.get<GetRoomsResponse>(getRoomsUrl, {
           params: {
             filter_tab: tab === "-" ? "" : tab,
             roomNumber: roomNumber,
+            buildingId: buildingId,
           },
         })
       ).data.rooms;

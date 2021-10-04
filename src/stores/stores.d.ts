@@ -23,6 +23,7 @@ export type BuildingState = {
   currentFloorRooms: FormattedRoomInBuilding[];
   currentFloor: string;
   currentBuildingId: string;
+  buildingIds: { id: string; buildingName: string }[];
 };
 
 export type RoomState = {
@@ -57,6 +58,7 @@ export type ContactState = {
 
 export type FilterState = {
   filterRoomNumber?: string;
+  filterBuildingId?: string;
 };
 
 export type RootState = {

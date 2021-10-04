@@ -11,7 +11,8 @@ import { AxiosService } from "@services/axios.config";
 export interface PackageRepository {
   getPackages(
     tab: string,
-    roomNumber?: string
+    roomNumber?: string,
+    buildingId?: string
   ): Promise<GetPackages | undefined>;
   createPackage(createPackageDto: CreatePackageDto): Promise<void>;
   getPackage(id: string): Promise<Package | undefined>;
@@ -53,13 +54,17 @@ export interface Package {
 }
 
 export const packageRepository: PackageRepository = {
-  async getPackages(tab: string, roomNumber?: string) {
+  async getPackages(tab: string, roomNumber?: string, buildingId?: string) {
     try {
       let result: any;
 
       result = (
         await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
-          params: { status: tab === "-" ? "" : tab, roomNumber: roomNumber },
+          params: {
+            status: tab === "-" ? "" : tab,
+            roomNumber: roomNumber,
+            buildingId: buildingId,
+          },
         })
       ).data.packages;
 

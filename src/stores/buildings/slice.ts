@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   BaseBuilding,
+  GetBuildingIds,
   GetBuildingResponse,
   GetBuildingsResponse,
   GetRoomsFromSpecificFloorAndBuildingResponse,
@@ -14,6 +15,7 @@ const initialState: BuildingState = {
   currentFloorRooms: [] as FormattedRoomInBuilding[],
   currentFloor: "",
   currentBuildingId: "",
+  buildingIds: [],
 };
 
 export interface FormattedRoomInBuilding extends RoomInBuilding {
@@ -57,6 +59,9 @@ const slice = createSlice({
       state.currentFloor = "";
       state.currentBuildingId = "";
     },
+    setBuildingIds(state, action: PayloadAction<GetBuildingIds>) {
+      state.buildingIds = action.payload.buildings;
+    },
   },
 });
 
@@ -67,4 +72,5 @@ export const {
   setCurrentFloorRooms,
   saveCurrentState,
   clearState,
+  setBuildingIds,
 } = slice.actions;

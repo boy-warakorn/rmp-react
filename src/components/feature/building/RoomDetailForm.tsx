@@ -196,9 +196,7 @@ const RoomDetailForm = ({
               onChange={(value: string) => setRoomType(value)}
             >
               <Option value="2 bed, 1 toilet">2 bed, 1 toilet</Option>
-              <Option value="5 bed, 2 bath and 1 toilet">
-                3 bed, 2 bath and 1 toilet
-              </Option>
+              <Option value="3 bed, 1 toilet">3 bed, 1 toilet</Option>
             </Select>
           </Form.Item>
         </div>

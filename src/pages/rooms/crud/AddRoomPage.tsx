@@ -110,6 +110,7 @@ const AddRoomPage = () => {
                 <BodyText1 className="font-bold mb-2">Type</BodyText1>
                 <Select value="2 bed, 1 bath">
                   <Option value="2 bed, 1 bath">2 bed, 1 bath</Option>
+                  <Option value="3 bed, 1 toilet">3 bed, 1 toilet</Option>
                 </Select>
               </Form.Item>
             </div>

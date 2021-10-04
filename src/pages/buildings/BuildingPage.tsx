@@ -22,6 +22,7 @@ import RepositoriesFactory from "@repository/RepositoryFactory";
 import { BuildingRepository } from "@repository/BuildingRepository";
 import {
   clearState,
+  saveCurrentState,
   setBuildings,
   setCurrentBuilding,
   setCurrentFloorRooms,
@@ -46,11 +47,13 @@ const BuildingPage = () => {
   const [isTableLoading, setIsTableLoading] = useState(false);
 
   useEffect(() => {
-    if (building.currentBuildingId && building.currentFloor) {
+    if (building.currentBuildingId) {
       setCurrentBuildingId(building.currentBuildingId);
-      setCurrentFloor(building.currentFloor);
-      dispatch(clearState());
     }
+    if (building.currentFloor) {
+      setCurrentFloor(building.currentFloor);
+    }
+    dispatch(clearState());
     fetchBuildings();
     // eslint-disable-next-line
   }, []);
@@ -287,7 +290,20 @@ const BuildingPage = () => {
                 >
                   Delete building
                 </Button>
-                {/* <Button color="primary">Edit building detail</Button> */}
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    dispatch(
+                      saveCurrentState({
+                        currentBuildingId: building.currentBuilding.id,
+                        currentFloor: currentFloor,
+                      })
+                    );
+                    history.push(`/buildings/${currentBuildingId}`);
+                  }}
+                >
+                  Edit building detail
+                </Button>
               </div>
             </Card>
             <Card

@@ -29,6 +29,7 @@ import AddAccountPage from "@pages/accounts/crud/AddAccountPage";
 import AccountDetailPage from "@pages/accounts/AccountDetailPage";
 import BuildingPage from "@pages/buildings/BuildingPage";
 import AddBuildingPage from "@pages/buildings/crud/AddBuildingPage";
+import EditBuildingPage from "@pages/buildings/crud/EditBuildingPage";
 
 const PERSONNEL = ["personnel"];
 const ADMIN = ["admin"];
@@ -156,6 +157,11 @@ export const routes = [
   {
     path: "/buildings/add",
     component: AddBuildingPage,
+    permissions: ALL,
+  },
+  {
+    path: "/buildings/:id",
+    component: EditBuildingPage,
     permissions: ALL,
   },
 ];

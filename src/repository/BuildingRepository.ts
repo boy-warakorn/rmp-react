@@ -1,6 +1,7 @@
 import {
   createBuildingUrl,
   deleteBuildingUrl,
+  editBuildingUrl,
   getBuildingsUrl,
   getBuildingUrl,
   getSpecificRoomInBuildingAndFloorUrl,
@@ -18,6 +19,10 @@ export interface BuildingRepository {
     floor: string
   ): Promise<GetRoomsFromSpecificFloorAndBuildingResponse | undefined>;
   deleteBuilding(id: string): Promise<void | undefined>;
+  editBuilding(
+    id: string,
+    updateBuildingDto: UpdateBuildingDto
+  ): Promise<void | undefined>;
 }
 
 export interface CreateBuildingDto {
@@ -28,6 +33,14 @@ export interface CreateBuildingDto {
   roomPrefix: string;
   floors: number;
   rooms: RoomDto[];
+}
+
+export interface UpdateBuildingDto {
+  buildingName: string;
+  defaultCostPerMonth: number;
+  baseCommonCharge: number;
+  address: string;
+  roomPrefix: string;
 }
 
 export interface RoomDto {
@@ -57,6 +70,7 @@ export interface GetBuildingResponse {
   floors: number;
   totalRoom: number;
   totalOccupiedRoom: number;
+  costPerMonth?: number;
 }
 
 export interface GetRoomsFromSpecificFloorAndBuildingResponse {
@@ -104,6 +118,13 @@ export const buildingRepository: BuildingRepository = {
   async deleteBuilding(id: string) {
     try {
       await AxiosService.delete(deleteBuildingUrl(id));
+    } catch (error) {
+      throw error;
+    }
+  },
+  async editBuilding(id: string, updateBuildingDto: UpdateBuildingDto) {
+    try {
+      await AxiosService.post(editBuildingUrl(id), updateBuildingDto);
     } catch (error) {
       throw error;
     }

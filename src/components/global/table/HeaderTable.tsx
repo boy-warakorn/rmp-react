@@ -15,6 +15,7 @@ import {
 import { BuildingRepository } from "@repository/BuildingRepository";
 import { setBuildingIds } from "@stores/buildings/slice";
 import { buildingSelector } from "@stores/buildings/selector";
+import { SearchOutlined } from "@ant-design/icons";
 
 interface HeaderTableProps {
   title: string;
@@ -45,7 +46,7 @@ const HeaderTable = ({
 
   useEffect(() => {
     if (haveFilter) {
-      fetchRoomIDList();
+      fetchMasterData();
     }
     return () => {
       dispatch(clearFilter());
@@ -53,10 +54,27 @@ const HeaderTable = ({
     // eslint-disable-next-line
   }, []);
 
-  const fetchRoomIDList = async () => {
+  useEffect(() => {
+    fetchRoomIds();
+  }, [buildingId]);
+
+  const fetchRoomIds = async () => {
     try {
       setIsLoading(true);
-      const roomIds = await roomRepository.getRoomIDList(true);
+      const roomIds = await roomRepository.getRoomIDList(true, buildingId);
+      if (roomIds) {
+        dispatch(setRoomIDs(roomIds));
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchMasterData = async () => {
+    try {
+      setIsLoading(true);
+      const roomIds = await roomRepository.getRoomIDList(true, buildingId);
       const buildingIds = await buildingRepository.getBuildingIds();
       if (roomIds && buildingIds) {
         dispatch(setRoomIDs(roomIds));
@@ -116,7 +134,10 @@ const HeaderTable = ({
               ))}
             </Select>
             <Button className="px-6 mr-4" onClick={onSearch}>
-              <BodyText1>Search</BodyText1>
+              <div className="flex items-center justify-center">
+                <SearchOutlined style={{ fontSize: "16px" }} className="mr-2" />
+                <BodyText1>Search</BodyText1>
+              </div>
             </Button>
           </Fragment>
         )}

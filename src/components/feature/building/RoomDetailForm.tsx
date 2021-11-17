@@ -130,6 +130,9 @@ const RoomDetailForm = ({
             <TextInput
               value={totalRoom}
               disabled={!floor}
+              type="number"
+              min={1}
+              max={50}
               title="Total Room"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setTotalRoom(e.target.value)

@@ -80,6 +80,8 @@ export const getSpecificPaymentReceiptUrl = (paymentId: string) =>
   `${basePaymentUrl}/${paymentId}/receipt`;
 export const confirmPaymentUrl = (paymentId: string) =>
   `${basePaymentUrl}/${paymentId}/confirm`;
+export const rejectPaymentUrl = (paymentId: string) =>
+  `${basePaymentUrl}/${paymentId}/reject`;
 
 // Contact
 const baseContactUrl = "/contacts";

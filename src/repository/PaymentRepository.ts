@@ -2,6 +2,7 @@ import {
   confirmPaymentUrl,
   getPaymentsUrl,
   getSpecificPaymentReceiptUrl,
+  rejectPaymentUrl,
 } from "@configs/api";
 import { AxiosService } from "@services/axios.config";
 
@@ -13,6 +14,7 @@ export interface PaymentRepository {
   ): Promise<GetPaymentsResponse | undefined>;
   getSpecificPaymentReceipt(id: string): Promise<string | undefined>;
   confirmPayment(id: string): Promise<void>;
+  rejectPayment(id: string): Promise<void>;
 }
 
 export interface GetPaymentsResponse {
@@ -65,6 +67,13 @@ export const paymentRepository: PaymentRepository = {
   async confirmPayment(id: string) {
     try {
       await AxiosService.post(confirmPaymentUrl(id));
+    } catch (error) {
+      throw error;
+    }
+  },
+  async rejectPayment(id: string) {
+    try {
+      await AxiosService.post(rejectPaymentUrl(id));
     } catch (error) {
       throw error;
     }

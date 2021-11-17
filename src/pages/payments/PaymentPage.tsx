@@ -12,14 +12,16 @@ import { PaymentRepository } from "@repository/PaymentRepository";
 import { setPayments } from "@stores/payments/slice";
 import PaymentTag from "@components/feature/payment/PaymentTag";
 import { filterSelector } from "@stores/filters/selector";
+import Button from "@components/global/Button";
 
+const { confirm } = Modal;
 const { TabPane } = Tabs;
 
 const tabList = [
   { key: "-", title: "All" },
   { key: "pending", title: "Pending" },
   { key: "active", title: "Active / Due" },
-  { key: "reject", title: "Rejected" },
+  { key: "rejected", title: "Rejected" },
   { key: "complete", title: "Completed" },
 ];
 
@@ -109,6 +111,31 @@ const PaymentPage = () => {
       setIsModalVisible(false);
     }
   };
+  const rejectPayment = async () => {
+    try {
+      setIsLoading(true);
+      await paymentRepository.rejectPayment(currentId);
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Reject this payment Success`,
+      });
+      fetchPayment();
+    } catch (error) {
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `Can't reject this payment, Please try again.`,
+      });
+      setIsLoading(false);
+    } finally {
+      setCurrentRoomNumber("");
+      setCurrentPaid("");
+      setCurrentId("");
+
+      setIsModalVisible(false);
+    }
+  };
 
   const columns = [
     {
@@ -188,7 +215,25 @@ const PaymentPage = () => {
         visible={isModalVisible}
         onOk={confirmPayment}
         onCancel={() => setIsModalVisible(false)}
-        okText="Confirm!"
+        footer={[
+          <Button
+            color="danger"
+            onClick={() => {
+              confirm({
+                title: "Do you want to reject this payment?",
+                onOk() {
+                  rejectPayment();
+                },
+                okButtonProps: { style: { background: "red", border: "none" } },
+              });
+            }}
+          >
+            Rejected
+          </Button>,
+          <Button color="primary" onClick={confirmPayment}>
+            Confirm
+          </Button>,
+        ]}
       >
         <div className="flex flex-col items-center justify-center">
           {isLoading ? (

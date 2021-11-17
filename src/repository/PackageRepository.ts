@@ -85,7 +85,10 @@ export const packageRepository: PackageRepository = {
   },
   async createPackage(createPackageDto: CreatePackageDto) {
     try {
-      await AxiosService.post(createPackageUrl, createPackageDto);
+      await AxiosService.post(createPackageUrl, {
+        ...createPackageDto,
+        imgList: [],
+      });
     } catch (error) {
       throw error;
     }

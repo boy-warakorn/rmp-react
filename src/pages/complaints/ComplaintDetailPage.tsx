@@ -124,10 +124,33 @@ const ComplaintDetailPage = () => {
               {dayjs(report.currentReport.requestedDate).format("HH:MM A")}
             </span>
           </SubHeadingText1>
+
           <BodyText1 className="mt-2">
             {report.currentReport.content.detail}
           </BodyText1>
+          <SubHeadingText1 className="font-montserratBold mt-2 mb-2">
+            Images
+          </SubHeadingText1>
+          <div
+            className="p-4 bg-white w-full"
+            style={{
+              maxWidth: "100%",
+              overflowX: "scroll",
+              display: "inline-flex",
+            }}
+          >
+            {report.currentReport.imgList.map((imgUrl) => (
+              <img
+                height={"300px"}
+                width={"300px"}
+                className="mr-4 object-cover"
+                alt="image for postal"
+                src={imgUrl}
+              />
+            ))}
+          </div>
         </FormCard>
+
         <HeadingText4 className="mt-9">
           <span className="font-bold">Reply to this report</span>
         </HeadingText4>

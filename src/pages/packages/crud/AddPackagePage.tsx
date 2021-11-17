@@ -6,7 +6,7 @@ import {
   HeadingText4,
 } from "@components/global/typography/Typography";
 import Button from "@components/global/Button";
-import { Select, Form, notification } from "antd";
+import { Select, Form, notification, Image } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { roomSelector } from "@stores/rooms/selector";
@@ -31,6 +31,7 @@ const AddPackagePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [roomNumber, setRoomNumber] = useState("");
   const [arrivedTime, setArrivedTime] = useState(dayjs());
+  const [imgList, setImgList] = useState<string[]>([]);
   const dispatch = useDispatch();
   const form = useForm();
   const history = useHistory();
@@ -63,6 +64,7 @@ const AddPackagePage = () => {
         });
         setRoomNumber(postalResponse.roomNumber);
         setArrivedTime(dayjs(postalResponse.arrivedAt));
+        setImgList(postalResponse.imgList);
       }
     } catch (error) {}
   };
@@ -177,6 +179,30 @@ const AddPackagePage = () => {
             >
               <TextInput title="Additional notes" rows={3} />
             </Form.Item>
+            <div className="col-span-4"></div>
+            {isEdit && (
+              <>
+                <BodyText1 className="mt-4 font-bold mb-2">Images</BodyText1>
+                <div
+                  className="col-span-8 p-4 bg-white"
+                  style={{
+                    maxWidth: "100%",
+                    overflowX: "scroll",
+                    display: "inline-flex",
+                  }}
+                >
+                  {imgList.map((imgUrl) => (
+                    <img
+                      height={"300px"}
+                      width={"300px"}
+                      className="mr-4 object-cover"
+                      alt="image for postal"
+                      src={imgUrl}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </FormCard>
           <div className="flex justify-end mt-9">
             <Button

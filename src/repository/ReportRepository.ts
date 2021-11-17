@@ -36,6 +36,7 @@ export interface ReportResponse {
   title: string;
   detail: string;
   status: string;
+  imgList: string[];
 }
 
 export interface GetReportResponse {
@@ -52,6 +53,7 @@ export interface GetReportResponse {
   requestedDate: string;
   resolvedDate: string;
   status: string;
+  imgList: string[];
 }
 
 export interface GetReportCountResponse {

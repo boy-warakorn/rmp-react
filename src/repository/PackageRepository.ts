@@ -51,6 +51,7 @@ export interface Package {
   deliveredAt: string;
   status: string;
   postalService: string;
+  imgList: string[];
 }
 
 export const packageRepository: PackageRepository = {

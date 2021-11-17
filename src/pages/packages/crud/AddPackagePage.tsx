@@ -6,7 +6,7 @@ import {
   HeadingText4,
 } from "@components/global/typography/Typography";
 import Button from "@components/global/Button";
-import { Select, Form, notification, Image } from "antd";
+import { Select, Form, notification } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { roomSelector } from "@stores/rooms/selector";
@@ -196,7 +196,7 @@ const AddPackagePage = () => {
                       height={"300px"}
                       width={"300px"}
                       className="mr-4 object-cover"
-                      alt="image for postal"
+                      alt={"image for postal" + imgUrl}
                       src={imgUrl}
                     />
                   ))}

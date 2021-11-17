@@ -144,7 +144,7 @@ const ComplaintDetailPage = () => {
                 height={"300px"}
                 width={"300px"}
                 className="mr-4 object-cover"
-                alt="image for postal"
+                alt={"image for report" + imgUrl}
                 src={imgUrl}
               />
             ))}

@@ -181,9 +181,23 @@ const PaymentPage = () => {
       fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
-          {record.status === "pending" ? (
-            <OutlineButton onClick={() => onConfirmPaymentModal(record)}>
-              Verify
+          {record.status === "pending" || record.status === "rejected" ? (
+            <OutlineButton
+              onClick={
+                record.status === "rejected"
+                  ? () => {
+                      setCurrentId(record.id);
+                      confirm({
+                        title: "Do you want to confirm this payment?",
+                        onOk() {
+                          confirmPayment();
+                        },
+                      });
+                    }
+                  : () => onConfirmPaymentModal(record)
+              }
+            >
+              {record.status === "pending" ? "Verify" : "Confirm payment"}
             </OutlineButton>
           ) : (
             <div></div>

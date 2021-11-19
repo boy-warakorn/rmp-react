@@ -86,10 +86,10 @@ const PaymentPage = () => {
     }
   };
 
-  const confirmPayment = async () => {
+  const confirmPayment = async (id?: string) => {
     try {
       setIsLoading(true);
-      await paymentRepository.confirmPayment(currentId);
+      await paymentRepository.confirmPayment(id ? id : currentId);
       notification.success({
         duration: 2,
         message: "Success",
@@ -186,11 +186,10 @@ const PaymentPage = () => {
               onClick={
                 record.status === "rejected"
                   ? () => {
-                      setCurrentId(record.id);
                       confirm({
                         title: "Do you want to confirm this payment?",
                         onOk() {
-                          confirmPayment();
+                          confirmPayment(record.id);
                         },
                       });
                     }
@@ -227,7 +226,7 @@ const PaymentPage = () => {
       <Modal
         title={`Confirmation payment of: ${currentRoomNumber}`}
         visible={isModalVisible}
-        onOk={confirmPayment}
+        onOk={() => confirmPayment()}
         onCancel={() => setIsModalVisible(false)}
         footer={[
           <Button

@@ -156,7 +156,10 @@ const HeaderTable = ({
                 </Option>
               ))}
             </Select>
-            <Button className="px-6 mr-4" onClick={onSearch}>
+            <Button
+              className={buttonTitle ? "px-6 mr-4" : "px-6"}
+              onClick={onSearch}
+            >
               <div className="flex items-center justify-center">
                 <SearchOutlined style={{ fontSize: "16px" }} className="mr-2" />
                 <BodyText1>Search</BodyText1>

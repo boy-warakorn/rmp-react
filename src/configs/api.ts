@@ -76,6 +76,7 @@ export const confirmPackageUrl = (packageId: string) =>
 // Payment
 const basePaymentUrl = "/payments";
 export const getPaymentsUrl = basePaymentUrl;
+export const importPaymentsUrl = `${basePaymentUrl}/imports`;
 export const getSpecificPaymentReceiptUrl = (paymentId: string) =>
   `${basePaymentUrl}/${paymentId}/receipt`;
 export const confirmPaymentUrl = (paymentId: string) =>

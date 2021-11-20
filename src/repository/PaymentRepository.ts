@@ -2,6 +2,7 @@ import {
   confirmPaymentUrl,
   getPaymentsUrl,
   getSpecificPaymentReceiptUrl,
+  importPaymentsUrl,
   rejectPaymentUrl,
 } from "@configs/api";
 import { AxiosService } from "@services/axios.config";
@@ -15,6 +16,17 @@ export interface PaymentRepository {
   getSpecificPaymentReceipt(id: string): Promise<string | undefined>;
   confirmPayment(id: string): Promise<void>;
   rejectPayment(id: string): Promise<void>;
+  importPayment(payments: ImportPaymentDto): Promise<void>;
+}
+
+export interface ImportPayment {
+  type: string;
+  roomNumber: string;
+  amount: string;
+}
+
+export interface ImportPaymentDto {
+  payments: ImportPayment[];
 }
 
 export interface GetPaymentsResponse {
@@ -52,6 +64,11 @@ export const paymentRepository: PaymentRepository = {
     } catch (error) {
       throw error;
     }
+  },
+  async importPayment(payments: ImportPaymentDto) {
+    try {
+      await AxiosService.post(importPaymentsUrl, payments);
+    } catch (error) {}
   },
   async getSpecificPaymentReceipt(id: string) {
     try {

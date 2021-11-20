@@ -107,20 +107,23 @@ const HeaderTable = ({
       <div className="flex">
         {haveFilter && (
           <Fragment>
-            <Select
-              showSearch
-              value={reportTypeState}
-              loading={isLoading}
-              allowClear
-              className="mr-4 w-52"
-              placeholder="Filter Type"
-              onSelect={(value: string) => setReportTypeState(value)}
-              onClear={() => setReportTypeState(undefined)}
-            >
-              <Option value={""}>All</Option>
-              <Option value={"complaint"}>Complaint</Option>
-              <Option value={"maintenance"}>Maintenance</Option>
-            </Select>
+            {window.location.pathname.includes("complaints") &&
+               <Select
+               showSearch
+               value={reportTypeState}
+               loading={isLoading}
+               allowClear
+               className="mr-4 w-52"
+               placeholder="Filter Type"
+               onSelect={(value: string) => setReportTypeState(value)}
+               onClear={() => setReportTypeState(undefined)}
+             >
+               <Option value={""}>All</Option>
+               <Option value={"complaint"}>Complaint</Option>
+               <Option value={"maintenance"}>Maintenance</Option>
+             </Select>
+            }
+           
             <Select
               showSearch
               value={buildingId}

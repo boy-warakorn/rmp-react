@@ -48,8 +48,8 @@ const PaymentPage = () => {
   const [currentPaid, setCurrentPaid] = useState("");
   const [currentReceiptUrl, setCurrentReceiptUrl] = useState("");
   const [currentId, setCurrentId] = useState("");
-  const [readDataError, setReadDataError] = useState("");
-  const [readData, setReadData] = useState<object | null>(null);
+  const [, setReadDataError] = useState("");
+  const [readData, setReadData] = useState<any | null>(null);
   const [fileName, setFileName] = useState<string>("");
 
   const fileRef = useRef(null);
@@ -286,12 +286,40 @@ const PaymentPage = () => {
     },
   ] as any;
 
-  const onClearInputFile = () => {
+  const onClearInputFile = (isNeedFileRef?: boolean) => {
     setFileName("");
     setReadData(null);
     setReadDataError("");
-    if (fileRef) {
+    if (fileRef && isNeedFileRef) {
       (fileRef as any).current.value = null;
+    }
+  };
+
+  const onSubmitImport = async () => {
+    try {
+      setIsLoading(true);
+      if (!readData) {
+        return;
+      }
+      await paymentRepository.importPayment({
+        payments: readData.filter((payment: any) => payment.isExist),
+      });
+      notification.success({
+        duration: 2,
+        message: "Success",
+        description: `Import theses payment Success`,
+      });
+      fetchPayment();
+    } catch (error) {
+      notification.error({
+        duration: 2,
+        message: "Error",
+        description: `Can't import theses payment, Please try again.`,
+      });
+      setIsLoading(false);
+    } finally {
+      setIsImportModalVisible(false);
+      onClearInputFile(false);
     }
   };
 
@@ -326,60 +354,72 @@ const PaymentPage = () => {
         visible={isImportModalVisible}
         onCancel={() => {
           setIsImportModalVisible(false);
-          onClearInputFile();
+          onClearInputFile(true);
         }}
+        onOk={onSubmitImport}
       >
         <div style={{ maxHeight: "70vh", overflowY: "scroll" }}>
-          <div className="flex items-center">
-            <HeadingText4>Example of imported file: </HeadingText4>
-            <Button className="ml-4" onClick={() => {}}>
-              <a href="https://firebasestorage.googleapis.com/v0/b/rmp-management.appspot.com/o/payment_example.xlsx?alt=media&token=9e803cee-a462-46d0-a6cd-13374925af43">
-                Click to download example file
-              </a>
-            </Button>
-          </div>
-          <input
-            type="file"
-            name=""
-            id="import-excel"
-            onChange={onUploadFile}
-            hidden
-            ref={fileRef}
-          />
-          <div className="flex items-center justify-center mt-6">
-            <label
-              htmlFor="import-excel"
-              className="flex items-center justify-center"
+          {isLoading ? (
+            <div
+              style={{ minHeight: "50vh" }}
+              className="flex justify-center items-center"
             >
-              <div>
-                <div className="bg-primary px-4 py-1 rounded-sm text-white cursor-pointer">
-                  <UploadOutlined /> Upload file
-                </div>
-              </div>
-              <BodyText1 className="ml-2">
-                {fileName ? fileName : "No file chosen"}{" "}
-              </BodyText1>
-            </label>
-            {fileName && (
-              <DeleteFilled
-                className="ml-2 cursor-pointer"
-                onClick={onClearInputFile}
-              />
-            )}
-          </div>
-          {readData && (
-            <div className="mt-6">
-              <BodyText1 className="text-red-500">
-                * Room number with red color will not upload to our database due
-                to this room number not exist in this business
-              </BodyText1>
-              <CustomTable
-                className="mt-2"
-                columns={importColumns}
-                defaultPageSize={5}
-                dataSource={readData}
-              />
+              <Spin />
             </div>
+          ) : (
+            <Fragment>
+              <div className="flex items-center">
+                <HeadingText4>Example of imported file: </HeadingText4>
+                <Button className="ml-4" onClick={() => {}}>
+                  <a href="https://firebasestorage.googleapis.com/v0/b/rmp-management.appspot.com/o/payment_example.xlsx?alt=media&token=9e803cee-a462-46d0-a6cd-13374925af43">
+                    Click to download example file
+                  </a>
+                </Button>
+              </div>
+              <input
+                type="file"
+                name=""
+                id="import-excel"
+                onChange={onUploadFile}
+                hidden
+                ref={fileRef}
+              />
+              <div className="flex items-center justify-center mt-6">
+                <label
+                  htmlFor="import-excel"
+                  className="flex items-center justify-center"
+                >
+                  <div>
+                    <div className="bg-primary px-4 py-1 rounded-sm text-white cursor-pointer">
+                      <UploadOutlined /> Upload file
+                    </div>
+                  </div>
+                  <BodyText1 className="ml-2">
+                    {fileName ? fileName : "No file chosen"}{" "}
+                  </BodyText1>
+                </label>
+                {fileName && (
+                  <DeleteFilled
+                    className="ml-2 cursor-pointer"
+                    onClick={() => onClearInputFile()}
+                  />
+                )}
+              </div>
+              {readData && (
+                <div className="mt-6">
+                  <BodyText1 className="text-red-500">
+                    * Room number with red color will not upload to our database
+                    due to this room number not exist in this business
+                  </BodyText1>
+                  <CustomTable
+                    className="mt-2"
+                    columns={importColumns}
+                    defaultPageSize={5}
+                    dataSource={readData}
+                  />
+                </div>
+              )}
+            </Fragment>
           )}
         </div>
       </Modal>

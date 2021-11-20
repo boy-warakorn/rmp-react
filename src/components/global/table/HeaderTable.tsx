@@ -109,7 +109,7 @@ const HeaderTable = ({
           <Fragment>
             <Select
               showSearch
-              value={buildingId}
+              value={reportTypeState}
               loading={isLoading}
               allowClear
               className="mr-4 w-52"

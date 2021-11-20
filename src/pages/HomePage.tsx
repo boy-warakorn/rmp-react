@@ -1,20 +1,20 @@
 import {
   BodyText1,
   HeadingText4,
-  SubHeadingText1,
+  // SubHeadingText1,
 } from "@components/global/typography/Typography";
 import React, { Fragment } from "react";
 import { SlidersFilled } from "@ant-design/icons";
 import DashboardCard from "@components/feature/dashboard/DashboardCard";
 import RoomOccupiedChart from "@components/feature/dashboard/RoomOccupiedChart";
 import Card from "@components/global/Card";
-import Button from "@components/global/Button";
-import DashboardPackageCard from "@components/feature/dashboard/DashboardPackageCard";
-import DashboardReportCard from "@components/feature/dashboard/DashboardReportCard";
+// import Button from "@components/global/Button";
+// import DashboardPackageCard from "@components/feature/dashboard/DashboardPackageCard";
+// import DashboardReportCard from "@components/feature/dashboard/DashboardReportCard";
 import { useHistory } from "react-router";
 
 const HomePage = () => {
-  const history = useHistory();
+  // const history = useHistory();
 
   return (
     <Fragment>

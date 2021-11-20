@@ -15,10 +15,11 @@ import { ReplyReportDto, ReportRepository } from "@repository/ReportRepository";
 import { reportSelector } from "@stores/reports/selector";
 import { setReport } from "@stores/reports/slice";
 import Loading from "@components/global/Loading";
-import { Form, notification, Spin, Modal } from "antd";
+import { Form, notification, Spin, Modal, Tag } from "antd";
 import dayjs from "dayjs";
 import { useForm } from "antd/lib/form/Form";
 import { isObjectEmpty } from "@utils/isObjEmpty";
+import { FileTextOutlined, ToolOutlined } from "@ant-design/icons";
 
 const ComplaintDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -73,6 +74,39 @@ const ComplaintDetailPage = () => {
     }
   };
 
+  const renderAvailableDay = (value: string) => (
+    <Tag color={getDayColor(value)}>{value}</Tag>
+  );
+
+  const getDayColor = (day: string) => {
+    switch (day.trim()) {
+      case "Monday": {
+        return "yellow";
+      }
+      case "Tuesday": {
+        return "pink";
+      }
+      case "Wednesday": {
+        return "green";
+      }
+      case "Thursday": {
+        return "orange";
+      }
+      case "Friday": {
+        return "blue";
+      }
+      case "Saturday": {
+        return "purple";
+      }
+      case "Sunday": {
+        return "red";
+      }
+      default: {
+        return "";
+      }
+    }
+  };
+
   const onResolveReport = () => {
     setIsModalVisible(true);
   };
@@ -124,12 +158,43 @@ const ComplaintDetailPage = () => {
               {dayjs(report.currentReport.requestedDate).format("HH:MM A")}
             </span>
           </SubHeadingText1>
+          <SubHeadingText1 className="font-montserratBold mt-2 flex">
+            Type:
+            <Tag
+              className="flex items-center w-min ml-2"
+              icon={
+                report.currentReport.type === "complaint" ? (
+                  <FileTextOutlined />
+                ) : (
+                  <ToolOutlined />
+                )
+              }
+              color={
+                report.currentReport.type === "complaint" ? "red" : "default"
+              }
+            >
+              {report.currentReport.type}
+            </Tag>
+          </SubHeadingText1>
+          {report.currentReport.availableDay && (
+            <SubHeadingText1 className="font-montserratBold mt-2">
+              Available day:{" "}
+              <span className="font-montserrat">
+                {report.currentReport.availableDay
+                  .split(",")
+                  .map((day) => renderAvailableDay(day))}
+              </span>
+            </SubHeadingText1>
+          )}
 
+          <SubHeadingText1 className="font-montserratBold mt-2 mb-2">
+            Report Detail:
+          </SubHeadingText1>
           <BodyText1 className="mt-2">
             {report.currentReport.content.detail}
           </BodyText1>
           <SubHeadingText1 className="font-montserratBold mt-2 mb-2">
-            Images
+            Images:
           </SubHeadingText1>
           <div
             className="p-4 bg-white w-full"

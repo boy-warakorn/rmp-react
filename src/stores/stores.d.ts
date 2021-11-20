@@ -59,6 +59,7 @@ export type ContactState = {
 export type FilterState = {
   filterRoomNumber?: string;
   filterBuildingId?: string;
+  filterReportType?: string;
 };
 
 export type RootState = {

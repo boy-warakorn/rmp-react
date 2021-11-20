@@ -1,7 +1,7 @@
 import CustomTabs, { TabCard } from "@components/global/CustomTabs";
 import HeaderTable from "@components/global/table/HeaderTable";
 import CustomTable from "@components/global/table/Table";
-import { Badge, Tabs } from "antd";
+import { Badge, Tabs, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import OutlineButton from "@components/global/OutlineButton";
@@ -10,6 +10,7 @@ import { reportSelector } from "@stores/reports/selector";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { ReportRepository } from "@repository/ReportRepository";
 import { setReports } from "@stores/reports/slice";
+import { FileTextOutlined, ToolOutlined } from "@ant-design/icons";
 import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
@@ -40,7 +41,12 @@ const ComplaintPage = () => {
   useEffect(() => {
     fetchReports();
     // eslint-disable-next-line
-  }, [currentTabKey, filter.filterRoomNumber, filter.filterBuildingId]);
+  }, [
+    currentTabKey,
+    filter.filterRoomNumber,
+    filter.filterBuildingId,
+    filter.filterReportType,
+  ]);
 
   const fetchReports = async () => {
     try {
@@ -48,7 +54,8 @@ const ComplaintPage = () => {
       const reportResponse = await reportRepository.getReports(
         currentTabKey,
         filter.filterRoomNumber,
-        filter.filterBuildingId
+        filter.filterBuildingId,
+        filter.filterReportType
       );
       if (reportResponse) {
         dispatch(setReports(reportResponse));
@@ -105,6 +112,24 @@ const ComplaintPage = () => {
           }
           text={value}
         />
+      ),
+    },
+    {
+      title: "Type",
+      width: 50,
+      dataIndex: "type",
+      render: (value: any) => (
+        <Tag
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: "min-content",
+          }}
+          icon={value === "complaint" ? <FileTextOutlined /> : <ToolOutlined />}
+          color={value === "complaint" ? "red" : "default"}
+        >
+          {value}
+        </Tag>
       ),
     },
     {

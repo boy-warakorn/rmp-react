@@ -38,6 +38,7 @@ const slice = createSlice({
         status: report.status,
         resolvedBy: report.resolvedBy,
         imgList: report.imgList,
+        type: report.type,
       }));
     },
     setReport(state, action: PayloadAction<GetReportResponse>) {

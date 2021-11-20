@@ -10,6 +10,7 @@ import { setRoomIDs } from "@stores/rooms/slice";
 import {
   clearFilter,
   setFilterBuildingId,
+  setFilterReportType,
   setFilterRoomNumber,
 } from "@stores/filters/slice";
 import { BuildingRepository } from "@repository/BuildingRepository";
@@ -33,6 +34,9 @@ const HeaderTable = ({
   haveFilter = true,
 }: HeaderTableProps) => {
   const dispatch = useDispatch();
+  const [reportTypeState, setReportTypeState] = useState<string | undefined>(
+    undefined
+  );
   const [roomId, setRoomId] = useState<string | undefined>(undefined);
   const [buildingId, setBuildingId] = useState<string | undefined>(undefined);
   const room = useSelector(roomSelector);
@@ -94,6 +98,7 @@ const HeaderTable = ({
     console.log(buildingId, roomId);
     dispatch(setFilterBuildingId(buildingId));
     dispatch(setFilterRoomNumber(roomId));
+    dispatch(setFilterReportType(reportTypeState));
   };
 
   return (
@@ -102,6 +107,20 @@ const HeaderTable = ({
       <div className="flex">
         {haveFilter && (
           <Fragment>
+            <Select
+              showSearch
+              value={buildingId}
+              loading={isLoading}
+              allowClear
+              className="mr-4 w-52"
+              placeholder="Filter Type"
+              onSelect={(value: string) => setReportTypeState(value)}
+              onClear={() => setReportTypeState(undefined)}
+            >
+              <Option value={""}>All</Option>
+              <Option value={"complaint"}>Complaint</Option>
+              <Option value={"maintenance"}>Maintenance</Option>
+            </Select>
             <Select
               showSearch
               value={buildingId}

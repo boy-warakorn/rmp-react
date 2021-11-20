@@ -11,7 +11,8 @@ export interface ReportRepository {
   getReports(
     tab: string,
     roomNumber?: string,
-    buildingId?: string
+    buildingId?: string,
+    type?: string
   ): Promise<GetReportsResponse | undefined>;
   getReport(id: string): Promise<GetReportResponse | undefined>;
   replyReport(id: string, replyReportDto: ReplyReportDto): Promise<void>;
@@ -37,6 +38,7 @@ export interface ReportResponse {
   detail: string;
   status: string;
   imgList: string[];
+  type: string;
 }
 
 export interface GetReportResponse {
@@ -49,11 +51,13 @@ export interface GetReportResponse {
     resolveDetail: string;
     resolveBy: string;
   };
+  availableDay: string;
   roomNumber: string;
   requestedDate: string;
   resolvedDate: string;
   status: string;
   imgList: string[];
+  type: string;
 }
 
 export interface GetReportCountResponse {
@@ -61,7 +65,12 @@ export interface GetReportCountResponse {
 }
 
 export const reportRepository: ReportRepository = {
-  async getReports(tab: string, roomNumber?: string, buildingId?: string) {
+  async getReports(
+    tab: string,
+    roomNumber?: string,
+    buildingId?: string,
+    type?: string
+  ) {
     try {
       const reports = (
         await AxiosService.get<GetReportsResponse>(getReportsUrl, {
@@ -69,6 +78,7 @@ export const reportRepository: ReportRepository = {
             status: tab === "-" ? undefined : tab,
             roomNumber: roomNumber,
             buildingId: buildingId,
+            type: type,
           },
         })
       ).data;

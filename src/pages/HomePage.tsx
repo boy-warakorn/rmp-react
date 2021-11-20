@@ -22,16 +22,16 @@ const HomePage = () => {
         <HeadingText4>Summary</HeadingText4>
       </div>
       <div className="col-span-6 md:col-span-3">
-        <DashboardCard text="Payment Dues" count={60} />
+        <DashboardCard text="Payment Dues" count={0} />
       </div>
       <div className="col-span-6 md:col-span-3">
-        <DashboardCard text="Packages held" count={16} />
+        <DashboardCard text="Packages held" count={0} />
       </div>
       <div className="col-span-6 md:col-span-3">
-        <DashboardCard text="Reports" count={43} />
+        <DashboardCard text="Reports" count={0} />
       </div>
       <div className="col-span-6 md:col-span-3">
-        <DashboardCard text="Complaints" count={64} />
+        <DashboardCard text="Complaints" count={0} />
       </div>
       <div className="col-span-6 mt-6 mb-6">
         <HeadingText4>Recent incoming packages</HeadingText4>
@@ -41,7 +41,7 @@ const HomePage = () => {
       </div>
       <div className="col-span-6">
         <Fragment>
-          <DashboardPackageCard />
+          {/* <DashboardPackageCard />
           <div className="mb-4"></div>
           <DashboardPackageCard />
           <div className="mb-4"></div>
@@ -56,7 +56,7 @@ const HomePage = () => {
                 More Detail
               </SubHeadingText1>
             </Button>
-          </div>
+          </div> */}
         </Fragment>
       </div>
 
@@ -67,7 +67,7 @@ const HomePage = () => {
           </div>
           <div className="flex items-center">
             <SlidersFilled style={{ fontSize: "18px" }} />
-            <BodyText1 className="ml-3">Rooms occupied: 25/100</BodyText1>
+            <BodyText1 className="ml-3">Rooms occupied: 0/0</BodyText1>
           </div>
           <RoomOccupiedChart />
         </Card>
@@ -77,7 +77,7 @@ const HomePage = () => {
         <HeadingText4>Latest reports</HeadingText4>
       </div>
       <div className="col-span-12 mt-6">
-        <DashboardReportCard />
+        {/* <DashboardReportCard />
         <div className="mt-4"></div>
         <DashboardReportCard />
         <div className="flex items-center justify-center">
@@ -90,7 +90,7 @@ const HomePage = () => {
               More Detail
             </SubHeadingText1>
           </Button>
-        </div>
+        </div> */}
       </div>
     </Fragment>
   );

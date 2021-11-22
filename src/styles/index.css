@@ -80,7 +80,7 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 99999;
-  background: rgba(175, 92, 92, 0.8);
+  background: rgba(82, 82, 82, 0.8);
   width: calc(100% - 75px);
   height: 100%;
 }

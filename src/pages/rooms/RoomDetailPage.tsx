@@ -70,8 +70,14 @@ const RoomDetail = () => {
     try {
       setIsLoading(true);
       const result = await roomRepository.getRoom(id);
-      const postals = await packageRepository.getPackages("-", id);
-      const payments = await paymentRepository.getPayments("-", id);
+      const postals = await packageRepository.getPackages(
+        "-",
+        result?.room.roomNumber
+      );
+      const payments = await paymentRepository.getPayments(
+        "-",
+        result?.room.roomNumber
+      );
       if (result && postals && payments) {
         dispatch(setCurrentRoom(result));
         dispatch(setPackages(postals));
@@ -320,7 +326,10 @@ const RoomDetail = () => {
     <Fragment>
       <div className="col-span-12 mt-3 mb-6 flex justify-between">
         <HeadingText3>
-          Room number: <span className="font-montserratMedium">{id}</span>
+          Room number:{" "}
+          <span className="font-montserratMedium">
+            {room.currentRoom.room.roomNumber}
+          </span>
         </HeadingText3>
         <Button className="mr-2" color="danger" onClick={onDeleteRoom}>
           Delete Room

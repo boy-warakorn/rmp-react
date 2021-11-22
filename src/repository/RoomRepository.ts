@@ -38,6 +38,7 @@ export interface RoomRepository {
 }
 
 export interface RoomResponse {
+  id: string;
   roomNumber: string;
   contractType: string;
   packages: number;
@@ -106,6 +107,7 @@ export const roomRepository: RoomRepository = {
         })
       ).data.rooms;
       return rooms.map((room: RoomResponse) => ({
+        id: room.id,
         roomNumber: room.roomNumber,
         lastMoveAt: room.lastMoveAt,
         contractType: room.contractType,

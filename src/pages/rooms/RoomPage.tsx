@@ -113,9 +113,7 @@ const RoomPage = () => {
       fixed: "right",
       render: (_: any, record: Room) => (
         <div className="flex">
-          <OutlineButton
-            onClick={() => history.push(`/rooms/${record.roomNumber}`)}
-          >
+          <OutlineButton onClick={() => history.push(`/rooms/${record.id}`)}>
             View detail
           </OutlineButton>
         </div>

@@ -9,6 +9,7 @@ const initialState: RoomState = {
 };
 
 export interface Room {
+  id: string;
   roomNumber: string;
   contractType: string;
   packages: number;
@@ -28,7 +29,8 @@ const slice = createSlice({
   reducers: {
     setRooms(state, action: PayloadAction<RoomResponse[]>) {
       state.rooms = action.payload.map((room, index) => ({
-        key: `${room.roomNumber}Rooms`,
+        id: room.id,
+        key: `${room.id}Rooms`,
         contractType: room.contractType,
         lastMoveAt: room.lastMoveAt,
         packages: room.packages,

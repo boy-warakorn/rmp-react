@@ -18,7 +18,9 @@ const HeaderBar = () => {
   let titleText =
     window.location.pathname !== "/home"
       ? getHeaderTitle()
-      : user?.businessName;
+      : user?.businessName.toLowerCase().includes("condo")
+      ? user?.businessName
+      : `${user?.businessName} Condo`;
 
   let headingText = <HeadingText2>{titleText}</HeadingText2>;
 

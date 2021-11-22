@@ -60,6 +60,16 @@ body {
   animation: spin 2s linear infinite;
 }
 
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 350ms ease-in;
+}
+
 .loading {
   position: fixed;
   margin: auto;
@@ -70,7 +80,7 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 99999;
-  background: rgba(192, 192, 192, 0.8);
+  background: rgba(82, 82, 82, 0.8);
   width: calc(100% - 75px);
   height: 100%;
 }

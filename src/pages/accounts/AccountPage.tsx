@@ -80,7 +80,7 @@ const AccountPage = () => {
       fixed: "right",
       render: (_: any, record: any) => (
         <OutlineButton
-          className="ml-3 px-10"
+          className="ml-3 px-3"
           color="primary"
           onClick={() => history.push(`/manage-accounts/${record.userId}`)}
         >

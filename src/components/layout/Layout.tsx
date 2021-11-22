@@ -4,10 +4,9 @@ import { HeadingText3 } from "@components/global/typography/Typography";
 import Logo from "../../assets/images/rmp_logo_white.png";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
-import { Switch, Redirect, useHistory } from "react-router";
+import { Switch, Redirect, useHistory, useLocation } from "react-router";
 import HeaderBar from "@components/global/navigation/HeaderBar";
 import { generalRoutes, routes, settingsRoutes } from "@configs/routes";
-import { ErrorBoundary } from "react-error-boundary";
 import PrivateRoute from "@components/global/PrivateRoute";
 import { clearUser, setUser } from "@stores/user/slice";
 import { useDispatch } from "react-redux";
@@ -17,6 +16,7 @@ import Loading from "@components/global/Loading";
 import ErrorPage from "@pages/ErrorPage";
 import { BackTop } from "antd";
 import { ReportRepository } from "@repository/ReportRepository";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const Sider = styled.div`
   ${tw`bg-background-dark max-h-screen min-h-screen fixed`}
@@ -28,6 +28,7 @@ const Layout = () => {
   const dispatch = useDispatch();
   const role = localStorage.getItem("role");
   const history = useHistory();
+  const loca = useLocation();
 
   const [isLoading, setIsLoading] = useState(false);
   const [count, setCount] = useState(0);
@@ -117,29 +118,36 @@ const Layout = () => {
         className="py-8 px-6 2xl:py-9 2xl:px-14 bg-background flex-1 min-h-screen"
         id="content"
       >
-        <ErrorBoundary FallbackComponent={ErrorPage}>
-          <div className="grid grid-cols-12 gap-x-6">
-            <HeaderBar />
-            {isLoading ? (
-              <Loading />
-            ) : (
-              <Switch>
-                {routes.map((route, index) =>
-                  route.permissions.includes(role!) ? (
-                    <PrivateRoute
-                      key={`routes${index}`}
-                      path={route.path}
-                      component={route.component}
-                      exact
-                    />
-                  ) : null
-                )}
-                <Redirect to="/home" />
-                <PrivateRoute path="/error" component={ErrorPage} exact />
-              </Switch>
-            )}
-          </div>
-        </ErrorBoundary>
+        <div className="grid grid-cols-12 gap-x-6">
+          <HeaderBar />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <TransitionGroup className="col-span-12 grid grid-cols-12 gap-x-6">
+              <CSSTransition
+                key={loca.pathname}
+                unmountOnExit
+                classNames="fade"
+                timeout={400}
+              >
+                <Switch location={loca}>
+                  {routes.map((route, index) =>
+                    route.permissions.includes(role!) ? (
+                      <PrivateRoute
+                        key={`routes${index}`}
+                        path={route.path}
+                        component={route.component}
+                        exact
+                      />
+                    ) : null
+                  )}
+                  <Redirect to="/home" />
+                  <PrivateRoute path="/error" component={ErrorPage} exact />
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          )}
+        </div>
       </div>
     </div>
   );

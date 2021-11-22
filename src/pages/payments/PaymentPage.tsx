@@ -201,27 +201,42 @@ const PaymentPage = () => {
     {
       title: "Paid At",
       dataIndex: "paidAt",
-      width: 50,
+      width: 70,
     },
     {
       title: "Confirmed At",
       dataIndex: "confirmedAt",
-      width: 50,
+      width: 70,
     },
     {
       title: "Issued At",
       dataIndex: "issuedAt",
-      width: 50,
+      width: 70,
     },
     {
       title: "Amount (THB)",
       dataIndex: "amount",
-      width: 50,
+      width: 70,
     },
     {
       title: "Type",
       dataIndex: "type",
       width: 50,
+      render: (value: string) => (
+        <Tag
+          color={
+            value === "rent"
+              ? "purple"
+              : value === "water"
+              ? "geekblue"
+              : value === "electric"
+              ? "yellow"
+              : "orange"
+          }
+        >
+          {value}
+        </Tag>
+      ),
     },
     {
       title: "Status",

@@ -5,7 +5,7 @@ const RoomOccupiedChart = () => {
   return (
     <Chart
       type="radialBar"
-      series={[25]}
+      series={[0]}
       height={350}
       options={{
         labels: ["Room Occupied"],

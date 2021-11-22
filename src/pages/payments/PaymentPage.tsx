@@ -196,7 +196,7 @@ const PaymentPage = () => {
     {
       title: "Room No.",
       dataIndex: "roomNumber",
-      width: 30,
+      width: 50,
     },
     {
       title: "Paid At",

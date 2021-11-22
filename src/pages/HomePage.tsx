@@ -8,6 +8,8 @@ import { SlidersFilled } from "@ant-design/icons";
 import DashboardCard from "@components/feature/dashboard/DashboardCard";
 import RoomOccupiedChart from "@components/feature/dashboard/RoomOccupiedChart";
 import Card from "@components/global/Card";
+import { Empty } from "antd";
+// import DashboardPackageCard from "@components/feature/dashboard/DashboardPackageCard";
 // import Button from "@components/global/Button";
 // import DashboardPackageCard from "@components/feature/dashboard/DashboardPackageCard";
 // import DashboardReportCard from "@components/feature/dashboard/DashboardReportCard";
@@ -39,14 +41,19 @@ const HomePage = () => {
       <div className="col-span-6 mt-6 mb-6">
         <HeadingText4>Room summary</HeadingText4>
       </div>
-      <div className="col-span-6">
+      <div
+        className={`col-span-6   ${
+          true ? "flex justify-center items-center" : ""
+        }`}
+      >
         <Fragment>
+          <Empty description="No recent packages" />
           {/* <DashboardPackageCard />
           <div className="mb-4"></div>
           <DashboardPackageCard />
           <div className="mb-4"></div>
-          <DashboardPackageCard />
-          <div className="flex items-center justify-center">
+          <DashboardPackageCard /> */}
+          {/* <div className="flex items-center justify-center">
             <Button
               color="primary"
               className="px-9 mt-4 center rounded"
@@ -77,6 +84,7 @@ const HomePage = () => {
         <HeadingText4>Latest reports</HeadingText4>
       </div>
       <div className="col-span-12 mt-6">
+        <Empty description="No recent reports" />
         {/* <DashboardReportCard />
         <div className="mt-4"></div>
         <DashboardReportCard />

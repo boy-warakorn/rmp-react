@@ -77,13 +77,15 @@ const AddOwnerPage = () => {
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
         <HeadingText3>
-          {isEdit ? `Edit Room Owner` : `Add Room Owner to Room: ${id}`}
+          {isEdit
+            ? `Edit Room Owner`
+            : `Add Room Owner to Room: ${room.currentRoom.room.roomNumber}`}
         </HeadingText3>
       </div>
       <Card className="p-9 col-span-12">
         <HeadingText4>General Information</HeadingText4>
         <Form form={form} onFinish={onFinish}>
-          <FormCard className="grid grid-cols-6 gap-x-4 mt-4">
+          <FormCard className="grid grid-cols-4 gap-x-4 mt-4">
             <Form.Item
               name={["name"]}
               rules={[{ required: true }]}

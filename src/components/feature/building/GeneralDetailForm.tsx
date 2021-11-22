@@ -19,7 +19,7 @@ const GeneralDetailForm = ({
   return (
     <Fragment>
       <HeadingText4>Detail</HeadingText4>
-      <FormCard className="grid grid-cols-8 gap-x-4 mt-4">
+      <FormCard className="grid grid-cols-4 gap-x-4 mt-4">
         <div className="col-span-2">
           <TextInput
             value={generalDetails.buildingName}
@@ -32,7 +32,7 @@ const GeneralDetailForm = ({
         <div className="col-span-2">
           <TextInput
             value={generalDetails.roomPrefix}
-            title="Room prefix"
+            title="Room prefix (e.g. BP, A and AB)"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               onInputChange(e, "roomPrefix")
             }
@@ -43,7 +43,7 @@ const GeneralDetailForm = ({
           <TextInput
             value={generalDetails.baseCommonCharge}
             title="Base common charge"
-            suffix="THB"
+            suffix="Baht"
             type="number"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               onInputChange(e, "baseCommonCharge")
@@ -55,7 +55,7 @@ const GeneralDetailForm = ({
           <TextInput
             value={generalDetails.costPerMonth}
             title="Default cost per month"
-            suffix="THB"
+            suffix="Baht"
             type="number"
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               onInputChange(e, "costPerMonth")

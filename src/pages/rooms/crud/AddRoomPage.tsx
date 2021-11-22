@@ -13,6 +13,8 @@ import { Form } from "antd";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { RoomRepository } from "@repository/RoomRepository";
 import Loading from "@components/global/Loading";
+import { useSelector } from "react-redux";
+import { roomSelector } from "@stores/rooms/selector";
 
 const { Option } = Select;
 
@@ -20,7 +22,8 @@ const AddRoomPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams<{ id: string }>();
   const [isEdit, setIsEdit] = useState(false);
-  const [selectedType,setSelectedType] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const room = useSelector(roomSelector);
   const form = Form.useForm();
   const history = useHistory();
 
@@ -33,7 +36,7 @@ const AddRoomPage = () => {
       setIsEdit(true);
       fetchRoomDetail();
     }
-  
+
     // eslint-disable-next-line
   }, []);
 
@@ -47,10 +50,9 @@ const AddRoomPage = () => {
         purchasePrice: room.purchasePrice,
         pricePerMonth: room.pricePerMonth,
         size: room.size,
-        unit: "sqrms."
+        unit: "sqrms.",
       });
       setSelectedType(room.type);
-      
     }
   };
 
@@ -88,7 +90,8 @@ const AddRoomPage = () => {
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
         <HeadingText3>
-          {isEdit ? "Edit" : "Add"} Room {isEdit && id}
+          {isEdit ? "Edit" : "Add"} Room{" "}
+          {isEdit && room.currentRoom.room.roomNumber}
         </HeadingText3>
       </div>
       <Card className="p-9 col-span-12">
@@ -109,7 +112,10 @@ const AddRoomPage = () => {
                 rules={[{ required: true }]}
               >
                 <BodyText1 className="font-bold mb-2">Type</BodyText1>
-                <Select value="2 bed, 1 bath"onChange={(value)=>setSelectedType(value)} >
+                <Select
+                  value="2 bed, 1 bath"
+                  onChange={(value) => setSelectedType(value)}
+                >
                   <Option value="2 bed, 1 bath">2 bed, 1 bath</Option>
                   <Option value="3 bed, 1 toilet">3 bed, 1 toilet</Option>
                 </Select>

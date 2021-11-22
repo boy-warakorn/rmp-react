@@ -96,7 +96,7 @@ const RoomDetailForm = ({
   return (
     <Fragment>
       <HeadingText4>Detail</HeadingText4>
-      <FormCard className="grid grid-cols-8 gap-x-4 mt-4 gap-y-3">
+      <FormCard className="grid grid-cols-4 gap-x-4 mt-4 gap-y-3">
         <Form.Item className="col-span-2">
           <TextInput
             title="Floors"

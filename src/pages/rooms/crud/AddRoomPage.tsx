@@ -20,6 +20,7 @@ const AddRoomPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams<{ id: string }>();
   const [isEdit, setIsEdit] = useState(false);
+  const [selectedType,setSelectedType] = useState("");
   const form = Form.useForm();
   const history = useHistory();
 
@@ -32,10 +33,7 @@ const AddRoomPage = () => {
       setIsEdit(true);
       fetchRoomDetail();
     }
-    form[0].setFieldsValue({
-      type: "2 bed, 1 bath",
-      unit: "sqrms.",
-    });
+  
     // eslint-disable-next-line
   }, []);
 
@@ -44,12 +42,15 @@ const AddRoomPage = () => {
     if (result) {
       const { room } = result;
       form[0].setFieldsValue({
-        roomNumber: id,
+        roomNumber: room.roomNumber,
         type: room.type,
         purchasePrice: room.purchasePrice,
         pricePerMonth: room.pricePerMonth,
         size: room.size,
+        unit: "sqrms."
       });
+      setSelectedType(room.type);
+      
     }
   };
 
@@ -57,7 +58,7 @@ const AddRoomPage = () => {
     const formValue = form[0].getFieldsValue();
     let roomDto: any = {
       roomNumber: formValue.roomNumber,
-      type: formValue.type,
+      type: selectedType,
       size: formValue.size,
       purchasePrice: formValue.purchasePrice,
       pricePerMonth: formValue.pricePerMonth,
@@ -108,7 +109,7 @@ const AddRoomPage = () => {
                 rules={[{ required: true }]}
               >
                 <BodyText1 className="font-bold mb-2">Type</BodyText1>
-                <Select value="2 bed, 1 bath">
+                <Select value="2 bed, 1 bath"onChange={(value)=>setSelectedType(value)} >
                   <Option value="2 bed, 1 bath">2 bed, 1 bath</Option>
                   <Option value="3 bed, 1 toilet">3 bed, 1 toilet</Option>
                 </Select>

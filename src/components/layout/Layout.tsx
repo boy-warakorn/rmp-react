@@ -114,7 +114,7 @@ const Layout = () => {
         ))}
       </Sider>
       <div
-        className="py-4 px-6 lg:py-9 lg:px-14 bg-background flex-1 min-h-screen"
+        className="py-8 px-6 2xl:py-9 2xl:px-14 bg-background flex-1 min-h-screen"
         id="content"
       >
         <ErrorBoundary FallbackComponent={ErrorPage}>

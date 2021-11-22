@@ -60,6 +60,21 @@ body {
   animation: spin 2s linear infinite;
 }
 
+.loading {
+  position: fixed;
+  margin: auto;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  background: rgba(192, 192, 192, 0.8);
+  width: calc(100% - 75px);
+  height: 100%;
+}
+
 @keyframes spin {
   100% {
     -webkit-transform: rotate(360deg);
@@ -74,6 +89,9 @@ body {
 
   #content {
     margin-left: 300px;
+  }
+  .loading {
+    width: calc(100% - 300px);
   }
 }
 

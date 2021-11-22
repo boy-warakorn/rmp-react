@@ -95,35 +95,36 @@ const HeaderTable = ({
   };
 
   const onSearch = () => {
-    console.log(buildingId, roomId);
     dispatch(setFilterBuildingId(buildingId));
     dispatch(setFilterRoomNumber(roomId));
     dispatch(setFilterReportType(reportTypeState));
   };
 
   return (
-    <div className="flex justify-between">
-      <HeadingText4>{title}</HeadingText4>
+    <div className="flex items-center justify-between overflow-y-scroll">
+      <HeadingText4 className="w-max whitespace-nowrap mr-4">
+        {title}
+      </HeadingText4>
       <div className="flex">
         {haveFilter && (
           <Fragment>
-            {window.location.pathname.includes("complaints") &&
-               <Select
-               showSearch
-               value={reportTypeState}
-               loading={isLoading}
-               allowClear
-               className="mr-4 w-52"
-               placeholder="Filter Type"
-               onSelect={(value: string) => setReportTypeState(value)}
-               onClear={() => setReportTypeState(undefined)}
-             >
-               <Option value={""}>All</Option>
-               <Option value={"complaint"}>Complaint</Option>
-               <Option value={"maintenance"}>Maintenance</Option>
-             </Select>
-            }
-           
+            {window.location.pathname.includes("complaints") && (
+              <Select
+                showSearch
+                value={reportTypeState}
+                loading={isLoading}
+                allowClear
+                className="mr-4 w-52"
+                placeholder="Filter Type"
+                onSelect={(value: string) => setReportTypeState(value)}
+                onClear={() => setReportTypeState(undefined)}
+              >
+                <Option value={""}>All</Option>
+                <Option value={"complaint"}>Complaint</Option>
+                <Option value={"maintenance"}>Maintenance</Option>
+              </Select>
+            )}
+
             <Select
               showSearch
               value={buildingId}

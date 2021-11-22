@@ -21,16 +21,16 @@ const HomePage = () => {
       <div className="col-span-12 flex justify-between items-center mb-6">
         <HeadingText4>Summary</HeadingText4>
       </div>
-      <div className="col-span-6 md:col-span-3">
+      <div className="col-span-6 xl:col-span-3">
         <DashboardCard text="Payment Dues" count={0} />
       </div>
-      <div className="col-span-6 md:col-span-3">
+      <div className="col-span-6 xl:col-span-3">
         <DashboardCard text="Packages held" count={0} />
       </div>
-      <div className="col-span-6 md:col-span-3">
+      <div className="col-span-6 mt-6 xl:col-span-3 xl:mt-0">
         <DashboardCard text="Reports" count={0} />
       </div>
-      <div className="col-span-6 md:col-span-3">
+      <div className="col-span-6 mt-6 xl:col-span-3 xl:mt-0">
         <DashboardCard text="Complaints" count={0} />
       </div>
       <div className="col-span-6 mt-6 mb-6">

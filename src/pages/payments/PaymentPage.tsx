@@ -196,7 +196,7 @@ const PaymentPage = () => {
     {
       title: "Room No.",
       dataIndex: "roomNumber",
-      width: 30,
+      width: 50,
     },
     {
       title: "Paid At",
@@ -329,15 +329,12 @@ const PaymentPage = () => {
         {tabList.map((tab) => (
           <TabPane tab={tab.title} key={tab.key}>
             <TabCard>
-              <HeaderTable title={`${tab.title} Payments`} />
-              <div className="flex justify-end mt-4">
-                <Button
-                  color="primary"
-                  onClick={() => setIsImportModalVisible(true)}
-                >
-                  <UploadOutlined /> Import Payment
-                </Button>
-              </div>
+              <HeaderTable
+                title={`${tab.title} Payments`}
+                buttonTitle="Import Payment"
+                onClick={() => setIsImportModalVisible(true)}
+              />
+
               <CustomTable
                 className="mt-6"
                 columns={columns}

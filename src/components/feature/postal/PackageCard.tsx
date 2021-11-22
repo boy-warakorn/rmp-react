@@ -79,7 +79,7 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
         <SubtitleText2 className="font-montserratBold text-black">
           Arrived:{" "}
           <span className="font-roboto">
-            {dayjs(postal.arrivedAt).format("YYYY-MM-DD HH:MMA")}
+            {dayjs(postal.arrivedAt).format("YYYY-MM-DD HH:mm A")}
           </span>
         </SubtitleText2>
         {postal.status === "received" && <RightOutlined />}
@@ -88,7 +88,7 @@ const PackageCard = ({ postal, onConfirm }: PackageCardProps) => {
             Delivered:{" "}
             <span className="font-roboto">
               {" "}
-              {dayjs(postal.deliveredAt).format("YYYY-MM-DD HH:MMA")}
+              {dayjs(postal.deliveredAt).format("YYYY-MM-DD HH:mm A")}
             </span>
           </SubtitleText2>
         ) : (

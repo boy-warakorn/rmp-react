@@ -13,8 +13,9 @@ import { Form } from "antd";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { RoomRepository } from "@repository/RoomRepository";
 import Loading from "@components/global/Loading";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { roomSelector } from "@stores/rooms/selector";
+import { setCurrentRoom } from "@stores/rooms/slice";
 
 const { Option } = Select;
 
@@ -26,6 +27,7 @@ const AddRoomPage = () => {
   const room = useSelector(roomSelector);
   const form = Form.useForm();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
 
@@ -41,9 +43,12 @@ const AddRoomPage = () => {
   }, []);
 
   const fetchRoomDetail = async () => {
+    setIsLoading(true)
     const result = await roomRepository.getRoom(id);
+    setIsLoading(false)
     if (result) {
       const { room } = result;
+      dispatch(setCurrentRoom(result))
       form[0].setFieldsValue({
         roomNumber: room.roomNumber,
         type: room.type,

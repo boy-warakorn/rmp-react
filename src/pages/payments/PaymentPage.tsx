@@ -221,7 +221,7 @@ const PaymentPage = () => {
     {
       title: "Type",
       dataIndex: "type",
-      width: 50,
+      width: 80,
       render: (value: string) => (
         <Tag
           color={

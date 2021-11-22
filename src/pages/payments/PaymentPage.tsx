@@ -443,7 +443,7 @@ const PaymentPage = () => {
           >
             Rejected
           </Button>,
-          <Button color="primary" onClick={confirmPayment}>
+          <Button color="primary" onClick={() => confirmPayment()}>
             Confirm
           </Button>,
         ]}

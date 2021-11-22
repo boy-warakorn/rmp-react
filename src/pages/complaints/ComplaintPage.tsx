@@ -74,12 +74,12 @@ const ComplaintPage = () => {
     },
     {
       title: "Requested Date",
-      width: 50,
+      width: 70,
       dataIndex: "requestedDate",
     },
     {
       title: "Resolved Date",
-      width: 50,
+      width: 70,
       dataIndex: "resolvedDate",
       render: (value: string) => (
         <div className={value === "Not Resolved" ? "text-error" : ""}>
@@ -94,7 +94,7 @@ const ComplaintPage = () => {
     },
     {
       title: "Resolved By",
-      width: 50,
+      width: 60,
       dataIndex: "resolvedBy",
     },
     {
@@ -139,7 +139,7 @@ const ComplaintPage = () => {
       fixed: "right",
       render: (_: any, record: any) => (
         <OutlineButton
-          className="ml-3 px-10"
+          className="ml-3 px-4"
           color="primary"
           onClick={() => history.push(`/complaints/${record.id}`)}
         >

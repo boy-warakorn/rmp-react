@@ -31,8 +31,16 @@ export interface ImportPaymentDto {
 
 export interface GetPaymentsResponse {
   payments: PaymentResponse[];
+  statusCount: PaymentStatusCount;
 }
 
+export interface PaymentStatusCount {
+  all: number;
+  active: number;
+  pending: number;
+  reject: number;
+  complete: number;
+}
 export interface GetReceiptResponse {
   receiptUrl: string;
 }

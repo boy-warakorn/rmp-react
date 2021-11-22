@@ -24,6 +24,13 @@ export interface PackageRepository {
 export interface GetPackages {
   packages: Package[][];
   total: number;
+  statusCount: PackageStatusCount;
+}
+
+export interface PackageStatusCount {
+  all: number;
+  inStorage: number;
+  received: number;
 }
 
 export interface UpdatePackageDto {
@@ -38,6 +45,7 @@ export interface CreatePackageDto extends UpdatePackageDto {
 
 export interface GetPackagesResponse {
   packages: Package[];
+  statusCount: PackageStatusCount;
 }
 
 export interface GetPackageResponse extends Package {}
@@ -67,18 +75,19 @@ export const packageRepository: PackageRepository = {
             buildingId: buildingId,
           },
         })
-      ).data.packages;
+      ).data;
 
       const formattedPackages = Array.from(
-        { length: Math.ceil(result.length / 8) },
+        { length: Math.ceil(result.packages.length / 8) },
         (_, i) => {
-          return result.slice(i * 8, i * 8 + 8);
+          return result.packages.slice(i * 8, i * 8 + 8);
         }
       );
 
       return {
         packages: formattedPackages,
-        total: result.length,
+        total: result.packages.length,
+        statusCount: result.statusCount,
       };
     } catch (error) {
       throw error;

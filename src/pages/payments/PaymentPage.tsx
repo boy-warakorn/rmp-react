@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { paymentSelector } from "@stores/payments/selector";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { PaymentRepository } from "@repository/PaymentRepository";
-import { setPayments } from "@stores/payments/slice";
+import { setPayments, setPaymentStatus } from "@stores/payments/slice";
 import PaymentTag from "@components/feature/payment/PaymentTag";
 import { filterSelector } from "@stores/filters/selector";
 import Button from "@components/global/Button";
@@ -22,14 +22,6 @@ import { roomSelector } from "@stores/rooms/selector";
 
 const { confirm } = Modal;
 const { TabPane } = Tabs;
-
-const tabList = [
-  { key: "-", title: "All" },
-  { key: "pending", title: "Pending" },
-  { key: "active", title: "Active / Due" },
-  { key: "rejected", title: "Rejected" },
-  { key: "complete", title: "Completed" },
-];
 
 const PaymentPage = () => {
   const dispatch = useDispatch();
@@ -53,6 +45,22 @@ const PaymentPage = () => {
   const [fileName, setFileName] = useState<string>("");
 
   const fileRef = useRef(null);
+
+  const tabList = [
+    { key: "-", title: "All", count: payments.statusCount.all },
+    { key: "pending", title: "Pending", count: payments.statusCount.pending },
+    {
+      key: "active",
+      title: "Active / Due",
+      count: payments.statusCount.active,
+    },
+    { key: "rejected", title: "Rejected", count: payments.statusCount.reject },
+    {
+      key: "complete",
+      title: "Completed",
+      count: payments.statusCount.complete,
+    },
+  ];
 
   const onChangeTab = (value: string) => {
     setCurrentTabKey(value);
@@ -115,6 +123,7 @@ const PaymentPage = () => {
       );
       if (payments) {
         dispatch(setPayments(payments));
+        dispatch(setPaymentStatus(payments.statusCount));
       }
     } catch (error) {
     } finally {
@@ -342,7 +351,7 @@ const PaymentPage = () => {
     <div className="col-span-12 mt-3">
       <CustomTabs onChange={onChangeTab}>
         {tabList.map((tab) => (
-          <TabPane tab={tab.title} key={tab.key}>
+          <TabPane tab={`${tab.title} (${tab.count})`} key={tab.key}>
             <TabCard>
               <HeaderTable
                 title={`${tab.title} Payments`}

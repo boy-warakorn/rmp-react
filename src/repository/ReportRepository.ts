@@ -25,8 +25,15 @@ export interface ReplyReportDto {
 }
 export interface GetReportsResponse {
   reports: ReportResponse[];
+  statusCount: ReportStatusCount;
 }
 
+export interface ReportStatusCount {
+  all: number;
+  pending: number;
+  responded: number;
+  resolved: number;
+}
 export interface ReportResponse {
   id: string;
   roomNumber: string;

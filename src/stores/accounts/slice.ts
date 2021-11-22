@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AccountResponse,
+  AccountStatusCount,
   GetAccountResponse,
 } from "@repository/AccountRepository";
 import { AccountState } from "@stores/stores";
@@ -8,6 +9,12 @@ import { AccountState } from "@stores/stores";
 const initialState: AccountState = {
   accounts: [] as Account[],
   currentAccount: {} as AccountDetail,
+  statusCount: {
+    all: 0,
+    admin: 0,
+    resident: 0,
+    personnel: 0,
+  } as AccountStatusCount,
 };
 
 export interface Account {
@@ -38,8 +45,11 @@ const slice = createSlice({
     setAccount(state, action: PayloadAction<AccountDetail>) {
       state.currentAccount = action.payload;
     },
+    setAccountStatusCount(state, action: PayloadAction<AccountStatusCount>) {
+      state.statusCount = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
-export const { setAccounts, setAccount } = slice.actions;
+export const { setAccounts, setAccount, setAccountStatusCount } = slice.actions;

@@ -87,6 +87,7 @@ export interface GetRoomsFromSpecificFloorAndBuildingResponse {
 }
 
 export interface RoomInBuilding {
+  id:string;
   roomNumber: string;
   size: number;
   type: string;

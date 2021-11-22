@@ -38,6 +38,7 @@ const slice = createSlice({
       action: PayloadAction<GetRoomsFromSpecificFloorAndBuildingResponse>
     ) {
       state.currentFloorRooms = action.payload.rooms.map((room, index) => ({
+        id: room.id,
         key: `currentFloorRoom${index}`,
         index: index,
         size: room.size,

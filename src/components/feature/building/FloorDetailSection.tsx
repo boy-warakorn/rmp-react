@@ -93,7 +93,7 @@ const FloorDetailSection = ({
                   currentFloor: currentFloor,
                 })
               );
-              history.push(`/rooms/${record.roomNumber}/edit`);
+              history.push(`/rooms/${record.id}/edit`);
             }}
           >
             Edit detail
@@ -101,7 +101,7 @@ const FloorDetailSection = ({
           {record.contractType !== "rent" && (
             <Button
               color="danger"
-              onClick={() => onDeleteRoom(record.roomNumber)}
+              onClick={() => onDeleteRoom(record.id)}
               className="ml-4"
             >
               Delete

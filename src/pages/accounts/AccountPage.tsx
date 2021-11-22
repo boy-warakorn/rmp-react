@@ -6,20 +6,13 @@ import CustomTable from "@components/global/table/Table";
 import { AccountRepository } from "@repository/AccountRepository";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { accountSelector } from "@stores/accounts/selector";
-import { setAccounts } from "@stores/accounts/slice";
+import { setAccounts, setAccountStatusCount } from "@stores/accounts/slice";
 import { Tabs } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 
 const { TabPane } = Tabs;
-
-const tabList = [
-  { key: "-", title: "All" },
-  { key: "admin", title: "Admin" },
-  { key: "personnel", title: "Personnel" },
-  { key: "resident", title: "Resident" },
-];
 
 const AccountPage = () => {
   const history = useHistory();
@@ -31,6 +24,17 @@ const AccountPage = () => {
 
   const [currentTabKey, setCurrentTabKey] = useState("-");
   const [isLoading, setIsLoading] = useState(false);
+
+  const tabList = [
+    { key: "-", title: "All", count: account.statusCount.all },
+    { key: "admin", title: "Admin", count: account.statusCount.admin },
+    {
+      key: "personnel",
+      title: "Personnel",
+      count: account.statusCount.personnel,
+    },
+    { key: "resident", title: "Resident", count: account.statusCount.resident },
+  ];
 
   const onChangeTab = (value: string) => {
     setCurrentTabKey(value);
@@ -48,7 +52,8 @@ const AccountPage = () => {
         currentTabKey
       );
       if (accountResponse) {
-        dispatch(setAccounts(accountResponse));
+        dispatch(setAccounts(accountResponse.users));
+        dispatch(setAccountStatusCount(accountResponse.statusCount));
       }
     } catch (error) {
     } finally {
@@ -94,7 +99,7 @@ const AccountPage = () => {
     <div className="col-span-12 mt-3">
       <CustomTabs onChange={onChangeTab}>
         {tabList.map((tab) => (
-          <TabPane tab={tab.title} key={tab.key}>
+          <TabPane tab={`${tab.title} (${tab.count})`} key={tab.key}>
             <TabCard>
               <HeaderTable
                 title={`${tab.title} Accounts`}

@@ -1,11 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GetRoomResponse, RoomResponse } from "@repository/RoomRepository";
+import {
+  GetRoomResponse,
+  RoomResponse,
+  StatusCount,
+} from "@repository/RoomRepository";
 import { RoomState } from "@stores/stores";
 
 const initialState: RoomState = {
   rooms: [] as Room[],
   currentRoom: {} as RoomDetail,
   roomIdList: [] as string[],
+  statusCount: {
+    all: 0,
+    overdued: 0,
+    occupied: 0,
+    unoccupied: 0,
+  } as StatusCount,
 };
 
 export interface Room {
@@ -47,8 +57,12 @@ const slice = createSlice({
     setRoomIDs(state, action: PayloadAction<string[]>) {
       state.roomIdList = action.payload;
     },
+    setStatusCount(state, action: PayloadAction<StatusCount>) {
+      state.statusCount = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
-export const { setRooms, setCurrentRoom, setRoomIDs } = slice.actions;
+export const { setRooms, setCurrentRoom, setRoomIDs, setStatusCount } =
+  slice.actions;

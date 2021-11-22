@@ -2,11 +2,19 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   GetPaymentsResponse,
   PaymentResponse,
+  PaymentStatusCount,
 } from "@repository/PaymentRepository";
 import { PaymentState } from "@stores/stores";
 
 const initialState: PaymentState = {
   payments: [] as Payment[],
+  statusCount: {
+    all: 0,
+    pending: 0,
+    active: 0,
+    reject: 0,
+    complete: 0,
+  } as PaymentStatusCount,
 };
 
 export interface Payment extends PaymentResponse {
@@ -32,8 +40,11 @@ const slice = createSlice({
         status: payment.status,
       }));
     },
+    setPaymentStatus(state, action: PayloadAction<PaymentStatusCount>) {
+      state.statusCount = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
-export const { setPayments } = slice.actions;
+export const { setPayments, setPaymentStatus } = slice.actions;

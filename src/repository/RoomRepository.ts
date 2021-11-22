@@ -16,7 +16,7 @@ export interface RoomRepository {
     tab: string,
     roomNumber?: string,
     buildingId?: string
-  ): Promise<RoomResponse[] | undefined>;
+  ): Promise<GetRoomsResponse | undefined>;
   getRoom(roomNumber: string): Promise<GetRoomResponse | undefined>;
   editRoomOwner(
     editRoomOwnerDto: EditRoomOwnerDto,
@@ -52,6 +52,14 @@ export interface RoomResponse {
 
 export interface GetRoomsResponse {
   rooms: RoomResponse[];
+  statusCount: StatusCount;
+}
+
+export interface StatusCount {
+  all: number;
+  overdued: number;
+  occupied: number;
+  unoccupied: number;
 }
 
 export interface EditRoomOwnerDto {
@@ -97,7 +105,7 @@ export interface GetRoomResponse {
 export const roomRepository: RoomRepository = {
   async getRooms(tab: string, roomNumber?: string, buildingId?: string) {
     try {
-      const rooms = (
+      const results = (
         await AxiosService.get<GetRoomsResponse>(getRoomsUrl, {
           params: {
             filter_tab: tab === "-" ? "" : tab,
@@ -105,20 +113,23 @@ export const roomRepository: RoomRepository = {
             buildingId: buildingId,
           },
         })
-      ).data.rooms;
-      return rooms.map((room: RoomResponse) => ({
-        id: room.id,
-        roomNumber: room.roomNumber,
-        lastMoveAt: room.lastMoveAt,
-        contractType: room.contractType,
-        packages: room.packageRemaining!,
-        paymentStatus:
-          room.paymentDues! > 0
-            ? `${room.paymentDues} Payment Dues`
-            : "All Paid",
-        size: room.size,
-        unit: room.unit,
-      }));
+      ).data;
+      return {
+        rooms: results.rooms.map((room: RoomResponse) => ({
+          id: room.id,
+          roomNumber: room.roomNumber,
+          lastMoveAt: room.lastMoveAt,
+          contractType: room.contractType,
+          packages: room.packageRemaining!,
+          paymentStatus:
+            room.paymentDues! > 0
+              ? `${room.paymentDues} Payment Dues`
+              : "All Paid",
+          size: room.size,
+          unit: room.unit,
+        })),
+        statusCount: results.statusCount,
+      };
     } catch (error) {
       throw error;
     }

@@ -9,18 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { reportSelector } from "@stores/reports/selector";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { ReportRepository } from "@repository/ReportRepository";
-import { setReports } from "@stores/reports/slice";
+import { setReports, setReportStatusCount } from "@stores/reports/slice";
 import { FileTextOutlined, ToolOutlined } from "@ant-design/icons";
 import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
-
-const tabList = [
-  { key: "-", title: "All" },
-  { key: "pending", title: "Pending" },
-  { key: "responded", title: "Responded" },
-  { key: "resolved", title: "Resolved" },
-];
 
 const ComplaintPage = () => {
   const history = useHistory();
@@ -33,6 +26,17 @@ const ComplaintPage = () => {
 
   const [currentTabKey, setCurrentTabKey] = useState("-");
   const [isLoading, setIsLoading] = useState(false);
+
+  const tabList = [
+    { key: "-", title: "All", count: report.statusCount.all },
+    { key: "pending", title: "Pending", count: report.statusCount.pending },
+    {
+      key: "responded",
+      title: "Responded",
+      count: report.statusCount.responded,
+    },
+    { key: "resolved", title: "Resolved", count: report.statusCount.resolved },
+  ];
 
   const onChangeTab = (value: string) => {
     setCurrentTabKey(value);
@@ -59,6 +63,7 @@ const ComplaintPage = () => {
       );
       if (reportResponse) {
         dispatch(setReports(reportResponse));
+        dispatch(setReportStatusCount(reportResponse.statusCount));
       }
     } catch (error) {
     } finally {
@@ -152,7 +157,7 @@ const ComplaintPage = () => {
     <div className="col-span-12 mt-3">
       <CustomTabs onChange={onChangeTab}>
         {tabList.map((tab) => (
-          <TabPane tab={tab.title} key={tab.key}>
+          <TabPane tab={`${tab.title} (${tab.count})`} key={tab.key}>
             <TabCard>
               <HeaderTable title={`${tab.title} Complaints`} />
               <CustomTable

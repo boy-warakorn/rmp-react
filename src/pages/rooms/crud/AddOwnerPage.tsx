@@ -56,6 +56,11 @@ const AddOwnerPage = () => {
       });
       history.goBack();
     } catch (error) {
+      notification.error({
+        duration: 2,
+        message: "Fail",
+        description: `This email already exists.`,
+      });
       setIsLoading(false);
     }
   };

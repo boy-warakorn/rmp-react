@@ -121,7 +121,7 @@ const ComplaintPage = () => {
     },
     {
       title: "Type",
-      width: 50,
+      width: 70,
       dataIndex: "type",
       render: (value: any) => (
         <Tag

@@ -8,22 +8,34 @@ import {
 import React from "react";
 import { useHistory } from "react-router";
 
-const DashboardReportCard = () => {
+interface DashboardReportCardProps {
+  id: string;
+  roomNumber: string;
+  title: string;
+  date: string;
+}
+
+const DashboardReportCard = ({
+  id,
+  roomNumber,
+  title,
+  date,
+}: DashboardReportCardProps) => {
   const history = useHistory();
 
   return (
-    <Card className="px-4 py-3 flex justify-between items-center">
+    <Card className="px-4 py-3 flex justify-between items-center mb-4">
       <div className="flex items-center">
-        <HeadingText3>CB2302</HeadingText3>
+        <HeadingText3>{roomNumber}</HeadingText3>
         <div className="flex flex-col ml-6">
-          <BodyText1>Broken door knob</BodyText1>
-          <SubtitleText2>10 March 2020, 05:00</SubtitleText2>
+          <BodyText1>{title}</BodyText1>
+          <SubtitleText2>{date}</SubtitleText2>
         </div>
       </div>
       <TextButton
         className="text-primary"
         title="Open Report"
-        onClick={() => history.push("/reports/123")}
+        onClick={() => history.push(`/reports/${id}`)}
       />
     </Card>
   );

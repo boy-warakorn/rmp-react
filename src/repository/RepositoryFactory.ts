@@ -7,6 +7,10 @@ import { packageRepository, PackageRepository } from "./PackageRepository";
 import { paymentRepository, PaymentRepository } from "./PaymentRepository";
 import { ContactRepository, contactRepository } from "./ContactRepository";
 import { buildingRepository, BuildingRepository } from "./BuildingRepository";
+import {
+  dashboardRepository,
+  DashboardRepository,
+} from "./DashboardRepository";
 
 interface Repositories {
   user: UserRepository;
@@ -14,12 +18,11 @@ interface Repositories {
   room: RoomRepository;
   building: BuildingRepository;
   account: AccountRepository;
-  // report = complaint
   report: ReportRepository;
-  // add new generateReport
   package: PackageRepository;
   payment: PaymentRepository;
   contact: ContactRepository;
+  dashboard: DashboardRepository;
 }
 
 const repositories = {
@@ -32,6 +35,7 @@ const repositories = {
   payment: paymentRepository,
   contact: contactRepository,
   building: buildingRepository,
+  dashboard: dashboardRepository,
 };
 
 const RepositoriesFactory = {

@@ -6,6 +6,7 @@ interface CardProps {
   className?: string;
   children: any;
   style?: CSSProperties;
+  onClick?: () => void;
 }
 
 const CustomCard = styled.div`
@@ -16,9 +17,9 @@ export const FormCard = styled.div`
   ${tw`rounded-sm bg-background shadow-sm p-6`}
 `;
 
-const Card = ({ children, className, style }: CardProps) => {
+const Card = ({ children, className, style, onClick }: CardProps) => {
   return (
-    <CustomCard className={className} style={style}>
+    <CustomCard className={className} style={style} onClick={onClick}>
       {children}
     </CustomCard>
   );

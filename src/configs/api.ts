@@ -8,6 +8,13 @@ export const loginUrl = "/auth";
 const baseUserUrl = "/users";
 export const getCurrentUserUrl = baseUserUrl;
 
+// dashboard
+const baseDashboardUrl = "/dashboard";
+export const getSummaryUrl = `${baseDashboardUrl}/summary`;
+export const getRecentPackageUrl = `${baseDashboardUrl}/package`;
+export const getRecentReportUrl = `${baseDashboardUrl}/report`;
+export const getRoomDashboardUrl = `${baseDashboardUrl}/room`;
+
 // accounts
 const baseAccountUrl = "/accounts";
 export const getAccountsUrl = baseAccountUrl;

@@ -35,7 +35,7 @@ const DashboardReportCard = ({
       <TextButton
         className="text-primary"
         title="Open Report"
-        onClick={() => history.push(`/reports/${id}`)}
+        onClick={() => history.push(`/complaints/${id}`)}
       />
     </Card>
   );

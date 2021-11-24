@@ -168,7 +168,7 @@ const HomePage = () => {
           </div>
           <RoomOccupiedChart
             percentage={
-              room
+              room?.count.occupiedRoom && room?.count.totalRoom
                 ? (room?.count.occupiedRoom / room?.count.totalRoom) * 100
                 : 0
             }
@@ -198,7 +198,7 @@ const HomePage = () => {
                       <Button
                         color="primary"
                         className="px-9 center rounded"
-                        onClick={() => history.replace("/reports")}
+                        onClick={() => history.replace("/complaints")}
                       >
                         <SubHeadingText1 className="font-roboto">
                           More Reports

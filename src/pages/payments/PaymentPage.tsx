@@ -256,7 +256,7 @@ const PaymentPage = () => {
     {
       title: "Manage",
       dataIndex: "manage",
-      width: 50,
+      width: 100,
       fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">

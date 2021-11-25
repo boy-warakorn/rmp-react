@@ -16,7 +16,7 @@ import {
 import { BuildingRepository } from "@repository/BuildingRepository";
 import { setBuildingIds } from "@stores/buildings/slice";
 import { buildingSelector } from "@stores/buildings/selector";
-import { SearchOutlined } from "@ant-design/icons";
+import { filterSelector } from "@stores/filters/selector";
 
 interface HeaderTableProps {
   title: string;
@@ -34,11 +34,8 @@ const HeaderTable = ({
   haveFilter = true,
 }: HeaderTableProps) => {
   const dispatch = useDispatch();
-  const [reportTypeState, setReportTypeState] = useState<string | undefined>(
-    undefined
-  );
-  const [roomId, setRoomId] = useState<string | undefined>(undefined);
-  const [buildingId, setBuildingId] = useState<string | undefined>(undefined);
+
+  const filter = useSelector(filterSelector);
   const room = useSelector(roomSelector);
   const building = useSelector(buildingSelector);
   const roomRepository = RepositoryFactory.get("room") as RoomRepository;
@@ -59,17 +56,20 @@ const HeaderTable = ({
   }, []);
 
   useEffect(() => {
-    if (roomId) {
-      setRoomId(undefined);
+    if (filter.filterRoomNumber && filter.filterBuildingId) {
+      dispatch(setFilterRoomNumber(undefined));
     }
     fetchRoomIds();
     // eslint-disable-next-line
-  }, [buildingId]);
+  }, [filter.filterBuildingId]);
 
   const fetchRoomIds = async () => {
     try {
       setIsLoading(true);
-      const roomIds = await roomRepository.getRoomIDList(true, buildingId);
+      const roomIds = await roomRepository.getRoomIDList(
+        true,
+        filter.filterBuildingId
+      );
       if (roomIds) {
         dispatch(setRoomIDs(roomIds));
       }
@@ -82,7 +82,10 @@ const HeaderTable = ({
   const fetchMasterData = async () => {
     try {
       setIsLoading(true);
-      const roomIds = await roomRepository.getRoomIDList(true, buildingId);
+      const roomIds = await roomRepository.getRoomIDList(
+        true,
+        filter.filterBuildingId
+      );
       const buildingIds = await buildingRepository.getBuildingIds();
       if (roomIds && buildingIds) {
         dispatch(setRoomIDs(roomIds));
@@ -92,12 +95,6 @@ const HeaderTable = ({
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const onSearch = () => {
-    dispatch(setFilterBuildingId(buildingId));
-    dispatch(setFilterRoomNumber(roomId));
-    dispatch(setFilterReportType(reportTypeState));
   };
 
   return (
@@ -111,13 +108,15 @@ const HeaderTable = ({
             {window.location.pathname.includes("complaints") && (
               <Select
                 showSearch
-                value={reportTypeState}
+                value={filter.filterReportType}
                 loading={isLoading}
                 allowClear
                 className="mr-4 w-52"
                 placeholder="Filter Type"
-                onSelect={(value: string) => setReportTypeState(value)}
-                onClear={() => setReportTypeState(undefined)}
+                onSelect={(value: string) =>
+                  dispatch(setFilterReportType(value))
+                }
+                onClear={() => dispatch(setFilterReportType(undefined))}
               >
                 <Option value={""}>All</Option>
                 <Option value={"complaint"}>Complaint</Option>
@@ -127,13 +126,13 @@ const HeaderTable = ({
 
             <Select
               showSearch
-              value={buildingId}
+              value={filter.filterBuildingId}
               loading={isLoading}
               allowClear
               className="mr-4 w-52"
               placeholder="Filter Building"
-              onSelect={(value: string) => setBuildingId(value)}
-              onClear={() => setBuildingId(undefined)}
+              onSelect={(value: string) => dispatch(setFilterBuildingId(value))}
+              onClear={() => dispatch(setFilterBuildingId(undefined))}
             >
               {building.buildingIds.map((building, index) => (
                 <Option
@@ -146,13 +145,13 @@ const HeaderTable = ({
             </Select>
             <Select
               showSearch
-              value={roomId}
+              value={filter.filterRoomNumber}
               loading={isLoading}
               allowClear
-              className="mr-4 w-52"
+              className={`${buttonTitle ? "mr-4" : ""} w-52`}
               placeholder="Filter Room Number"
-              onSelect={(value: string) => setRoomId(value)}
-              onClear={() => setRoomId(undefined)}
+              onSelect={(value: string) => dispatch(setFilterRoomNumber(value))}
+              onClear={() => dispatch(setFilterRoomNumber(undefined))}
             >
               {room.roomIdList.map((id, index) => (
                 <Option value={id} key={`${id}${index}HeaderTableRoomID`}>
@@ -160,15 +159,6 @@ const HeaderTable = ({
                 </Option>
               ))}
             </Select>
-            <Button
-              className={buttonTitle ? "px-6 mr-4" : "px-6"}
-              onClick={onSearch}
-            >
-              <div className="flex items-center justify-center">
-                <SearchOutlined style={{ fontSize: "16px" }} className="mr-2" />
-                <BodyText1>Search</BodyText1>
-              </div>
-            </Button>
           </Fragment>
         )}
         {buttonTitle && (

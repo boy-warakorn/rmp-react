@@ -46,7 +46,6 @@ const RoomPage = () => {
 
   useEffect(() => {
     fetchRoom();
-
     // eslint-disable-next-line
   }, [currentTabKey, filter.filterRoomNumber, filter.filterBuildingId]);
 

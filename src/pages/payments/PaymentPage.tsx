@@ -51,8 +51,13 @@ const PaymentPage = () => {
     { key: "pending", title: "Pending", count: payments.statusCount.pending },
     {
       key: "active",
-      title: "Active / Due",
+      title: "Active",
       count: payments.statusCount.active,
+    },
+    {
+      key: "overdued",
+      title: "Overdued",
+      count: payments.statusCount.overdued,
     },
     { key: "rejected", title: "Rejected", count: payments.statusCount.reject },
     {
@@ -97,7 +102,6 @@ const PaymentPage = () => {
               isExist: rooms.roomIdList.includes(newRecord[0]),
             };
           });
-          console.log(formattedData);
           setReadData(formattedData.filter((x) => x !== undefined));
         }
       };
@@ -205,7 +209,8 @@ const PaymentPage = () => {
     {
       title: "Room No.",
       dataIndex: "roomNumber",
-      width: 50,
+      width: 80,
+      fixed: "left",
     },
     {
       title: "Paid At",
@@ -215,22 +220,27 @@ const PaymentPage = () => {
     {
       title: "Confirmed At",
       dataIndex: "confirmedAt",
+      width: 100,
+    },
+    {
+      title: "Dued At",
+      dataIndex: "duedAt",
       width: 70,
     },
     {
       title: "Issued At",
       dataIndex: "issuedAt",
-      width: 70,
+      width: 100,
     },
     {
       title: "Amount (THB)",
       dataIndex: "amount",
-      width: 70,
+      width: 90,
     },
     {
       title: "Type",
       dataIndex: "type",
-      width: 80,
+      width: 90,
       render: (value: string) => (
         <Tag
           color={
@@ -250,7 +260,7 @@ const PaymentPage = () => {
     {
       title: "Status",
       dataIndex: "status",
-      width: 50,
+      width: 70,
       render: (value: string) => <PaymentTag status={value as any} />,
     },
     {

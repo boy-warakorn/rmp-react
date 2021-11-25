@@ -35,7 +35,7 @@ const CustomTable = (props: CustomTableProps) => {
   return (
     <StyledTable
       bordered
-      scroll={{ x: 1000 }}
+      scroll={{ x: 1300 }}
       pagination={{ defaultPageSize: props.defaultPageSize ?? 10 }}
       {...(props as any)}
     />

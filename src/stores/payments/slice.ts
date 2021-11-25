@@ -38,6 +38,7 @@ const slice = createSlice({
         issuedAt: payment.issuedAt,
         confirmedAt: payment.confirmedAt,
         status: payment.status,
+        duedAt: payment.duedAt,
       }));
     },
     setPaymentStatus(state, action: PayloadAction<PaymentStatusCount>) {

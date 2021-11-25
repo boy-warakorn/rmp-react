@@ -40,7 +40,7 @@ export interface PaymentStatusCount {
   pending: number;
   reject: number;
   complete: number;
-  overdued: number;
+  overdue: number;
 }
 export interface GetReceiptResponse {
   receiptUrl: string;

@@ -14,6 +14,7 @@ const initialState: PaymentState = {
     active: 0,
     reject: 0,
     complete: 0,
+    overdue: 0,
   } as PaymentStatusCount,
 };
 

@@ -55,9 +55,9 @@ const PaymentPage = () => {
       count: payments.statusCount.active,
     },
     {
-      key: "overdued",
-      title: "Overdued",
-      count: payments.statusCount.overdued,
+      key: "overdue",
+      title: "Overdue",
+      count: payments.statusCount.overdue,
     },
     { key: "rejected", title: "Rejected", count: payments.statusCount.reject },
     {
@@ -250,7 +250,7 @@ const PaymentPage = () => {
       width: 100,
     },
     {
-      title: "Dued At",
+      title: "Due At",
       dataIndex: "duedAt",
       width: 70,
     },

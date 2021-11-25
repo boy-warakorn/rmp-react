@@ -169,7 +169,8 @@ const HomePage = () => {
           <RoomOccupiedChart
             percentage={
               room?.count.occupiedRoom && room?.count.totalRoom
-                ? (room?.count.occupiedRoom / room?.count.totalRoom) * 100
+                ? Math.round(room?.count.occupiedRoom / room?.count.totalRoom) *
+                  100
                 : 0
             }
           />

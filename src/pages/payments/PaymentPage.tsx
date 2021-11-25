@@ -213,26 +213,6 @@ const PaymentPage = () => {
       fixed: "left",
     },
     {
-      title: "Paid At",
-      dataIndex: "paidAt",
-      width: 70,
-    },
-    {
-      title: "Confirmed At",
-      dataIndex: "confirmedAt",
-      width: 100,
-    },
-    {
-      title: "Dued At",
-      dataIndex: "duedAt",
-      width: 70,
-    },
-    {
-      title: "Issued At",
-      dataIndex: "issuedAt",
-      width: 100,
-    },
-    {
       title: "Amount (THB)",
       dataIndex: "amount",
       width: 90,
@@ -263,6 +243,28 @@ const PaymentPage = () => {
       width: 70,
       render: (value: string) => <PaymentTag status={value as any} />,
     },
+
+    {
+      title: "Issued At",
+      dataIndex: "issuedAt",
+      width: 100,
+    },
+    {
+      title: "Dued At",
+      dataIndex: "duedAt",
+      width: 70,
+    },
+    {
+      title: "Paid At",
+      dataIndex: "paidAt",
+      width: 70,
+    },
+    {
+      title: "Confirmed At",
+      dataIndex: "confirmedAt",
+      width: 100,
+    },
+
     {
       title: "Manage",
       dataIndex: "manage",

@@ -78,29 +78,9 @@ const ComplaintPage = () => {
       dataIndex: "roomNumber",
     },
     {
-      title: "Requested Date",
-      width: 70,
-      dataIndex: "requestedDate",
-    },
-    {
-      title: "Resolved Date",
-      width: 70,
-      dataIndex: "resolvedDate",
-      render: (value: string) => (
-        <div className={value === "Not Resolved" ? "text-error" : ""}>
-          {value}
-        </div>
-      ),
-    },
-    {
       title: "Title",
       width: 50,
       dataIndex: "title",
-    },
-    {
-      title: "Resolved By",
-      width: 60,
-      dataIndex: "resolvedBy",
     },
     {
       title: "Status",
@@ -136,6 +116,26 @@ const ComplaintPage = () => {
           {value}
         </Tag>
       ),
+    },
+    {
+      title: "Requested Date",
+      width: 70,
+      dataIndex: "requestedDate",
+    },
+    {
+      title: "Resolved Date",
+      width: 70,
+      dataIndex: "resolvedDate",
+      render: (value: string) => (
+        <div className={value === "Not Resolved" ? "text-error" : ""}>
+          {value}
+        </div>
+      ),
+    },
+    {
+      title: "Resolved By",
+      width: 60,
+      dataIndex: "resolvedBy",
     },
     {
       title: "Manage",

@@ -76,6 +76,14 @@ const RoomPage = () => {
       width: 50,
     },
     {
+      title: "Size",
+      dataIndex: "size",
+      width: 70,
+      render: (_: any, record: Room) => (
+        <div>{`${record.size} ${record.unit}`}</div>
+      ),
+    },
+    {
       title: "Contract type",
       dataIndex: "contractType",
       width: 70,
@@ -107,14 +115,7 @@ const RoomPage = () => {
       dataIndex: "lastMoveAt",
       width: 100,
     },
-    {
-      title: "Size",
-      dataIndex: "size",
-      width: 70,
-      render: (_: any, record: Room) => (
-        <div>{`${record.size} ${record.unit}`}</div>
-      ),
-    },
+
     {
       title: "Manage",
       dataIndex: "manage",

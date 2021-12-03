@@ -31,6 +31,7 @@ import BuildingPage from "@pages/buildings/BuildingPage";
 import AddBuildingPage from "@pages/buildings/crud/AddBuildingPage";
 import EditBuildingPage from "@pages/buildings/crud/EditBuildingPage";
 import ProfilePage from "@pages/profile/ProfilePage";
+import ChangePasswordPage from "@pages/profile/ChangePasswordPage";
 
 const PERSONNEL = ["personnel"];
 const ADMIN = ["admin"];
@@ -167,6 +168,11 @@ export const routes = [
   {
     path: "/profile",
     component: ProfilePage,
+    permissions: ALL,
+  },
+  {
+    path: "/profile/change-password",
+    component: ChangePasswordPage,
     permissions: ALL,
   },
 ];

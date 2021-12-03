@@ -7,6 +7,7 @@ export const loginUrl = "/auth";
 // user
 const baseUserUrl = "/users";
 export const getCurrentUserUrl = baseUserUrl;
+export const changePasswordUrl = `${baseUserUrl}/change-password`;
 
 // dashboard
 const baseDashboardUrl = "/dashboard";

@@ -37,6 +37,9 @@ const HomePage = () => {
   const [summary, setSummary] = useState<SummaryResponse | undefined>(
     undefined
   );
+
+  console.log();
+
   const dashboardRepository = RepositoriesFactory.get(
     "dashboard"
   ) as DashboardRepository;
@@ -167,11 +170,12 @@ const HomePage = () => {
             </BodyText1>
           </div>
           <RoomOccupiedChart
-            percentage={
-              Number(
-                (room?.count.occupiedRoom! / room?.count.totalRoom!).toFixed(2)
-              ) * 100
-            }
+            percentage={Number(
+              (
+                (room?.count.occupiedRoom! / room?.count.totalRoom!) *
+                100
+              ).toFixed(2)
+            )}
           />
         </Card>
       </div>

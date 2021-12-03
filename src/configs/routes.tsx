@@ -30,6 +30,7 @@ import AccountDetailPage from "@pages/accounts/AccountDetailPage";
 import BuildingPage from "@pages/buildings/BuildingPage";
 import AddBuildingPage from "@pages/buildings/crud/AddBuildingPage";
 import EditBuildingPage from "@pages/buildings/crud/EditBuildingPage";
+import ProfilePage from "@pages/profile/ProfilePage";
 
 const PERSONNEL = ["personnel"];
 const ADMIN = ["admin"];
@@ -90,10 +91,9 @@ export const generalRoutes = [
 
 export const settingsRoutes = [
   {
-    title: "Settings",
-    path: "/settings",
+    title: "Profile",
+    path: "/profile",
     icon: <SettingFilled />,
-    disabled: true,
   },
   {
     title: "Logout",
@@ -162,6 +162,11 @@ export const routes = [
   {
     path: "/buildings/:id",
     component: EditBuildingPage,
+    permissions: ALL,
+  },
+  {
+    path: "/profile",
+    component: ProfilePage,
     permissions: ALL,
   },
 ];

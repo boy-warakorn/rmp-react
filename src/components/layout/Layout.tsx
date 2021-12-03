@@ -78,32 +78,31 @@ const Layout = () => {
             RMP System
           </HeadingText3>
         </div>
-        {generalRoutes.map(
-          ({ title, path, icon, disabled, permissions }, index) =>
-            permissions.includes(role!) ? (
-              <SiderButton
-                title={title}
-                path={path}
-                icon={icon}
-                active={window.location.pathname.includes(path)}
-                notiCounts={path === "/complaints" ? count : 0}
-                key={`routes${index}`}
-                disabled={disabled}
-              />
-            ) : null
+        {generalRoutes.map(({ title, path, icon, permissions }, index) =>
+          permissions.includes(role!) ? (
+            <SiderButton
+              title={title}
+              path={path}
+              icon={icon}
+              active={window.location.pathname.includes(path)}
+              notiCounts={path === "/complaints" ? count : 0}
+              key={`routes${index}`}
+              // disabled={disabled}
+            />
+          ) : null
         )}
         <div
           style={{ height: "0.25px", background: "#4B4C54" }}
           className="mb-3"
         ></div>
-        {settingsRoutes.map(({ title, path, icon, disabled }, index) => (
+        {settingsRoutes.map(({ title, path, icon }, index) => (
           <SiderButton
             title={title}
             icon={icon}
             path={path}
             active={window.location.pathname.includes(path)}
             key={`settings${index}`}
-            disabled={disabled}
+            // disabled={disabled}
             onClick={path === "/logout" ? logout : undefined}
           />
         ))}

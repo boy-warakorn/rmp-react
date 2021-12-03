@@ -95,7 +95,7 @@ const AccountPage = () => {
           >
             Account detail
           </OutlineButton>
-          {record.userId === user.userId && (
+          {record.userId === user.user.id && (
             <div className="ml-4 text-primary">(Current User)</div>
           )}
         </div>

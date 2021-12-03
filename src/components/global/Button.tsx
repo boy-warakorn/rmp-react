@@ -37,7 +37,7 @@ const CustomButton = styled(Button)<any>`
       props.color === "primary" || props.color === "danger"
         ? "none"
         : "1px solid black"};
-    transform: ${(props) => (props.isDisabled ? "" : "translateY(-1.5px)")};
+    // transform: ${(props) => (props.isDisabled ? "" : "translateY(-1.5px)")};
     ${tw`shadow`}
   }
 `;

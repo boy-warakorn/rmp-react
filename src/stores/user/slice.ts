@@ -1,37 +1,32 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GetCurrentUserResponse } from "@repository/UserRepository";
 import { UserState } from "@stores/stores";
 
 const initialState: UserState = {
-  name: "",
-  businessName: "",
-  role: "",
-  userId: "",
+  user: {
+    businessName: "",
+    id: "",
+    createdAt: "",
+    profile: {
+      name: "",
+      role: "",
+      citizenNumber: "",
+      username: "",
+      email: "",
+      phoneNumber: "",
+    },
+  } as GetCurrentUserResponse,
 };
 
 const slice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (
-      state,
-      action: PayloadAction<{
-        name: string;
-        businessName: string;
-        role: string;
-        userId: string;
-      }>
-    ) => {
-      const { name, businessName, role, userId } = action.payload;
-      state.name = name;
-      state.businessName = businessName;
-      state.role = role;
-      state.userId = userId;
+    setUser: (state, action: PayloadAction<GetCurrentUserResponse>) => {
+      state.user = action.payload;
     },
     clearUser: (state) => {
-      state.businessName = "";
-      state.name = "";
-      state.role = "";
-      state.userId = "";
+      state.user = initialState.user;
     },
   },
 });

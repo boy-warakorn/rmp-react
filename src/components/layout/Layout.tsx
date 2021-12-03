@@ -53,14 +53,7 @@ const Layout = () => {
       setIsLoading(true);
       const user = await usersRepository.getCurrentUser();
       if (user) {
-        dispatch(
-          setUser({
-            businessName: user?.businessName,
-            name: user?.profile.name,
-            role: user?.profile.role,
-            userId: user?.id,
-          })
-        );
+        dispatch(setUser(user));
       }
     } catch (error) {
     } finally {

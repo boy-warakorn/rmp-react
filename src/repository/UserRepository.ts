@@ -5,10 +5,18 @@ export interface UserRepository {
   getCurrentUser(): Promise<GetCurrentUserResponse | undefined>;
 }
 
-interface GetCurrentUserResponse {
+export interface GetCurrentUserResponse {
   businessName: string;
   id: string;
-  profile: { name: string; role: string };
+  createdAt: string;
+  profile: {
+    name: string;
+    role: string;
+    citizenNumber: string;
+    username: string;
+    email: string;
+    phoneNumber: string;
+  };
 }
 
 export const userRepository: UserRepository = {

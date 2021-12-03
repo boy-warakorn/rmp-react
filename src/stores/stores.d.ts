@@ -12,6 +12,7 @@ import {
 import { PaymentStatusCount } from "@repository/PaymentRepository";
 import { ReportStatusCount } from "@repository/ReportRepository";
 import { StatusCount } from "@repository/RoomRepository";
+import { GetCurrentUserResponse } from "@repository/UserRepository";
 import { Account, AccountDetail } from "./accounts/slice";
 import { FormattedRoomInBuilding } from "./buildings/slice";
 import { Contact } from "./contacts/slice";
@@ -20,10 +21,7 @@ import { Report, ReportDetail } from "./reports/slice";
 import { Room, RoomDetail } from "./rooms/slice";
 
 export type UserState = {
-  name: string;
-  businessName: string;
-  role: string;
-  userId: string;
+  user: GetCurrentUserResponse;
 };
 
 export type BuildingState = {

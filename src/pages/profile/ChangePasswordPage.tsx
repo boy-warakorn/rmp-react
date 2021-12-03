@@ -9,7 +9,7 @@ import { useHistory } from "react-router";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 
 const ChangePasswordPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const form = Form.useForm();
   const history = useHistory();
   const usersRepository = RepositoriesFactory.get("user") as UserRepository;

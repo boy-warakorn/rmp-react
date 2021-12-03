@@ -23,6 +23,7 @@ export type UserState = {
   name: string;
   businessName: string;
   role: string;
+  userId: string;
 };
 
 export type BuildingState = {

@@ -7,6 +7,7 @@ export interface UserRepository {
 
 interface GetCurrentUserResponse {
   businessName: string;
+  id: string;
   profile: { name: string; role: string };
 }
 

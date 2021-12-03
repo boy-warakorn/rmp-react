@@ -58,6 +58,7 @@ const Layout = () => {
             businessName: user?.businessName,
             name: user?.profile.name,
             role: user?.profile.role,
+            userId: user?.id,
           })
         );
       }

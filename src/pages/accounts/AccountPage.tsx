@@ -7,6 +7,7 @@ import { AccountRepository } from "@repository/AccountRepository";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { accountSelector } from "@stores/accounts/selector";
 import { setAccounts, setAccountStatusCount } from "@stores/accounts/slice";
+import { userSelector } from "@stores/user/selector";
 import { Tabs } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,7 @@ const AccountPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
+  const user = useSelector(userSelector);
   const accountRepository = RepositoriesFactory.get(
     "account"
   ) as AccountRepository;
@@ -78,19 +80,25 @@ const AccountPage = () => {
       width: 35,
       dataIndex: "createdAt",
     },
+
     {
       title: "Manage",
       dataIndex: "manage",
-      width: 20,
+      width: 25,
       fixed: "right",
       render: (_: any, record: any) => (
-        <OutlineButton
-          className="ml-3 px-3"
-          color="primary"
-          onClick={() => history.push(`/manage-accounts/${record.userId}`)}
-        >
-          Account detail
-        </OutlineButton>
+        <div className="flex items-center">
+          <OutlineButton
+            className="ml-3 px-3"
+            color="primary"
+            onClick={() => history.push(`/manage-accounts/${record.userId}`)}
+          >
+            Account detail
+          </OutlineButton>
+          {record.userId === user.userId && (
+            <div className="ml-4 text-primary">(Current User)</div>
+          )}
+        </div>
       ),
     },
   ] as any;

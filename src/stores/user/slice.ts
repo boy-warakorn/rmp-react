@@ -5,6 +5,7 @@ const initialState: UserState = {
   name: "",
   businessName: "",
   role: "",
+  userId: "",
 };
 
 const slice = createSlice({
@@ -17,17 +18,20 @@ const slice = createSlice({
         name: string;
         businessName: string;
         role: string;
+        userId: string;
       }>
     ) => {
-      const { name, businessName, role } = action.payload;
+      const { name, businessName, role, userId } = action.payload;
       state.name = name;
       state.businessName = businessName;
       state.role = role;
+      state.userId = userId;
     },
     clearUser: (state) => {
       state.businessName = "";
       state.name = "";
       state.role = "";
+      state.userId = "";
     },
   },
 });

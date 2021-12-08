@@ -168,9 +168,19 @@ const HomePage = () => {
           </div>
           <RoomOccupiedChart
             percentage={
-              Number(
-                (room?.count.occupiedRoom! / room?.count.totalRoom!).toFixed(2)
-              ) * 100
+              isNaN(
+                Number(
+                  (room?.count.occupiedRoom! / room?.count.totalRoom!).toFixed(
+                    2
+                  )
+                ) * 100
+              )
+                ? 0
+                : Number(
+                    (
+                      room?.count.occupiedRoom! / room?.count.totalRoom!
+                    ).toFixed(2)
+                  ) * 100
             }
           />
         </Card>

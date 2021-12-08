@@ -37,6 +37,9 @@ const HomePage = () => {
   const [summary, setSummary] = useState<SummaryResponse | undefined>(
     undefined
   );
+
+  console.log();
+
   const dashboardRepository = RepositoriesFactory.get(
     "dashboard"
   ) as DashboardRepository;
@@ -170,17 +173,19 @@ const HomePage = () => {
             percentage={
               isNaN(
                 Number(
-                  (room?.count.occupiedRoom! / room?.count.totalRoom!).toFixed(
-                    2
-                  )
-                ) * 100
+                  (
+                    (room?.count.occupiedRoom! / room?.count.totalRoom!) *
+                    100
+                  ).toFixed(2)
+                )
               )
                 ? 0
                 : Number(
                     (
-                      room?.count.occupiedRoom! / room?.count.totalRoom!
+                      (room?.count.occupiedRoom! / room?.count.totalRoom!) *
+                      100
                     ).toFixed(2)
-                  ) * 100
+                  )
             }
           />
         </Card>

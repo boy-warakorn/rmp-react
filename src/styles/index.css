@@ -60,6 +60,31 @@ body {
   animation: spin 2s linear infinite;
 }
 
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 350ms ease-in;
+}
+
+.loading {
+  position: fixed;
+  margin: auto;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  background: rgba(82, 82, 82, 0.8);
+  width: calc(100% - 75px);
+  height: 100%;
+}
+
 @keyframes spin {
   100% {
     -webkit-transform: rotate(360deg);
@@ -69,10 +94,17 @@ body {
 
 @media (min-width: 1024px) {
   .w-sider {
-    width: 275px;
+    width: 300px;
   }
 
   #content {
-    margin-left: 275px;
+    margin-left: 300px;
   }
+  .loading {
+    width: calc(100% - 300px);
+  }
+}
+
+svg {
+  vertical-align: baseline;
 }

@@ -1,11 +1,15 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-const RoomOccupiedChart = () => {
+interface RoomOccupiedChartProps {
+  percentage: number;
+}
+
+const RoomOccupiedChart = ({ percentage }: RoomOccupiedChartProps) => {
   return (
     <Chart
       type="radialBar"
-      series={[25]}
+      series={[percentage]}
       height={350}
       options={{
         labels: ["Room Occupied"],

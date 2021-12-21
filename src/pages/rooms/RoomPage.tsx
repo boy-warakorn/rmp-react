@@ -9,22 +9,33 @@ import { useHistory } from "react-router";
 import RepositoryFactory from "@repository/RepositoryFactory";
 import { RoomRepository } from "@repository/RoomRepository";
 import { useDispatch, useSelector } from "react-redux";
-import { Room, setRooms } from "@stores/rooms/slice";
+import { Room, setRooms, setStatusCount } from "@stores/rooms/slice";
 import { roomSelector } from "@stores/rooms/selector";
+import { filterSelector } from "@stores/filters/selector";
 
 const { TabPane } = Tabs;
-
-const tabList = [
-  { key: "-", title: "All" },
-  { key: "occupied", title: "Occupied" },
-  { key: "unoccupied", title: "Unoccupied" },
-];
 
 const RoomPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const room = useSelector(roomSelector);
+  const filter = useSelector(filterSelector);
   const roomRepository = RepositoryFactory.get("room") as RoomRepository;
+
+  const tabList = [
+    { key: "-", title: "All", count: room.statusCount.all },
+    {
+      key: "overdued",
+      title: "Overdued Payment",
+      count: room.statusCount.overdued,
+    },
+    { key: "occupied", title: "Occupied", count: room.statusCount.occupied },
+    {
+      key: "unoccupied",
+      title: "Unoccupied",
+      count: room.statusCount.unoccupied,
+    },
+  ];
 
   const [currentTabKey, setCurrentTabKey] = useState("-");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,14 +47,20 @@ const RoomPage = () => {
   useEffect(() => {
     fetchRoom();
     // eslint-disable-next-line
-  }, [currentTabKey]);
+  }, [currentTabKey, filter.filterRoomNumber, filter.filterBuildingId]);
 
   const fetchRoom = async () => {
     try {
       setIsLoading(true);
-      const rooms = await roomRepository.getRooms(currentTabKey);
+      const rooms = await roomRepository.getRooms(
+        currentTabKey,
+        filter.filterRoomNumber,
+        filter.filterBuildingId
+      );
+
       if (rooms) {
-        dispatch(setRooms(rooms));
+        dispatch(setRooms(rooms.rooms));
+        dispatch(setStatusCount(rooms.statusCount));
       }
     } catch (error) {
     } finally {
@@ -56,6 +73,14 @@ const RoomPage = () => {
       title: "Room No.",
       dataIndex: "roomNumber",
       width: 50,
+    },
+    {
+      title: "Size",
+      dataIndex: "size",
+      width: 70,
+      render: (_: any, record: Room) => (
+        <div>{`${record.size} ${record.unit}`}</div>
+      ),
     },
     {
       title: "Contract type",
@@ -71,12 +96,12 @@ const RoomPage = () => {
     {
       title: "Packages",
       dataIndex: "packages",
-      width: 50,
+      width: 55,
     },
     {
       title: "Payments status",
       dataIndex: "paymentStatus",
-      width: 70,
+      width: 90,
       render: (value: string) =>
         value === "All Paid" ? (
           <div className="text-success">{value}</div>
@@ -89,14 +114,7 @@ const RoomPage = () => {
       dataIndex: "lastMoveAt",
       width: 100,
     },
-    {
-      title: "Size",
-      dataIndex: "size",
-      width: 70,
-      render: (_: any, record: Room) => (
-        <div>{`${record.size} ${record.unit}`}</div>
-      ),
-    },
+
     {
       title: "Manage",
       dataIndex: "manage",
@@ -104,9 +122,7 @@ const RoomPage = () => {
       fixed: "right",
       render: (_: any, record: Room) => (
         <div className="flex">
-          <OutlineButton
-            onClick={() => history.push(`/rooms/${record.roomNumber}`)}
-          >
+          <OutlineButton onClick={() => history.push(`/rooms/${record.id}`)}>
             View detail
           </OutlineButton>
         </div>
@@ -118,13 +134,9 @@ const RoomPage = () => {
     <div className="col-span-12 mt-3">
       <CustomTabs onChange={onChangeTab}>
         {tabList.map((tab) => (
-          <TabPane tab={tab.title} key={tab.key}>
+          <TabPane tab={`${tab.title} (${tab.count})`} key={tab.key}>
             <TabCard>
-              <HeaderTable
-                title={`${tab.title} Rooms`}
-                buttonTitle="Add Room"
-                onClick={() => history.push("/rooms/add")}
-              />
+              <HeaderTable title={`${tab.title} Rooms`} />
               <CustomTable
                 loading={isLoading}
                 className="mt-6"

@@ -4,6 +4,7 @@ import {
   deleteRoomUrl,
   editRoomOwnerUrl,
   editRoomUrl,
+  forceDeleteRoomOwnerUrl,
   getRoomIDListUrl,
   getRoomsUrl,
   getRoomUrl,
@@ -11,7 +12,11 @@ import {
 import { AxiosService } from "@services/axios.config";
 
 export interface RoomRepository {
-  getRooms(tab: string): Promise<RoomResponse[] | undefined>;
+  getRooms(
+    tab: string,
+    roomNumber?: string,
+    buildingId?: string
+  ): Promise<GetRoomsResponse | undefined>;
   getRoom(roomNumber: string): Promise<GetRoomResponse | undefined>;
   editRoomOwner(
     editRoomOwnerDto: EditRoomOwnerDto,
@@ -22,13 +27,18 @@ export interface RoomRepository {
     roomNumber: string
   ): Promise<void>;
   deleteRoomOwner(roomNumber: string): Promise<void>;
+  forceDeleteRoomOwner(roomNumber: string): Promise<void>;
   addRoom(addRoomDto: AddRoomDto): Promise<void>;
   editRoom(editRoomDto: EditRoomDto, roomNumber: string): Promise<void>;
-  getRoomIDList(): Promise<string[] | undefined>;
+  getRoomIDList(
+    allRoom?: boolean,
+    buildingId?: string
+  ): Promise<string[] | undefined>;
   deleteRoom(roomNumber: string): Promise<void>;
 }
 
 export interface RoomResponse {
+  id: string;
   roomNumber: string;
   contractType: string;
   packages: number;
@@ -42,6 +52,14 @@ export interface RoomResponse {
 
 export interface GetRoomsResponse {
   rooms: RoomResponse[];
+  statusCount: StatusCount;
+}
+
+export interface StatusCount {
+  all: number;
+  overdued: number;
+  occupied: number;
+  unoccupied: number;
 }
 
 export interface EditRoomOwnerDto {
@@ -85,27 +103,33 @@ export interface GetRoomResponse {
 }
 
 export const roomRepository: RoomRepository = {
-  async getRooms(tab: string) {
+  async getRooms(tab: string, roomNumber?: string, buildingId?: string) {
     try {
-      const rooms = (
+      const results = (
         await AxiosService.get<GetRoomsResponse>(getRoomsUrl, {
           params: {
             filter_tab: tab === "-" ? "" : tab,
+            roomNumber: roomNumber,
+            buildingId: buildingId,
           },
         })
-      ).data.rooms;
-      return rooms.map((room: RoomResponse) => ({
-        roomNumber: room.roomNumber,
-        lastMoveAt: room.lastMoveAt,
-        contractType: room.contractType,
-        packages: room.packageRemaining!,
-        paymentStatus:
-          room.paymentDues! > 0
-            ? `${room.paymentDues} Payment Dues`
-            : "All Paid",
-        size: room.size,
-        unit: room.unit,
-      }));
+      ).data;
+      return {
+        rooms: results.rooms.map((room: RoomResponse) => ({
+          id: room.id,
+          roomNumber: room.roomNumber,
+          lastMoveAt: room.lastMoveAt,
+          contractType: room.contractType,
+          packages: room.packageRemaining!,
+          paymentStatus:
+            room.paymentDues! > 0
+              ? `${room.paymentDues} Payment Dues`
+              : "All Paid",
+          size: room.size,
+          unit: room.unit,
+        })),
+        statusCount: results.statusCount,
+      };
     } catch (error) {
       throw error;
     }
@@ -141,6 +165,13 @@ export const roomRepository: RoomRepository = {
       throw error;
     }
   },
+  async forceDeleteRoomOwner(roomNumber: string) {
+    try {
+      await AxiosService.delete(forceDeleteRoomOwnerUrl(roomNumber));
+    } catch (error) {
+      throw error;
+    }
+  },
   async addRoom(addRoomDto: AddRoomDto) {
     try {
       await AxiosService.post(addRoomUrl, addRoomDto);
@@ -155,10 +186,12 @@ export const roomRepository: RoomRepository = {
       throw error;
     }
   },
-  async getRoomIDList() {
+  async getRoomIDList(allRoom: boolean, buildingId?: string) {
     try {
       return (
-        await AxiosService.get<{ roomNumbers: string[] }>(getRoomIDListUrl)
+        await AxiosService.get<{ roomNumbers: string[] }>(getRoomIDListUrl, {
+          params: { allRoom: allRoom, buildingId: buildingId },
+        })
       ).data.roomNumbers;
     } catch (error) {}
   },

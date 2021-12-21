@@ -44,9 +44,9 @@ const RoomOwnerSection = ({ isOccupied }: RoomOwnerSectionProps) => {
         )}
       </div>
       <div
-        className="flex border-gray-200 mt-1"
+        className="flex mt-1"
         style={{
-          border: "0.1px solid",
+          borderBottom: "0.02px solid #eee",
         }}
       ></div>
       <div className="grid grid-cols-6 mt-1" style={{ width: "70%" }}>

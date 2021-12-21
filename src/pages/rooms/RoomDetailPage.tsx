@@ -1,7 +1,6 @@
 import RoomOwnerSection from "@components/feature/room/RoomOwnerSection";
 import Card from "@components/global/Card";
 import {
-  BodyText1,
   HeadingText3,
   HeadingText4,
 } from "@components/global/typography/Typography";
@@ -28,7 +27,6 @@ import { PackageRepository } from "@repository/PackageRepository";
 import { packageSelector } from "@stores/packages/selector";
 import { setPackages } from "@stores/packages/slice";
 import PackageTable from "@components/feature/postal/PackageTable";
-import { userSelector } from "@stores/user/selector";
 import { paymentSelector } from "@stores/payments/selector";
 import { PaymentRepository } from "@repository/PaymentRepository";
 import { setPayments } from "@stores/payments/slice";
@@ -47,7 +45,6 @@ const RoomDetail = () => {
   const [currentId, setCurrentId] = useState("");
   const room = useSelector(roomSelector);
   const postal = useSelector(packageSelector);
-  const user = useSelector(userSelector);
   const dispatch = useDispatch();
   const payments = useSelector(paymentSelector);
   const [currentTabKey, setCurrentTabKey] = useState("1");
@@ -73,8 +70,14 @@ const RoomDetail = () => {
     try {
       setIsLoading(true);
       const result = await roomRepository.getRoom(id);
-      const postals = await packageRepository.getPackages("-", id);
-      const payments = await paymentRepository.getPayments("", id);
+      const postals = await packageRepository.getPackages(
+        "-",
+        result?.room.roomNumber
+      );
+      const payments = await paymentRepository.getPayments(
+        "-",
+        result?.room.roomNumber
+      );
       if (result && postals && payments) {
         dispatch(setCurrentRoom(result));
         dispatch(setPackages(postals));
@@ -94,14 +97,34 @@ const RoomDetail = () => {
       onOk() {
         confirmDelete();
       },
+      okType: "danger",
       width: "40vw",
     });
   };
 
-  const confirmDelete = async () => {
+  const onForceDelete = async () => {
+    confirm({
+      title: "Do you want to force delete room owner?",
+      icon: <ExclamationCircleOutlined />,
+      content:
+        "If you confirm, Resident account, payments, and packages will be disabled",
+      onOk() {
+        confirmDelete(true);
+      },
+      okType: "danger",
+      okText: "DELETE",
+      width: "40vw",
+    });
+  };
+
+  const confirmDelete = async (isForce?: boolean) => {
     try {
       setIsLoading(true);
-      await roomRepository.deleteRoomOwner(id);
+      if (isForce) {
+        await roomRepository.forceDeleteRoomOwner(id);
+      } else {
+        await roomRepository.deleteRoomOwner(id);
+      }
       notification.success({
         duration: 2,
         message: "Success",
@@ -125,6 +148,7 @@ const RoomDetail = () => {
       onOk() {
         confirmDeleteRoom();
       },
+      okType: "danger",
       width: "40vw",
     });
   };
@@ -247,11 +271,6 @@ const RoomDetail = () => {
 
   const columns = [
     {
-      title: "Room No.",
-      dataIndex: "roomNumber",
-      width: 30,
-    },
-    {
       title: "Paid At",
       dataIndex: "paidAt",
       width: 50,
@@ -289,14 +308,12 @@ const RoomDetail = () => {
       fixed: "right",
       render: (_: any, record: any) => (
         <div className="flex">
-          {record.status === "complete" ? (
-            <BodyText1 className="text-success">Confirmed</BodyText1>
-          ) : record.status === "pending" ? (
+          {record.status === "pending" ? (
             <OutlineButton onClick={() => onConfirmPaymentModal(record)}>
-              Confirm
+              Verify
             </OutlineButton>
           ) : (
-            <div>None</div>
+            <div></div>
           )}
         </div>
       ),
@@ -308,7 +325,12 @@ const RoomDetail = () => {
   ) : (
     <Fragment>
       <div className="col-span-12 mt-3 mb-6 flex justify-between">
-        <HeadingText3>Room: {id}</HeadingText3>
+        <HeadingText3>
+          Room number:{" "}
+          <span className="font-montserratMedium">
+            {room.currentRoom.room.roomNumber}
+          </span>
+        </HeadingText3>
         <Button className="mr-2" color="danger" onClick={onDeleteRoom}>
           Delete Room
         </Button>
@@ -328,6 +350,9 @@ const RoomDetail = () => {
                 onClick={() => history.push(`/rooms/${id}/owner/edit`)}
               >
                 Edit Owner
+              </Button>
+              <Button className="mr-2" color="danger" onClick={onForceDelete}>
+                Force Move out
               </Button>
               <Button color="danger" onClick={onDelete}>
                 Move out
@@ -353,39 +378,39 @@ const RoomDetail = () => {
           />
         </div>
       </Card>
-      {user.role !== "admin" && (
-        <CustomTabs
-          className="col-span-12 mt-6"
-          activeKey={currentTabKey}
-          onChange={onChangeTab}
-        >
-          <TabPane tab="Packages" key="1">
-            <TabCard>
-              <HeaderTable
-                title="All Packages"
-                buttonTitle="New package"
-                onClick={() => history.push("/packages/add")}
-              />
-              <PackageTable
-                content={postal.packages}
-                loading={isLoading}
-                onConfirm={onConfirmOrDeleteDelivery}
-              />
-            </TabCard>
-          </TabPane>
-          <TabPane tab="Payments" key="2">
-            <TabCard>
-              <HeaderTable title="All Payments" />
-              <CustomTable
-                className="mt-6"
-                columns={columns}
-                dataSource={payments.payments}
-                loading={isLoading}
-              />
-            </TabCard>
-          </TabPane>
-        </CustomTabs>
-      )}
+
+      <CustomTabs
+        className="col-span-12 mt-6"
+        activeKey={currentTabKey}
+        onChange={onChangeTab}
+      >
+        <TabPane tab="Packages" key="1">
+          <TabCard>
+            <HeaderTable
+              title="All Packages"
+              buttonTitle="New package"
+              onClick={() => history.push("/packages/add")}
+              haveFilter={false}
+            />
+            <PackageTable
+              content={postal.packages}
+              loading={isLoading}
+              onConfirm={onConfirmOrDeleteDelivery}
+            />
+          </TabCard>
+        </TabPane>
+        <TabPane tab="Payments" key="2">
+          <TabCard>
+            <HeaderTable title="All Payments" haveFilter={false} />
+            <CustomTable
+              className="mt-6"
+              columns={columns}
+              dataSource={payments.payments}
+              loading={isLoading}
+            />
+          </TabCard>
+        </TabPane>
+      </CustomTabs>
       <Modal
         title={`Confirmation payment of: ${currentRoomNumber}`}
         visible={isModalVisible}

@@ -38,7 +38,7 @@ const StyledTabs = styled(Tabs)`
 `;
 
 export const TabCard = styled.div`
-  ${tw`w-full bg-card-bg shadow-md p-9`}
+  ${tw`w-full bg-card-bg p-6 xl:p-9 shadow rounded-xl`}
   min-height: 600px;
 `;
 

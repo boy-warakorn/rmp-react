@@ -18,7 +18,9 @@ const HeaderBar = () => {
   let titleText =
     window.location.pathname !== "/home"
       ? getHeaderTitle()
-      : user?.businessName;
+      : user?.user.businessName.toLowerCase().includes("condo")
+      ? user?.user.businessName
+      : `${user?.user.businessName} Condo`;
 
   let headingText = <HeadingText2>{titleText}</HeadingText2>;
 
@@ -41,7 +43,7 @@ const HeaderBar = () => {
       {headingText}
       <div className="flex items-center border-0 border-l-2 border-grey-light pl-3">
         <SubHeadingText1 className="font-montserrat mr-3">
-          {user?.name}
+          {user?.user.profile.name}
         </SubHeadingText1>
         <Avatar src={AvatarImage} style={{ width: "40px", height: "40px" }} />
       </div>

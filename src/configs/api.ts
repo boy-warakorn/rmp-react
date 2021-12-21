@@ -7,6 +7,14 @@ export const loginUrl = "/auth";
 // user
 const baseUserUrl = "/users";
 export const getCurrentUserUrl = baseUserUrl;
+export const changePasswordUrl = `${baseUserUrl}/change-password`;
+
+// dashboard
+const baseDashboardUrl = "/dashboard";
+export const getSummaryUrl = `${baseDashboardUrl}/summary`;
+export const getRecentPackageUrl = `${baseDashboardUrl}/package`;
+export const getRecentReportUrl = `${baseDashboardUrl}/report`;
+export const getRoomDashboardUrl = `${baseDashboardUrl}/room`;
 
 // accounts
 const baseAccountUrl = "/accounts";
@@ -15,6 +23,19 @@ export const addAccountUrl = baseAccountUrl;
 export const getAccountUrl = (id: string) => `${baseAccountUrl}/${id}`;
 export const updateAccountUrl = (id: string) =>
   `${baseAccountUrl}/${id}/update`;
+
+// building
+const baseBuildingUrl = "/buildings";
+export const createBuildingUrl = baseBuildingUrl;
+export const getBuildingsUrl = baseBuildingUrl;
+export const getBuildingIdsUrl = `${baseBuildingUrl}/master-data`;
+export const deleteBuildingUrl = (id: string) => `${baseBuildingUrl}/${id}`;
+export const editBuildingUrl = (id: string) => `${baseBuildingUrl}/${id}`;
+export const getBuildingUrl = (id: string) => `${baseBuildingUrl}/${id}`;
+export const getSpecificRoomInBuildingAndFloorUrl = (
+  id: string,
+  floor: string
+) => `${baseBuildingUrl}/${id}/floor/${floor}`;
 
 // room
 const baseRoomUrl = "/rooms";
@@ -33,6 +54,8 @@ export const addRoomOwnerUrl = (roomNumber: string) =>
   `${baseRoomUrl}/${roomNumber}/owner`;
 export const editRoomOwnerUrl = addRoomOwnerUrl;
 export const deleteRoomOwnerUrl = addRoomOwnerUrl;
+export const forceDeleteRoomOwnerUrl = (roomNumber: string) =>
+  addRoomOwnerUrl(roomNumber) + "/force";
 
 // report
 const baseReportUrl = "/reports";
@@ -61,10 +84,13 @@ export const confirmPackageUrl = (packageId: string) =>
 // Payment
 const basePaymentUrl = "/payments";
 export const getPaymentsUrl = basePaymentUrl;
+export const importPaymentsUrl = `${basePaymentUrl}/imports`;
 export const getSpecificPaymentReceiptUrl = (paymentId: string) =>
   `${basePaymentUrl}/${paymentId}/receipt`;
 export const confirmPaymentUrl = (paymentId: string) =>
   `${basePaymentUrl}/${paymentId}/confirm`;
+export const rejectPaymentUrl = (paymentId: string) =>
+  `${basePaymentUrl}/${paymentId}/reject`;
 
 // Contact
 const baseContactUrl = "/contacts";

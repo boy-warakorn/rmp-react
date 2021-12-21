@@ -11,7 +11,8 @@ import { AxiosService } from "@services/axios.config";
 export interface PackageRepository {
   getPackages(
     tab: string,
-    roomNumber?: string
+    roomNumber?: string,
+    buildingId?: string
   ): Promise<GetPackages | undefined>;
   createPackage(createPackageDto: CreatePackageDto): Promise<void>;
   getPackage(id: string): Promise<Package | undefined>;
@@ -23,6 +24,13 @@ export interface PackageRepository {
 export interface GetPackages {
   packages: Package[][];
   total: number;
+  statusCount: PackageStatusCount;
+}
+
+export interface PackageStatusCount {
+  all: number;
+  inStorage: number;
+  received: number;
 }
 
 export interface UpdatePackageDto {
@@ -37,6 +45,7 @@ export interface CreatePackageDto extends UpdatePackageDto {
 
 export interface GetPackagesResponse {
   packages: Package[];
+  statusCount: PackageStatusCount;
 }
 
 export interface GetPackageResponse extends Package {}
@@ -50,36 +59,35 @@ export interface Package {
   deliveredAt: string;
   status: string;
   postalService: string;
+  imgList: string[];
 }
 
 export const packageRepository: PackageRepository = {
-  async getPackages(tab: string, roomNumber?: string) {
+  async getPackages(tab: string, roomNumber?: string, buildingId?: string) {
     try {
       let result: any;
-      if (!roomNumber) {
-        result = (
-          await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
-            params: { status: tab === "-" ? "" : tab },
-          })
-        ).data.packages;
-      } else {
-        result = (
-          await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
-            params: { roomNumber: roomNumber },
-          })
-        ).data.packages;
-      }
+
+      result = (
+        await AxiosService.get<GetPackagesResponse>(getPackagesUrl, {
+          params: {
+            status: tab === "-" ? "" : tab,
+            roomNumber: roomNumber,
+            buildingId: buildingId,
+          },
+        })
+      ).data;
 
       const formattedPackages = Array.from(
-        { length: Math.ceil(result.length / 8) },
+        { length: Math.ceil(result.packages.length / 8) },
         (_, i) => {
-          return result.slice(i * 8, i * 8 + 8);
+          return result.packages.slice(i * 8, i * 8 + 8);
         }
       );
 
       return {
         packages: formattedPackages,
-        total: result.length,
+        total: result.packages.length,
+        statusCount: result.statusCount,
       };
     } catch (error) {
       throw error;
@@ -87,7 +95,10 @@ export const packageRepository: PackageRepository = {
   },
   async createPackage(createPackageDto: CreatePackageDto) {
     try {
-      await AxiosService.post(createPackageUrl, createPackageDto);
+      await AxiosService.post(createPackageUrl, {
+        ...createPackageDto,
+        imgList: [],
+      });
     } catch (error) {
       throw error;
     }

@@ -13,6 +13,9 @@ import { Form } from "antd";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { RoomRepository } from "@repository/RoomRepository";
 import Loading from "@components/global/Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { roomSelector } from "@stores/rooms/selector";
+import { setCurrentRoom } from "@stores/rooms/slice";
 
 const { Option } = Select;
 
@@ -20,8 +23,11 @@ const AddRoomPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams<{ id: string }>();
   const [isEdit, setIsEdit] = useState(false);
+  const [selectedType, setSelectedType] = useState("");
+  const room = useSelector(roomSelector);
   const form = Form.useForm();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const roomRepository = RepositoriesFactory.get("room") as RoomRepository;
 
@@ -32,24 +38,26 @@ const AddRoomPage = () => {
       setIsEdit(true);
       fetchRoomDetail();
     }
-    form[0].setFieldsValue({
-      type: "2 bed, 1 bath",
-      unit: "sqrms.",
-    });
+
     // eslint-disable-next-line
   }, []);
 
   const fetchRoomDetail = async () => {
+    setIsLoading(true)
     const result = await roomRepository.getRoom(id);
+    setIsLoading(false)
     if (result) {
       const { room } = result;
+      dispatch(setCurrentRoom(result))
       form[0].setFieldsValue({
-        roomNumber: id,
+        roomNumber: room.roomNumber,
         type: room.type,
         purchasePrice: room.purchasePrice,
         pricePerMonth: room.pricePerMonth,
         size: room.size,
+        unit: "sqrms.",
       });
+      setSelectedType(room.type);
     }
   };
 
@@ -57,7 +65,7 @@ const AddRoomPage = () => {
     const formValue = form[0].getFieldsValue();
     let roomDto: any = {
       roomNumber: formValue.roomNumber,
-      type: formValue.type,
+      type: selectedType,
       size: formValue.size,
       purchasePrice: formValue.purchasePrice,
       pricePerMonth: formValue.pricePerMonth,
@@ -87,7 +95,8 @@ const AddRoomPage = () => {
     <Fragment>
       <div className="col-span-12 mt-3 mb-6">
         <HeadingText3>
-          {isEdit ? "Edit" : "Add"} Room {isEdit && id}
+          {isEdit ? "Edit" : "Add"} Room{" "}
+          {isEdit && room.currentRoom.room.roomNumber}
         </HeadingText3>
       </div>
       <Card className="p-9 col-span-12">
@@ -108,8 +117,12 @@ const AddRoomPage = () => {
                 rules={[{ required: true }]}
               >
                 <BodyText1 className="font-bold mb-2">Type</BodyText1>
-                <Select value="2 bed, 1 bath">
+                <Select
+                  value="2 bed, 1 bath"
+                  onChange={(value) => setSelectedType(value)}
+                >
                   <Option value="2 bed, 1 bath">2 bed, 1 bath</Option>
+                  <Option value="3 bed, 1 toilet">3 bed, 1 toilet</Option>
                 </Select>
               </Form.Item>
             </div>

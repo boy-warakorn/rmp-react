@@ -6,7 +6,8 @@ import CustomTable from "@components/global/table/Table";
 import { AccountRepository } from "@repository/AccountRepository";
 import RepositoriesFactory from "@repository/RepositoryFactory";
 import { accountSelector } from "@stores/accounts/selector";
-import { setAccounts } from "@stores/accounts/slice";
+import { setAccounts, setAccountStatusCount } from "@stores/accounts/slice";
+import { userSelector } from "@stores/user/selector";
 import { Tabs } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,23 +15,28 @@ import { useHistory } from "react-router";
 
 const { TabPane } = Tabs;
 
-const tabList = [
-  { key: "-", title: "All" },
-  { key: "admin", title: "Admin" },
-  { key: "personnel", title: "Personnel" },
-  { key: "resident", title: "Resident" },
-];
-
 const AccountPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
+  const user = useSelector(userSelector);
   const accountRepository = RepositoriesFactory.get(
     "account"
   ) as AccountRepository;
 
   const [currentTabKey, setCurrentTabKey] = useState("-");
   const [isLoading, setIsLoading] = useState(false);
+
+  const tabList = [
+    { key: "-", title: "All", count: account.statusCount.all },
+    { key: "admin", title: "Admin", count: account.statusCount.admin },
+    {
+      key: "personnel",
+      title: "Personnel",
+      count: account.statusCount.personnel,
+    },
+    { key: "resident", title: "Resident", count: account.statusCount.resident },
+  ];
 
   const onChangeTab = (value: string) => {
     setCurrentTabKey(value);
@@ -48,7 +54,8 @@ const AccountPage = () => {
         currentTabKey
       );
       if (accountResponse) {
-        dispatch(setAccounts(accountResponse));
+        dispatch(setAccounts(accountResponse.users));
+        dispatch(setAccountStatusCount(accountResponse.statusCount));
       }
     } catch (error) {
     } finally {
@@ -73,19 +80,25 @@ const AccountPage = () => {
       width: 35,
       dataIndex: "createdAt",
     },
+
     {
       title: "Manage",
       dataIndex: "manage",
-      width: 20,
+      width: 25,
       fixed: "right",
       render: (_: any, record: any) => (
-        <OutlineButton
-          className="ml-3 px-10"
-          color="primary"
-          onClick={() => history.push(`/manage-accounts/${record.userId}`)}
-        >
-          Account detail
-        </OutlineButton>
+        <div className="flex items-center">
+          <OutlineButton
+            className="ml-3 px-3"
+            color="primary"
+            onClick={() => history.push(`/manage-accounts/${record.userId}`)}
+          >
+            Account detail
+          </OutlineButton>
+          {record.userId === user.user.id && (
+            <div className="ml-4 text-primary">(Current User)</div>
+          )}
+        </div>
       ),
     },
   ] as any;
@@ -94,12 +107,13 @@ const AccountPage = () => {
     <div className="col-span-12 mt-3">
       <CustomTabs onChange={onChangeTab}>
         {tabList.map((tab) => (
-          <TabPane tab={tab.title} key={tab.key}>
+          <TabPane tab={`${tab.title} (${tab.count})`} key={tab.key}>
             <TabCard>
               <HeaderTable
                 title={`${tab.title} Accounts`}
                 buttonTitle="New Accounts"
                 onClick={() => history.push("/manage-accounts/add")}
+                haveFilter={false}
               />
               <CustomTable
                 className="mt-6"

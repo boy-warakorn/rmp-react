@@ -57,11 +57,11 @@ const LoginScreen = () => {
           <SubtitleText1 className="mt-2">
             Enter your login details below.
           </SubtitleText1>
-          <HeadingText3 className="mt-6 uppercase">username</HeadingText3>
+          <HeadingText3 className="mt-6 uppercase">Email</HeadingText3>
           <TextInput
             size="large"
             className="mt-3"
-            placeholder="Enter your username.."
+            placeholder="Enter your email.."
             name="username"
             value={form.username}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>

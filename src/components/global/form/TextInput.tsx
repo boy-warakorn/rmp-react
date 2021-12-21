@@ -24,11 +24,21 @@ export interface InputProps {
   className?: string;
   title: string;
   rows?: number;
+  min?: number;
+  max?: number;
+  isPassword?: boolean;
 }
 
 const { TextArea } = Input;
 
 const CustomInput = styled(Input)<InputProps>`
+  & .ant-input-lg {
+    font-weight: 400;
+    font-size: 14px;
+  }
+`;
+
+const CustomInputPassword = styled(Input.Password)<InputProps>`
   & .ant-input-lg {
     font-weight: 400;
     font-size: 14px;
@@ -51,6 +61,8 @@ const TextInput = (props: InputProps) => {
           placeholder={`Enter ${props.title}`}
           {...(props as any)}
         />
+      ) : props.isPassword ? (
+        <CustomInputPassword placeholder={`Enter ${props.title}`} {...props} />
       ) : (
         <CustomInput placeholder={`Enter ${props.title}`} {...props} />
       )}

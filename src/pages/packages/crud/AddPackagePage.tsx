@@ -31,6 +31,7 @@ const AddPackagePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [roomNumber, setRoomNumber] = useState("");
   const [arrivedTime, setArrivedTime] = useState(dayjs());
+  const [imgList, setImgList] = useState<string[]>([]);
   const dispatch = useDispatch();
   const form = useForm();
   const history = useHistory();
@@ -63,6 +64,7 @@ const AddPackagePage = () => {
         });
         setRoomNumber(postalResponse.roomNumber);
         setArrivedTime(dayjs(postalResponse.arrivedAt));
+        setImgList(postalResponse.imgList);
       }
     } catch (error) {}
   };
@@ -138,7 +140,7 @@ const AddPackagePage = () => {
                 showSearch
                 defaultValue={roomNumber}
                 style={{ width: "100%" }}
-                placeholder="Enter Room Number"
+                placeholder="Select Room Number"
                 onSelect={onSelect}
               >
                 {room.roomIdList.map((id, index) => (
@@ -177,6 +179,30 @@ const AddPackagePage = () => {
             >
               <TextInput title="Additional notes" rows={3} />
             </Form.Item>
+            <div className="col-span-4"></div>
+            {isEdit && (
+              <>
+                <BodyText1 className="mt-4 font-bold mb-2">Images</BodyText1>
+                <div
+                  className="col-span-8 p-4 bg-white"
+                  style={{
+                    maxWidth: "100%",
+                    overflowX: "scroll",
+                    display: "inline-flex",
+                  }}
+                >
+                  {imgList.map((imgUrl) => (
+                    <img
+                      height={"300px"}
+                      width={"300px"}
+                      className="mr-4 object-cover"
+                      alt={"image for postal" + imgUrl}
+                      src={imgUrl}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </FormCard>
           <div className="flex justify-end mt-9">
             <Button

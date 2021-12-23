@@ -10,7 +10,7 @@ This is a platform that created for manage content and overall system of condomi
 
 ## Installation
 
-Make sure you run `npm install` before start below steps..
+Make sure you run `npm install` before start below steps.
 
 ### For Server
 
